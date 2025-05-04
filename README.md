@@ -40,13 +40,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 This project uses MongoDB Atlas to store timeline entries. To set up MongoDB Atlas:
 
 1. Create an account on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) if you don't have one already
-2. Create a new cluster and database named "timeline"
-3. Create a collection named "timelineEntries"
+2. Create a new cluster and database named "events"
+3. Create a collection named "world_events"
 4. Import your timeline data into the collection
 5. Create a `.env.local` file in the root of your project with the following content:
 
 ```
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/timeline?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/events?retryWrites=true&w=majority
 ```
 
 Replace `<username>`, `<password>`, and `<cluster-url>` with your MongoDB Atlas credentials.
