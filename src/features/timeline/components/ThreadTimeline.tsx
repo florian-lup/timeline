@@ -10,7 +10,14 @@ import { useTimelineEntries } from '../hooks/useTimelineEntries';
  * Renders the EventList component to display historical events in a feed-like format
  */
 export function ThreadTimeline() {
-  const { entries, isLoading, error } = useTimelineEntries();
+  const { 
+    entries, 
+    isLoading, 
+    isLoadingMore,
+    error, 
+    loadMore,
+    hasMore 
+  } = useTimelineEntries();
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col pb-16">
@@ -25,8 +32,19 @@ export function ThreadTimeline() {
             <div className="text-amber-500 mb-4">{error}</div>
           ) : null}
           
-          {/* Render the event list with the timeline entries */}
-          <EventList events={entries} />
+          {/* Render the event list with pagination support */}
+          {!isLoading && entries.length > 0 && (
+            <EventList 
+              events={entries} 
+              isLoadingMore={isLoadingMore}
+              hasMore={hasMore}
+              onLoadMore={loadMore}
+            />
+          )}
+
+          {!isLoading && entries.length === 0 && (
+            <div className="text-center py-10">No timeline entries found.</div>
+          )}
         </div>
       </main>
     </div>

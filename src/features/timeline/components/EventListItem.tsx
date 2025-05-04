@@ -8,15 +8,16 @@ interface EventListItemProps {
 /**
  * EventListItem component renders a single timeline entry
  * Displays event metadata, content, and interactive buttons
+ * Uses the creation timestamp from MongoDB ObjectId
  */
 export function EventListItem({ entry }: EventListItemProps) {
   return (
     <div className="group relative">
-      {/* Event metadata: date, time and location */}
+      {/* Event metadata: creation date, time and location */}
       <div className="mb-4 flex items-center">
         <MdCheck className="h-3.5 w-3.5 text-foreground mr-2" />
         <time className="text-sm font-bold text-foreground/70">
-          {entry.date} <span className="font-normal ml-1">{entry.time}</span>
+          {entry.creationDate} <span className="font-normal ml-1">{entry.creationTime}</span>
           <span className="font-normal ml-2 text-foreground/60">· {entry.location}</span>
         </time>
       </div>
