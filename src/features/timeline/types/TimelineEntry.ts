@@ -3,7 +3,7 @@
  * to render in the timeline feed
  */
 export interface TimelineEntry {
-  id: number;
+  _id: string;
   date: string;
   time: string;
   location: string;

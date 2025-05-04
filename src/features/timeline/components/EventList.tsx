@@ -14,7 +14,7 @@ export function EventList({ events }: { events: TimelineEntry[] }) {
         .slice()
         .reverse()
         .map((entry) => (
-          <EventListItem key={entry.id} entry={entry} />
+          <EventListItem key={entry._id} entry={entry} />
         ))}
     </div>
   );

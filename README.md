@@ -34,3 +34,19 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## MongoDB Atlas Integration
+
+This project uses MongoDB Atlas to store timeline entries. To set up MongoDB Atlas:
+
+1. Create an account on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) if you don't have one already
+2. Create a new cluster and database named "timeline"
+3. Create a collection named "timelineEntries"
+4. Import your timeline data into the collection
+5. Create a `.env.local` file in the root of your project with the following content:
+
+```
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/timeline?retryWrites=true&w=majority
+```
+
+Replace `<username>`, `<password>`, and `<cluster-url>` with your MongoDB Atlas credentials.
