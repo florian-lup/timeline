@@ -11,17 +11,16 @@ export default function Home() {
       {/* Hero section */}
       <main className="flex flex-col flex-grow items-start justify-center max-w-3xl mx-auto w-full mt-12 md:mt-16">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-          Your ideas deserve a better space.
+          We write history
         </h1>
 
         <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
-          Organize your thoughts, projects, and life in one simple, beautiful place. Just like
-          Notion, but your way.
+          Our AI documents major events around the world in a continuous thread
         </p>
 
         <div>
           <Link href="/timeline">
-            <Button>Get started</Button>
+            <Button>Read Timeline</Button>
           </Link>
         </div>
       </main>
