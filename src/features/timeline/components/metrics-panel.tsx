@@ -1,16 +1,20 @@
 import React from 'react';
-import { FaEye, FaListAlt } from 'react-icons/fa';
+import { MdVisibility, MdHistory } from 'react-icons/md';
+import { Tooltip } from '../../../ui/tooltip';
 
 interface MetricProps {
   value: string | number;
   icon: React.ReactNode;
+  tooltip: string;
 }
 
-const Metric = ({ value, icon }: MetricProps) => (
-  <div className="flex items-center gap-1.5">
-    <div className="text-muted-foreground">{icon}</div>
-    <div className="text-sm font-medium">{value}</div>
-  </div>
+const Metric = ({ value, icon, tooltip }: MetricProps) => (
+  <Tooltip content={tooltip} position="top">
+    <div className="flex items-center gap-1.5">
+      <div className="text-muted-foreground">{icon}</div>
+      <div className="text-sm font-medium">{value}</div>
+    </div>
+  </Tooltip>
 );
 
 interface MetricsPanelProps {
@@ -39,9 +43,17 @@ export function MetricsPanel({
         {title && <h3 className="text-base font-medium">{title}</h3>}
         <div className="text-sm text-muted-foreground">{formattedDate}</div>
         <div className="flex-1"></div>
-        <Metric icon={<FaEye size={16} />} value={typeof views === 'number' ? views.toLocaleString() : views} />
-        <Metric icon={<FaListAlt size={16} />} value={typeof entries === 'number' ? entries.toLocaleString() : entries} />
+        <Metric 
+          icon={<MdVisibility size={18} />} 
+          value={typeof views === 'number' ? views.toLocaleString() : views} 
+          tooltip="Total Timeline Views"
+        />
+        <Metric 
+          icon={<MdHistory size={18} />} 
+          value={typeof entries === 'number' ? entries.toLocaleString() : entries} 
+          tooltip="Total Timeline Entries"
+        />
       </div>
     </div>
   );
-} 
+}

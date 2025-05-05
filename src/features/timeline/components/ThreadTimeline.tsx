@@ -3,7 +3,8 @@
 import { EventList } from './EventList';
 import { Header } from '@/components/header';
 import { useTimelineEntries } from '../hooks/useTimelineEntries';
-import { MetricsPanel } from '@/features/timeline/components/metrics-panel';
+import { MetricsPanel } from './metrics-panel';
+import { usePageViews } from '@/features/analytics/hooks/usePageViews';
 
 /**
  * ThreadTimeline component serves as the main layout for the timeline page
@@ -21,6 +22,10 @@ export function ThreadTimeline() {
     pagination
   } = useTimelineEntries();
 
+  const {
+    viewCount,
+  } = usePageViews();
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col pb-16">
       <Header />
@@ -32,8 +37,8 @@ export function ThreadTimeline() {
           {!isLoading && (
             <div className="mb-6">
               <MetricsPanel 
-                title="Global Timeline" 
-                views={1243}
+                title="Worldwide" 
+                views={viewCount}
                 entries={pagination?.total || 0}
               />
             </div>

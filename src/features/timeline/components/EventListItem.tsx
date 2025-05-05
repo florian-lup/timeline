@@ -1,5 +1,8 @@
+'use client';
+
 import { TimelineEntry } from '../types/TimelineEntry';
 import { MdCheck, MdTranslate, MdOutlineInsertPhoto, MdOutlineHeadphones } from 'react-icons/md';
+import { Tooltip } from '../../../ui/tooltip';
 
 interface EventListItemProps {
   entry: TimelineEntry;
@@ -30,15 +33,21 @@ export function EventListItem({ entry }: EventListItemProps) {
 
           {/* Interactive action buttons for the event */}
           <div className="flex items-center gap-2">
-            <button className="p-2 cursor-pointer hover:bg-[var(--background-secondary)] rounded-full">
-              <MdTranslate className="h-4 w-4 text-foreground/70" />
-            </button>
-            <button className="p-2 cursor-pointer hover:bg-[var(--background-secondary)] rounded-full">
-              <MdOutlineInsertPhoto className="h-4 w-4 text-foreground/70" />
-            </button>
-            <button className="p-2 cursor-pointer hover:bg-[var(--background-secondary)] rounded-full">
-              <MdOutlineHeadphones className="h-4 w-4 text-foreground/70" />
-            </button>
+            <Tooltip content="Translate" position="top">
+              <button className="p-2 cursor-pointer hover:bg-[var(--background-secondary)] rounded-full">
+                <MdTranslate className="h-4 w-4 text-foreground/70" />
+              </button>
+            </Tooltip>
+            <Tooltip content="View" position="top">
+              <button className="p-2 cursor-pointer hover:bg-[var(--background-secondary)] rounded-full">
+                <MdOutlineInsertPhoto className="h-4 w-4 text-foreground/70" />
+              </button>
+            </Tooltip>
+            <Tooltip content="Listen" position="top">
+              <button className="p-2 cursor-pointer hover:bg-[var(--background-secondary)] rounded-full">
+                <MdOutlineHeadphones className="h-4 w-4 text-foreground/70" />
+              </button>
+            </Tooltip>
           </div>
         </div>
       </div>
