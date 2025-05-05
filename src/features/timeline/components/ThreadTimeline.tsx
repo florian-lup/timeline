@@ -1,8 +1,9 @@
 'use client';
 
 import { EventList } from './EventList';
-import { TimelineHeader } from './TimelineHeader';
+import { Header } from '@/components/header';
 import { useTimelineEntries } from '../hooks/useTimelineEntries';
+import { MetricsPanel } from '@/features/timeline/components/metrics-panel';
 
 /**
  * ThreadTimeline component serves as the main layout for the timeline page
@@ -16,16 +17,28 @@ export function ThreadTimeline() {
     isLoadingMore,
     error, 
     loadMore,
-    hasMore 
+    hasMore,
+    pagination
   } = useTimelineEntries();
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col pb-16">
-      <TimelineHeader />
+      <Header />
 
       {/* Main content container with responsive padding and max width */}
       <main className="flex-1 w-full">
         <div className="max-w-3xl mx-auto pt-10 pb-8 px-4 sm:px-6">
+          {/* Metrics Panel */}
+          {!isLoading && (
+            <div className="mb-6">
+              <MetricsPanel 
+                title="Global Timeline" 
+                views={1243}
+                entries={pagination?.total || 0}
+              />
+            </div>
+          )}
+          
           {isLoading ? (
             <div className="text-center py-10">Loading timeline data...</div>
           ) : error ? (

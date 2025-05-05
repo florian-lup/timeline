@@ -8,7 +8,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 export function Header() {
   return (
     <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-sm">
-      <div className="flex items-center justify-between px-4 sm:px-6 py-3 max-w-3xl mx-auto w-full">
+      <div className="flex items-center justify-between px-4 sm:px-6 py-3 w-full">
         <Link
           href="/"
           className="flex items-center gap-2 font-medium text-base text-foreground/80 hover:text-foreground transition-colors"

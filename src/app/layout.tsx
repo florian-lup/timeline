@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
+import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
 
 const inter = Inter({
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased`}>
         <ThemeProvider attribute="class">{children}</ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

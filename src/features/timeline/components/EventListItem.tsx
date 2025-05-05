@@ -18,7 +18,7 @@ export function EventListItem({ entry }: EventListItemProps) {
         <MdCheck className="h-3.5 w-3.5 text-foreground mr-2" />
         <time className="text-sm font-bold text-foreground/70">
           {entry.creationDate} <span className="font-normal ml-1">{entry.creationTime}</span>
-          <span className="font-normal ml-2 text-foreground/60">· {entry.location}</span>
+          <span className="font-normal ml-2 text-foreground/60"> {entry.location}</span>
         </time>
       </div>
 
