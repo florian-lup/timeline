@@ -13,7 +13,7 @@ export function Header() {
           href="/"
           className="flex items-center gap-2 font-medium text-base text-foreground/80 hover:text-foreground transition-colors"
         >
-          <Image src="/logo.png" alt="Timeline Logo" width={24} height={24} />
+          <Image src="/flame.png" alt="Timeline Logo" width={24} height={24} />
           Timeline
         </Link>
         <ThemeToggle />

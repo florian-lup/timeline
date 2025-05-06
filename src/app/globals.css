@@ -40,6 +40,11 @@ body {
   }
 }
 
+.typewriter-dots {
+  display: inline-block;
+  width: 1.5rem;
+}
+
 .typewriter-dots::after {
   content: '';
   display: inline-block;
