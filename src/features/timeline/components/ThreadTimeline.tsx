@@ -37,7 +37,6 @@ export function ThreadTimeline() {
           {!isLoading && (
             <div className="mb-6">
               <MetricsPanel 
-                title="Worldwide" 
                 views={viewCount}
                 entries={pagination?.total || 0}
               />

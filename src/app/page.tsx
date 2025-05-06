@@ -11,11 +11,12 @@ export default function Home() {
       {/* Hero section */}
       <main className="flex flex-col flex-grow items-start justify-center max-w-3xl mx-auto w-full mt-12 md:mt-16">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-          We write history
+          Writing history
+          <span className="typewriter-dots"></span>
         </h1>
 
         <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
-          Our AI documents major events around the world in a continuous thread
+          Powered by AI, the platform tracks noteworthy events around the world and stitches them into a smooth, ever‑growing thread
         </p>
 
         <div>

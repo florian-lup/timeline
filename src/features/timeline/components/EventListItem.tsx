@@ -1,7 +1,7 @@
 'use client';
 
 import { TimelineEntry } from '../types/TimelineEntry';
-import { MdCheck, MdTranslate, MdOutlineInsertPhoto, MdOutlineHeadphones } from 'react-icons/md';
+import { MdCheck, MdTranslate, MdOutlineInsertPhoto, MdOutlineHeadphones, MdSearch } from 'react-icons/md';
 import { Tooltip } from '../../../ui/tooltip';
 
 interface EventListItemProps {
@@ -33,19 +33,25 @@ export function EventListItem({ entry }: EventListItemProps) {
 
           {/* Interactive action buttons for the event */}
           <div className="flex items-center gap-2">
-            <Tooltip content="Translate" position="top">
+            {/* Hide tooltips on mobile as they'll have actions on click */}
+            <Tooltip content="Search" position="top" className="hidden md:block">
               <button className="p-2 cursor-pointer hover:bg-[var(--background-secondary)] rounded-full">
-                <MdTranslate className="h-4 w-4 text-foreground/70" />
+                <MdSearch className="h-4 w-4 text-foreground/70" />
               </button>
             </Tooltip>
-            <Tooltip content="View" position="top">
+            <Tooltip content="View" position="top" className="hidden md:block">
               <button className="p-2 cursor-pointer hover:bg-[var(--background-secondary)] rounded-full">
                 <MdOutlineInsertPhoto className="h-4 w-4 text-foreground/70" />
               </button>
             </Tooltip>
-            <Tooltip content="Listen" position="top">
+            <Tooltip content="Listen" position="top" className="hidden md:block">
               <button className="p-2 cursor-pointer hover:bg-[var(--background-secondary)] rounded-full">
                 <MdOutlineHeadphones className="h-4 w-4 text-foreground/70" />
+              </button>
+            </Tooltip>
+            <Tooltip content="Translate" position="top" className="hidden md:block">
+              <button className="p-2 cursor-pointer hover:bg-[var(--background-secondary)] rounded-full">
+                <MdTranslate className="h-4 w-4 text-foreground/70" />
               </button>
             </Tooltip>
           </div>

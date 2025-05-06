@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     // Fetch timeline entries from MongoDB collection with pagination
     // Sort by _id which corresponds to creation timestamp in descending order (newest first)
     const timelineEntries = await db
-      .collection('world_events')
+      .collection('worldwide')
       .find({})
       .sort({ _id: -1 })  // Changed from date: -1 to _id: -1
       .skip(skip)
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
     });
     
     // Get total count for pagination metadata
-    const total = await db.collection('world_events').countDocuments({});
+    const total = await db.collection('worldwide').countDocuments({});
     
     return NextResponse.json({
       entries: entriesWithCreationTime,

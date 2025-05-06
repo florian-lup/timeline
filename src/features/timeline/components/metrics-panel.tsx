@@ -1,21 +1,6 @@
 import React from 'react';
-import { MdVisibility, MdHistory } from 'react-icons/md';
+import { MdVisibility, MdHistory, MdLocationOn, MdCalendarToday } from 'react-icons/md';
 import { Tooltip } from '../../../ui/tooltip';
-
-interface MetricProps {
-  value: string | number;
-  icon: React.ReactNode;
-  tooltip: string;
-}
-
-const Metric = ({ value, icon, tooltip }: MetricProps) => (
-  <Tooltip content={tooltip} position="top">
-    <div className="flex items-center gap-1.5">
-      <div className="text-muted-foreground">{icon}</div>
-      <div className="text-sm font-medium">{value}</div>
-    </div>
-  </Tooltip>
-);
 
 interface MetricsPanelProps {
   views?: number;
@@ -40,19 +25,30 @@ export function MetricsPanel({
   return (
     <div className={`bg-card rounded-lg p-3 shadow-sm border border-border ${className}`}>
       <div className="flex items-center gap-4 flex-wrap">
+        <Tooltip content="Worldwide" position="top" align="start">
+          <div className="flex items-center gap-1.5">
+            <div className="text-muted-foreground"><MdLocationOn size={18} /></div>
+          </div>
+        </Tooltip>
         {title && <h3 className="text-base font-medium">{title}</h3>}
-        <div className="text-sm text-muted-foreground">{formattedDate}</div>
+        <Tooltip content={formattedDate} position="top" align="start">
+          <div className="flex items-center gap-1.5">
+            <div className="text-muted-foreground"><MdCalendarToday size={18} /></div>
+          </div>
+        </Tooltip>
         <div className="flex-1"></div>
-        <Metric 
-          icon={<MdVisibility size={18} />} 
-          value={typeof views === 'number' ? views.toLocaleString() : views} 
-          tooltip="Total Timeline Views"
-        />
-        <Metric 
-          icon={<MdHistory size={18} />} 
-          value={typeof entries === 'number' ? entries.toLocaleString() : entries} 
-          tooltip="Total Timeline Entries"
-        />
+        <Tooltip content="Total Timeline Views" position="top" align="end">
+          <div className="flex items-center gap-1.5">
+            <div className="text-muted-foreground"><MdVisibility size={18} /></div>
+            <div className="text-sm font-medium">{typeof views === 'number' ? views.toLocaleString() : views}</div>
+          </div>
+        </Tooltip>
+        <Tooltip content="Total Timeline Entries" position="top" align="end">
+          <div className="flex items-center gap-1.5">
+            <div className="text-muted-foreground"><MdHistory size={18} /></div>
+            <div className="text-sm font-medium">{typeof entries === 'number' ? entries.toLocaleString() : entries}</div>
+          </div>
+        </Tooltip>
       </div>
     </div>
   );
