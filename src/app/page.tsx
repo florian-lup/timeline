@@ -19,7 +19,7 @@ export default function Home() {
         </h1>
 
         <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-3xl text-center">
-          Powered by AI, the platform tracks noteworthy events around the world and stitches them into a smooth, ever‑growing thread
+          Powered by AI, the platform tracks noteworthy events around the world and stitches them into a smooth, ever-growing thread
         </p>
 
         {/* Date Reel component */}

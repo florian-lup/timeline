@@ -36,13 +36,14 @@ body {
     content: '...';
   }
   100% {
-    content: '...';
+    content: '';
   }
 }
 
 .typewriter-dots {
   display: inline-block;
   width: 1.5rem;
+  text-align: left;
 }
 
 .typewriter-dots::after {
