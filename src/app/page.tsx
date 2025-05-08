@@ -12,24 +12,24 @@ export default function Home() {
       <Header />
 
       {/* Hero section */}
-      <main className="flex flex-col flex-grow items-center justify-center max-w-5xl mx-auto w-full px-5 mt-12 md:mt-16">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-center">
+      <main className="flex flex-col flex-grow items-center justify-center max-w-5xl mx-auto w-full px-4 md:px-6 lg:px-8 mt-8 md:mt-12 lg:mt-16 xl:mt-20">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight mb-4 md:mb-6 lg:mb-8 text-center">
           Writing history
           <span className="typewriter-dots"></span>
         </h1>
 
-        <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-3xl text-center">
+        <p className="text-sm md:text-lg lg:text-xl xl:text-2xl text-muted-foreground mb-6 md:mb-8 lg:mb-10 leading-relaxed max-w-xs md:max-w-xl lg:max-w-2xl xl:max-w-3xl text-center">
           Powered by AI, the platform tracks noteworthy events around the world and stitches them into a smooth, ever-growing thread
         </p>
 
         {/* Date Reel component */}
-        <div className="w-full mb-10">
+        <div className="w-full mb-6 md:mb-8 lg:mb-10">
           <DateReel />
         </div>
 
         <div className="flex justify-center">
           <Link href="/timeline">
-            <Button size="sm">Read Timeline</Button>
+            <Button size="sm" className="md:text-base md:px-5 md:py-2 lg:text-lg lg:px-6 lg:py-2.5">Read Timeline</Button>
           </Link>
         </div>
       </main>

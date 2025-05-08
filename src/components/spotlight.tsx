@@ -78,8 +78,8 @@ export const DateReel = () => {
   return (
     <>
       {/* Mobile view - single date reel */}
-      <div className="block md:hidden w-full mb-8">
-        <div className="date-reel-container bg-gradient-to-r from-primary/10 to-secondary/20 backdrop-blur-sm p-5 rounded-lg overflow-hidden min-h-[3.5rem] flex items-center justify-center">
+      <div className="block md:hidden w-full mb-6 md:mb-8">
+        <div className="date-reel-container bg-gradient-to-r from-primary/10 to-secondary/20 backdrop-blur-sm p-3 sm:p-4 rounded-lg overflow-hidden min-h-[3rem] sm:min-h-[3.5rem] flex items-center justify-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={mobileReelIndex}
@@ -89,11 +89,11 @@ export const DateReel = () => {
               transition={{ duration: 1.5 }}
               className="text-center"
             >
-              <div className="inline-flex items-center whitespace-nowrap text-base">
+              <div className="inline-flex items-center whitespace-nowrap text-xs sm:text-sm">
                 <span className="font-medium">{dateEntries[mobileReelIndex].date}</span>
-                <span className="text-muted-foreground mx-1.5">•</span>
+                <span className="text-muted-foreground mx-1 sm:mx-1.5">•</span>
                 <span className="text-muted-foreground">{dateEntries[mobileReelIndex].time}</span>
-                <span className="text-muted-foreground mx-1.5">•</span>
+                <span className="text-muted-foreground mx-1 sm:mx-1.5">•</span>
                 <span className="text-muted-foreground">{dateEntries[mobileReelIndex].location}</span>
               </div>
             </motion.div>
@@ -102,11 +102,11 @@ export const DateReel = () => {
       </div>
 
       {/* Medium view - two date reels */}
-      <div className="hidden md:grid lg:hidden md:grid-cols-2 md:gap-4 mb-8 w-full">
+      <div className="hidden md:grid lg:hidden md:grid-cols-2 md:gap-3 lg:gap-4 mb-6 md:mb-8 w-full">
         {reelConfigs.slice(0, 2).map((config, reelIndex) => (
           <div 
             key={reelIndex} 
-            className={`date-reel-container ${config.bgColor} backdrop-blur-sm p-4 rounded-lg overflow-hidden mb-3 md:mb-0 min-h-[3rem] flex items-center justify-center`}
+            className={`date-reel-container ${config.bgColor} backdrop-blur-sm p-3 md:p-4 rounded-lg overflow-hidden mb-3 md:mb-0 min-h-[2.75rem] md:min-h-[3rem] flex items-center justify-center`}
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -117,11 +117,11 @@ export const DateReel = () => {
                 transition={{ duration: config.transitionSpeed }}
                 className="text-center"
               >
-                <div className="inline-flex items-center whitespace-nowrap text-sm sm:text-base">
+                <div className="inline-flex items-center whitespace-nowrap text-xs md:text-sm">
                   <span className="font-medium">{dateEntries[config.index].date}</span>
-                  <span className="text-muted-foreground mx-1.5">•</span>
+                  <span className="text-muted-foreground mx-1 md:mx-1.5">•</span>
                   <span className="text-muted-foreground">{dateEntries[config.index].time}</span>
-                  <span className="text-muted-foreground mx-1.5">•</span>
+                  <span className="text-muted-foreground mx-1 md:mx-1.5">•</span>
                   <span className="text-muted-foreground">{dateEntries[config.index].location}</span>
                 </div>
               </motion.div>
@@ -131,11 +131,11 @@ export const DateReel = () => {
       </div>
 
       {/* Large view - three date reels */}
-      <div className="hidden lg:grid lg:grid-cols-3 lg:gap-4 mb-8 w-full">
+      <div className="hidden lg:grid lg:grid-cols-3 lg:gap-3 xl:gap-4 mb-6 lg:mb-8 w-full">
         {reelConfigs.map((config, reelIndex) => (
           <div 
             key={reelIndex} 
-            className={`date-reel-container ${config.bgColor} backdrop-blur-sm p-4 rounded-lg overflow-hidden mb-3 lg:mb-0 min-h-[3rem] flex items-center justify-center`}
+            className={`date-reel-container ${config.bgColor} backdrop-blur-sm p-3 lg:p-4 xl:p-5 rounded-lg overflow-hidden mb-3 lg:mb-0 min-h-[2.75rem] lg:min-h-[3rem] xl:min-h-[3.5rem] flex items-center justify-center`}
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -146,11 +146,11 @@ export const DateReel = () => {
                 transition={{ duration: config.transitionSpeed }}
                 className="text-center"
               >
-                <div className="inline-flex items-center whitespace-nowrap text-sm sm:text-base">
+                <div className="inline-flex items-center whitespace-nowrap text-xs lg:text-sm xl:text-base">
                   <span className="font-medium">{dateEntries[config.index].date}</span>
-                  <span className="text-muted-foreground mx-1.5">•</span>
+                  <span className="text-muted-foreground mx-1 lg:mx-1.5">•</span>
                   <span className="text-muted-foreground">{dateEntries[config.index].time}</span>
-                  <span className="text-muted-foreground mx-1.5">•</span>
+                  <span className="text-muted-foreground mx-1 lg:mx-1.5">•</span>
                   <span className="text-muted-foreground">{dateEntries[config.index].location}</span>
                 </div>
               </motion.div>

@@ -19,15 +19,16 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="p-2 rounded-full hover:bg-[var(--background-secondary)] transition-colors cursor-pointer"
+      className="p-1.5 md:p-2 lg:p-2.5 rounded-full hover:bg-[var(--background-secondary)] transition-colors cursor-pointer"
       aria-label="Toggle theme"
     >
       {theme === 'dark' ? (
         // Sun icon for dark mode
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
+          width="18"
+          height="18"
+          className="md:w-[20px] md:h-[20px] lg:w-[22px] lg:h-[22px]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -49,8 +50,9 @@ export function ThemeToggle() {
         // Moon icon for light mode
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
+          width="18"
+          height="18"
+          className="md:w-[20px] md:h-[20px] lg:w-[22px] lg:h-[22px]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

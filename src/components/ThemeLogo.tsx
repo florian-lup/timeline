@@ -10,7 +10,7 @@ type ThemeLogoProps = {
   className?: string;
 };
 
-export function ThemeLogo({ width = 28, height = 28, className = '' }: ThemeLogoProps) {
+export function ThemeLogo({ width = 24, height = 24, className = '' }: ThemeLogoProps) {
   const [mounted, setMounted] = useState(false);
   const { theme, resolvedTheme } = useTheme();
 
@@ -24,7 +24,7 @@ export function ThemeLogo({ width = 28, height = 28, className = '' }: ThemeLogo
   
   if (!mounted) {
     // Return a placeholder to avoid layout shift
-    return <div style={{ width, height }} />;
+    return <div style={{ width, height }} className={className} />;
   }
 
   const logoSrc = currentTheme === 'dark' ? '/logo-dark.svg' : '/logo-light.svg';
