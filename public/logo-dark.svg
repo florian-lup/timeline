@@ -1,24 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="-25 -25 425 425" preserveAspectRatio="xMidYMid meet" version="1.0">
   <style>
-    @media (prefers-color-scheme: dark) {
-      .circle-outline {
-        stroke: #ffffff;
-        fill: #1a1a1a;
-      }
-      .semicircle {
-        stroke: #ffffff;
-      }
-    }
-    @media (prefers-color-scheme: light) {
-      .circle-outline {
-        stroke: #1a1a1a;
-        fill: #ffffff;
-      }
-      .semicircle {
-        stroke: #1a1a1a;
-      }
-    }
-    
     @keyframes spin {
       from {
         transform: rotate(0deg);
@@ -34,13 +15,13 @@
     }
   </style>
   
-  <circle cx="187.5" cy="187.5" r="140" class="circle-outline" stroke-width="30"/>
+  <circle cx="187.5" cy="187.5" r="140" stroke="#ffffff" fill="transparent" stroke-width="30"/>
   
   <g class="spinner">
     <path d="M 187.5 12.5 A 175 175 0 0 1 362.5 187.5" 
-          class="semicircle" 
+          stroke="#2eaadc" 
           fill="none" 
           stroke-width="25" 
           stroke-linecap="round"/>
   </g>
-</svg>
+</svg> 
