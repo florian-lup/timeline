@@ -12,6 +12,14 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Timeline',
   description: 'We write history',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+  },
 };
 
 export default function RootLayout({

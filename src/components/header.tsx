@@ -11,10 +11,12 @@ export function Header() {
       <div className="flex items-center justify-between px-4 sm:px-6 py-3 w-full">
         <Link
           href="/"
-          className="flex items-center gap-2 font-medium text-base text-foreground/80 hover:text-foreground transition-colors"
+          className="flex items-center justify-center gap-2 font-medium text-base text-foreground/80 hover:text-foreground transition-colors"
         >
-          <Image src="/t_e.png" alt="Timeline Logo" width={25} height={25} />
-          Timeline
+          <div className="flex items-center justify-center">
+            <Image src="/logo.svg" alt="Timeline Logo" width={28} height={28} className="rounded-full" />
+          </div>
+          <span className="flex items-center">Timeline</span>
         </Link>
         <ThemeToggle />
       </div>
