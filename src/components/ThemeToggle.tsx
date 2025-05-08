@@ -2,6 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
+import { Toggle } from '@/components/ui/toggle';
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
@@ -17,10 +18,12 @@ export function ThemeToggle() {
   }
 
   return (
-    <button
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="p-1.5 md:p-2 lg:p-2.5 rounded-full hover:bg-[var(--background-secondary)] transition-colors cursor-pointer"
+    <Toggle
+      pressed={theme === 'dark'}
+      onPressedChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       aria-label="Toggle theme"
+      variant="outline"
+      size="sm"
     >
       {theme === 'dark' ? (
         // Sun icon for dark mode
@@ -28,7 +31,6 @@ export function ThemeToggle() {
           xmlns="http://www.w3.org/2000/svg"
           width="18"
           height="18"
-          className="md:w-[20px] md:h-[20px] lg:w-[22px] lg:h-[22px]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -52,7 +54,6 @@ export function ThemeToggle() {
           xmlns="http://www.w3.org/2000/svg"
           width="18"
           height="18"
-          className="md:w-[20px] md:h-[20px] lg:w-[22px] lg:h-[22px]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -63,6 +64,6 @@ export function ThemeToggle() {
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
       )}
-    </button>
+    </Toggle>
   );
 }

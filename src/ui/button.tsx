@@ -22,9 +22,9 @@ export function Button({
   };
 
   const sizeClasses = {
-    default: 'px-6 py-3',
-    sm: 'px-4 py-2 text-sm',
-    lg: 'px-8 py-4 text-lg',
+    default: 'px-4 py-2 md:px-5 md:py-2.5 lg:px-6 lg:py-3 text-sm md:text-base lg:text-lg',
+    sm: 'px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2.5 text-xs md:text-sm lg:text-base',
+    lg: 'px-5 py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-4 text-base md:text-lg lg:text-xl',
   };
 
   const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
