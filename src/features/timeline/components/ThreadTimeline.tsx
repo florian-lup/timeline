@@ -3,7 +3,7 @@
 import { EventList } from './EventList';
 import { Header } from '@/components/header';
 import { useTimelineEntries } from '../hooks/useTimelineEntries';
-import { MetricsPanel } from './metrics-panel';
+import { TimelineHeader } from './TimelineHeader';
 import { usePageViews } from '@/features/analytics/hooks/usePageViews';
 
 /**
@@ -36,7 +36,7 @@ export function ThreadTimeline() {
           {/* Metrics Panel */}
           {!isLoading && (
             <div className="mb-6">
-              <MetricsPanel 
+              <TimelineHeader 
                 views={viewCount}
                 entries={pagination?.total || 0}
               />

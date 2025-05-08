@@ -15,13 +15,9 @@ const tailwindConfig = {
         sans: ['var(--font-inter)', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       screens: {
-        xs: '480px',
-        // sm, md, lg, xl come by default
-        '2xl': '1536px',
-        '3xl': '1920px',
-      },
-      fontSize: {
-        '2xs': '0.625rem',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
       },
     },
   },
