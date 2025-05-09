@@ -15,7 +15,7 @@ interface EventListProps {
  */
 export function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventListProps) {
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 md:space-y-5 lg:space-y-7">
       {/* Display events in chronological order (already sorted from the API) */}
       {events.map((entry) => (
         <EventListItem key={entry._id} entry={entry} />
@@ -23,11 +23,11 @@ export function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventL
       
       {/* Load more button */}
       {hasMore && (
-        <div className="pt-4 pb-8 flex justify-center">
+        <div className="pt-2 md:pt-3 lg:pt-4 pb-4 md:pb-6 lg:pb-8 flex justify-center">
           <button
             onClick={onLoadMore}
             disabled={isLoadingMore}
-            className="px-4 py-2 rounded-md cursor-pointer"
+            className="px-3 md:px-4 py-1.5 md:py-2 text-sm md:text-base rounded-md cursor-pointer"
           >
             {isLoadingMore ? 'Loading...' : 'Load More'}
           </button>

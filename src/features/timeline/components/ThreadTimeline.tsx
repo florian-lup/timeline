@@ -27,15 +27,15 @@ export function ThreadTimeline() {
   } = usePageViews();
 
   return (
-    <div className="min-h-screen flex flex-col pb-16">
+    <div className="min-h-screen flex flex-col pb-8 md:pb-12 lg:pb-16">
       <Header />
 
       {/* Main content container with responsive padding and max width */}
       <main className="flex-1 w-full">
-        <div className="max-w-3xl mx-auto pt-10 pb-8 px-4 sm:px-6">
+        <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto pt-4 md:pt-6 lg:pt-10 pb-4 md:pb-6 lg:pb-8 px-3 md:px-4 lg:px-6">
           {/* Metrics Panel */}
           {!isLoading && (
-            <div className="mb-6">
+            <div className="mb-4 md:mb-5 lg:mb-6">
               <TimelineHeader 
                 views={viewCount}
                 entries={pagination?.total || 0}
@@ -44,7 +44,7 @@ export function ThreadTimeline() {
           )}
           
           {isLoading ? (
-            <div className="text-center py-10">Loading timeline data...</div>
+            <div className="text-center py-6 md:py-8 lg:py-10">Loading timeline data...</div>
           ) : error ? (
             <div className="text-amber-500 mb-4">{error}</div>
           ) : null}
@@ -60,7 +60,7 @@ export function ThreadTimeline() {
           )}
 
           {!isLoading && entries.length === 0 && (
-            <div className="text-center py-10">No timeline entries found.</div>
+            <div className="text-center py-6 md:py-8 lg:py-10">No timeline entries found.</div>
           )}
         </div>
       </main>
