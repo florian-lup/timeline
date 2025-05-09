@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Card, CardContent } from '@/components/ui/card';
 
 // Sample date entries - shortened longer location names
 const dateEntries = [
@@ -15,7 +16,7 @@ const dateEntries = [
   { date: '27 March, 2025', time: '13:40', location: 'Rio' },
   { date: '9 July, 2025', time: '10:15', location: 'Cape Town' },
   { date: '4 October, 2025', time: '07:51', location: 'Dubai' },
-  { date: '30 November, 2025', time: '21:33', location: 'Singapore' },
+  { date: '3 May, 2025', time: '21:33', location: 'Singapore' },
   { date: '16 February, 2025', time: '15:47', location: 'Toronto' },
   { date: '8 May, 2025', time: '12:29', location: 'Amsterdam' },
   { date: '25 June, 2025', time: '18:04', location: 'Barcelona' },
@@ -61,17 +62,14 @@ export const DateReel = () => {
     { 
       index: firstReelIndex, 
       transitionSpeed: 1.8,
-      bgColor: "bg-primary/10" 
     },
     { 
       index: secondReelIndex, 
       transitionSpeed: 2.0,
-      bgColor: "bg-muted/30" 
     },
     { 
       index: thirdReelIndex, 
       transitionSpeed: 1.9,
-      bgColor: "bg-secondary/20" 
     }
   ];
 
@@ -79,7 +77,7 @@ export const DateReel = () => {
     <>
       {/* Mobile view - single date reel */}
       <div className="block md:hidden w-full mb-6 md:mb-8">
-        <div className="date-reel-container bg-gradient-to-r from-primary/10 to-secondary/20 backdrop-blur-sm p-3 sm:p-4 rounded-lg overflow-hidden min-h-[3rem] sm:min-h-[3.5rem] flex items-center justify-center">
+        <Card className="backdrop-blur-sm min-h-[3rem] sm:min-h-[3.5rem] py-0 flex items-center justify-center overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={mobileReelIndex}
@@ -87,26 +85,28 @@ export const DateReel = () => {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -40, opacity: 0 }}
               transition={{ duration: 1.5 }}
-              className="text-center"
+              className="w-full"
             >
-              <div className="inline-flex items-center whitespace-nowrap text-xs sm:text-sm">
-                <span className="font-medium">{dateEntries[mobileReelIndex].date}</span>
-                <span className="text-muted-foreground mx-1 sm:mx-1.5">•</span>
-                <span className="text-muted-foreground">{dateEntries[mobileReelIndex].time}</span>
-                <span className="text-muted-foreground mx-1 sm:mx-1.5">•</span>
-                <span className="text-muted-foreground">{dateEntries[mobileReelIndex].location}</span>
-              </div>
+              <CardContent className="p-3 sm:p-4 text-center">
+                <div className="inline-flex items-center whitespace-nowrap text-xs sm:text-sm">
+                  <span className="font-medium">{dateEntries[mobileReelIndex].date}</span>
+                  <span className="mx-1 sm:mx-1.5">•</span>
+                  <span>{dateEntries[mobileReelIndex].time}</span>
+                  <span className="mx-1 sm:mx-1.5">•</span>
+                  <span>{dateEntries[mobileReelIndex].location}</span>
+                </div>
+              </CardContent>
             </motion.div>
           </AnimatePresence>
-        </div>
+        </Card>
       </div>
 
       {/* Medium view - two date reels */}
       <div className="hidden md:grid lg:hidden md:grid-cols-2 md:gap-3 lg:gap-4 mb-6 md:mb-8 w-full">
         {reelConfigs.slice(0, 2).map((config, reelIndex) => (
-          <div 
+          <Card 
             key={reelIndex} 
-            className={`date-reel-container ${config.bgColor} backdrop-blur-sm p-3 md:p-4 rounded-lg overflow-hidden mb-3 md:mb-0 min-h-[2.75rem] md:min-h-[3rem] flex items-center justify-center`}
+            className="backdrop-blur-sm min-h-[2.75rem] md:min-h-[3rem] py-0 flex items-center justify-center overflow-hidden"
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -115,27 +115,29 @@ export const DateReel = () => {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -40, opacity: 0 }}
                 transition={{ duration: config.transitionSpeed }}
-                className="text-center"
+                className="w-full"
               >
-                <div className="inline-flex items-center whitespace-nowrap text-xs md:text-sm">
-                  <span className="font-medium">{dateEntries[config.index].date}</span>
-                  <span className="text-muted-foreground mx-1 md:mx-1.5">•</span>
-                  <span className="text-muted-foreground">{dateEntries[config.index].time}</span>
-                  <span className="text-muted-foreground mx-1 md:mx-1.5">•</span>
-                  <span className="text-muted-foreground">{dateEntries[config.index].location}</span>
-                </div>
+                <CardContent className="p-3 md:p-4 text-center">
+                  <div className="inline-flex items-center whitespace-nowrap text-xs md:text-sm">
+                    <span className="font-medium">{dateEntries[config.index].date}</span>
+                    <span className="mx-1 md:mx-1.5">•</span>
+                    <span>{dateEntries[config.index].time}</span>
+                    <span className="mx-1 md:mx-1.5">•</span>
+                    <span>{dateEntries[config.index].location}</span>
+                  </div>
+                </CardContent>
               </motion.div>
             </AnimatePresence>
-          </div>
+          </Card>
         ))}
       </div>
 
       {/* Large view - three date reels */}
       <div className="hidden lg:grid lg:grid-cols-3 lg:gap-3 xl:gap-4 mb-6 lg:mb-8 w-full">
         {reelConfigs.map((config, reelIndex) => (
-          <div 
+          <Card 
             key={reelIndex} 
-            className={`date-reel-container ${config.bgColor} backdrop-blur-sm p-3 lg:p-4 xl:p-5 rounded-lg overflow-hidden mb-3 lg:mb-0 min-h-[2.75rem] lg:min-h-[3rem] xl:min-h-[3.5rem] flex items-center justify-center`}
+            className="backdrop-blur-sm min-h-[2.75rem] lg:min-h-[3rem] xl:min-h-[3.5rem] py-0 flex items-center justify-center overflow-hidden"
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -144,18 +146,20 @@ export const DateReel = () => {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -40, opacity: 0 }}
                 transition={{ duration: config.transitionSpeed }}
-                className="text-center"
+                className="w-full"
               >
-                <div className="inline-flex items-center whitespace-nowrap text-xs lg:text-sm xl:text-base">
-                  <span className="font-medium">{dateEntries[config.index].date}</span>
-                  <span className="text-muted-foreground mx-1 lg:mx-1.5">•</span>
-                  <span className="text-muted-foreground">{dateEntries[config.index].time}</span>
-                  <span className="text-muted-foreground mx-1 lg:mx-1.5">•</span>
-                  <span className="text-muted-foreground">{dateEntries[config.index].location}</span>
-                </div>
+                <CardContent className="p-3 lg:p-4 xl:p-5 text-center">
+                  <div className="inline-flex items-center whitespace-nowrap text-xs lg:text-sm xl:text-base">
+                    <span className="font-medium">{dateEntries[config.index].date}</span>
+                    <span className="mx-1 lg:mx-1.5">•</span>
+                    <span>{dateEntries[config.index].time}</span>
+                    <span className="mx-1 lg:mx-1.5">•</span>
+                    <span>{dateEntries[config.index].location}</span>
+                  </div>
+                </CardContent>
               </motion.div>
             </AnimatePresence>
-          </div>
+          </Card>
         ))}
       </div>
     </>

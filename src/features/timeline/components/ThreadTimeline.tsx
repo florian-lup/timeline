@@ -5,6 +5,7 @@ import { Header } from '@/components/header';
 import { useTimelineEntries } from '../hooks/useTimelineEntries';
 import { TimelineHeader } from './TimelineHeader';
 import { usePageViews } from '@/features/analytics/hooks/usePageViews';
+import { Skeleton } from "@/components/ui/skeleton";
 
 /**
  * ThreadTimeline component serves as the main layout for the timeline page
@@ -26,6 +27,30 @@ export function ThreadTimeline() {
     viewCount,
   } = usePageViews();
 
+  // Skeleton loading component for timeline entries
+  function SkeletonCard() {
+    return (
+      <div className="flex flex-col space-y-3">
+        <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      </div>
+    )
+  }
+
+  // Skeleton list to mimic loading timeline entries
+  function SkeletonList() {
+    return (
+      <div className="space-y-4 md:space-y-5 lg:space-y-7">
+        {[...Array(3)].map((_, index) => (
+          <SkeletonCard key={index} />
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen flex flex-col pb-8 md:pb-12 lg:pb-16">
       <Header />
@@ -44,7 +69,7 @@ export function ThreadTimeline() {
           )}
           
           {isLoading ? (
-            <div className="text-center py-6 md:py-8 lg:py-10">Loading timeline data...</div>
+            <SkeletonList />
           ) : error ? (
             <div className="text-amber-500 mb-4">{error}</div>
           ) : null}
