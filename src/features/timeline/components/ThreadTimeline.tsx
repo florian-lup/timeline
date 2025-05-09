@@ -27,7 +27,7 @@ export function ThreadTimeline() {
   } = usePageViews();
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col pb-16">
+    <div className="min-h-screen flex flex-col pb-16">
       <Header />
 
       {/* Main content container with responsive padding and max width */}

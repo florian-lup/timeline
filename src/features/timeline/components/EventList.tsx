@@ -27,7 +27,7 @@ export function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventL
           <button
             onClick={onLoadMore}
             disabled={isLoadingMore}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-[var(--background-secondary)] disabled:opacity-50 cursor-pointer"
+            className="px-4 py-2 rounded-md cursor-pointer"
           >
             {isLoadingMore ? 'Loading...' : 'Load More'}
           </button>

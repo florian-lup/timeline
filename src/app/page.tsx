@@ -5,6 +5,30 @@ import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { DateReel } from '@/components/spotlight';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+
+// Simple TypewriterDots component
+const TypewriterDots = () => {
+  const [dots, setDots] = useState('');
+  
+  useEffect(() => {
+    const sequence = ['', '.', '..', '...'];
+    let index = 0;
+    
+    const interval = setInterval(() => {
+      setDots(sequence[index]);
+      index = (index + 1) % sequence.length;
+    }, 375);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  return (
+    <span style={{ display: 'inline-block', width: '1.5rem', textAlign: 'left' }}>
+      {dots}
+    </span>
+  );
+};
 
 export default function Home() {
   return (
@@ -15,7 +39,7 @@ export default function Home() {
       <main className="flex flex-col flex-grow items-center justify-center max-w-5xl mx-auto w-full px-4 md:px-6 lg:px-8 mt-8 md:mt-12 lg:mt-16 xl:mt-20">
         <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 lg:mb-8 text-center">
           Writing history
-          <span className="typewriter-dots"></span>
+          <TypewriterDots />
         </h1>
 
         <p className="text-sm md:text-lg lg:text-xl xl:text-2xl mb-6 md:mb-8 lg:mb-10 leading-relaxed max-w-xs md:max-w-xl lg:max-w-2xl xl:max-w-3xl text-center">

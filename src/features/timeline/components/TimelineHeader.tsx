@@ -1,6 +1,6 @@
 import React from 'react';
 import { MdVisibility, MdHistory } from 'react-icons/md';
-import { Tooltip } from '../../../ui/tooltip';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 
 interface TimelineHeaderProps {
   views?: number;
@@ -24,23 +24,33 @@ export function TimelineHeader({
   };
 
   return (
-    <div className={`bg-card rounded-lg p-3 shadow-sm border border-border ${className}`}>
+    <div className={`rounded-lg p-3 shadow-sm border ${className}`}>
       <div className="flex items-center gap-4 flex-wrap">
         <div className="text-sm font-medium">Worldwide</div>
         {title && <h3 className="text-base font-medium">{title}</h3>}
         <div className="text-sm font-medium">{getCurrentDate()}</div>
         <div className="flex-1"></div>
-        <Tooltip content="Total Timeline Views" position="top" align="end">
-          <div className="flex items-center gap-1.5">
-            <div className="text-muted-foreground"><MdVisibility size={18} /></div>
-            <div className="text-sm font-medium">{typeof views === 'number' ? views.toLocaleString() : views}</div>
-          </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="flex items-center gap-1.5">
+              <div><MdVisibility size={18} /></div>
+              <div className="text-sm font-medium">{typeof views === 'number' ? views.toLocaleString() : views}</div>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="top" align="end">
+            Total Timeline Views
+          </TooltipContent>
         </Tooltip>
-        <Tooltip content="Total Timeline Entries" position="top" align="end">
-          <div className="flex items-center gap-1.5">
-            <div className="text-muted-foreground"><MdHistory size={18} /></div>
-            <div className="text-sm font-medium">{typeof entries === 'number' ? entries.toLocaleString() : entries}</div>
-          </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="flex items-center gap-1.5">
+              <div><MdHistory size={18} /></div>
+              <div className="text-sm font-medium">{typeof entries === 'number' ? entries.toLocaleString() : entries}</div>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="top" align="end">
+            Total Timeline Entries
+          </TooltipContent>
         </Tooltip>
       </div>
     </div>

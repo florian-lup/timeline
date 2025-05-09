@@ -15,7 +15,7 @@
     }
   </style>
   
-  <circle cx="187.5" cy="187.5" r="140" stroke="#ffffff" fill="transparent" stroke-width="30"/>
+  <circle cx="187.5" cy="187.5" r="140" stroke="#f7f6f3" fill="transparent" stroke-width="30"/>
   
   <g class="spinner">
     <path d="M 187.5 12.5 A 175 175 0 0 1 362.5 187.5" 
