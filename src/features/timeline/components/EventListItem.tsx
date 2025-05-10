@@ -35,7 +35,7 @@ export function EventListItem({ entry }: EventListItemProps) {
               <Badge variant="outline" className="text-xs md:text-sm">
                 {entry.creationDate} {entry.creationTime}
               </Badge>
-              <Badge variant="outline" className="text-sm">{entry.location}</Badge>
+              <Badge variant="outline" className="text-xs md:text-sm">{entry.location}</Badge>
             </div>
           </CardHeader>
 
