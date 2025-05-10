@@ -1,11 +1,12 @@
 'use client';
 
 import { EventList } from './EventList';
-import { Header } from '@/components/header';
+import { Header } from '@/components/layout/header';
 import { useTimelineEntries } from '../hooks/useTimelineEntries';
 import { TimelineHeader } from './TimelineHeader';
 import { usePageViews } from '@/features/analytics/hooks/usePageViews';
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
 
 /**
  * ThreadTimeline component serves as the main layout for the timeline page
@@ -30,13 +31,17 @@ export function ThreadTimeline() {
   // Skeleton loading component for timeline entries
   function SkeletonCard() {
     return (
-      <div className="flex flex-col space-y-3">
-        <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[200px]" />
-        </div>
-      </div>
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex flex-col space-y-3">
+            <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[250px]" />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     )
   }
 
@@ -71,7 +76,9 @@ export function ThreadTimeline() {
           {isLoading ? (
             <SkeletonList />
           ) : error ? (
-            <div className="text-amber-500 mb-4">{error}</div>
+            <Card className="p-4">
+              <div className="text-amber-500">{error}</div>
+            </Card>
           ) : null}
           
           {/* Render the event list with pagination support */}
@@ -85,7 +92,9 @@ export function ThreadTimeline() {
           )}
 
           {!isLoading && entries.length === 0 && (
-            <div className="text-center py-6 md:py-8 lg:py-10">No timeline entries found.</div>
+            <Card className="p-6">
+              <div className="text-center">No timeline entries found.</div>
+            </Card>
           )}
         </div>
       </main>

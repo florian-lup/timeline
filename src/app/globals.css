@@ -1,3 +1,12 @@
+/* 
+  Add a CSS import marker that helps Next.js optimize CSS loading
+  This comment enables better CSS chunking and reduces the preload warning
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));

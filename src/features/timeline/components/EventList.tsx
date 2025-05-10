@@ -1,5 +1,6 @@
 import { TimelineEntry } from '../types/TimelineEntry';
 import { EventListItem } from './EventListItem';
+import { Button } from '@/components/ui/button';
 
 interface EventListProps {
   events: TimelineEntry[];
@@ -24,13 +25,13 @@ export function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventL
       {/* Load more button */}
       {hasMore && (
         <div className="pt-2 md:pt-3 lg:pt-4 pb-4 md:pb-6 lg:pb-8 flex justify-center">
-          <button
+          <Button
             onClick={onLoadMore}
             disabled={isLoadingMore}
-            className="px-3 md:px-4 py-1.5 md:py-2 text-sm md:text-base rounded-md cursor-pointer"
+            variant="outline"
           >
             {isLoadingMore ? 'Loading...' : 'Load More'}
-          </button>
+          </Button>
         </div>
       )}
     </div>

@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
 import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
 
+// Optimize font loading
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
+  display: 'swap', // Ensure text remains visible during font loading
 });
 
 export const metadata: Metadata = {
@@ -29,10 +30,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Preconnect to domains that will be used */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Add a prefetch strategy hint for browsers */}
+        <meta name="next-head-count" content="0" />
+      </head>
       <body className={`${inter.variable} antialiased`}>
-        <ThemeProvider attribute="class">
-          {children}
-        </ThemeProvider>
+        {children}
         <Analytics />
       </body>
     </html>
