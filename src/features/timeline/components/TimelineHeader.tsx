@@ -1,9 +1,8 @@
 import React from 'react';
 import { MdVisibility, MdHistory } from 'react-icons/md';
-import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MetricDisplay } from '@/components/ui/MetricDisplay';
+import { MetricDisplay } from '@/features/timeline/components/ui/MetricDisplay';
 
 interface TimelineHeaderProps {
   views?: number;
@@ -33,36 +32,31 @@ export function TimelineHeader({
           <Badge variant="outline" className="text-xs md:text-sm">{getCurrentDate()}</Badge>
           <div className="hidden md:block flex-1"></div>
           <div className="flex items-center gap-2 md:gap-3 lg:gap-4 ml-auto">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <MetricDisplay 
-                  icon={<MdVisibility className="h-4 w-4" />}
-                  value={views}
-                  variant="outline"
-                  size="sm"
-                  compact={true}
-                  className="cursor-pointer"
-                />
-              </TooltipTrigger>
-              <TooltipContent side="top" align="end">
-                Total Timeline Views
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <MetricDisplay 
-                  icon={<MdHistory className="h-4 w-4" />}
-                  value={entries}
-                  variant="outline"
-                  size="sm"
-                  compact={true}
-                  className="cursor-pointer"
-                />
-              </TooltipTrigger>
-              <TooltipContent side="top" align="end">
-                Total Timeline Entries
-              </TooltipContent>
-            </Tooltip>
+            <MetricDisplay 
+              metrics={[
+                {
+                  icon: <MdVisibility className="h-4 w-4" />,
+                  value: views,
+                  tooltip: (
+                    <div className="flex items-center gap-2">
+                      <span>Total Timeline Views: {views.toLocaleString()}</span>
+                    </div>
+                  )
+                },
+                {
+                  icon: <MdHistory className="h-4 w-4" />,
+                  value: entries,
+                  tooltip: (
+                    <div className="flex items-center gap-2">
+                      <span>Total Timeline Entries: {entries.toLocaleString()}</span>
+                    </div>
+                  )
+                }
+              ]}
+              variant="outline"
+              size="sm"
+              compact={true}
+            />
           </div>
         </div>
       </CardContent>

@@ -1,5 +1,5 @@
-import { ThreadTimeline } from '@/features/timeline';
+import { Timeline } from '@/features/timeline';
 
 export default function ThreadPage() {
-  return <ThreadTimeline />;
+  return <Timeline />;
 } 

@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/header';
 import { useTimelineEntries } from '../hooks/useTimelineEntries';
 import { TimelineHeader } from './TimelineHeader';
 import { usePageViews } from '@/features/analytics/hooks/usePageViews';
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/features/timeline/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
 
 /**
@@ -13,7 +13,7 @@ import { Card, CardContent } from "@/components/ui/card";
  * Provides the overall structure including header, navigation, and main content area
  * Renders the EventList component to display historical events in a feed-like format
  */
-export function ThreadTimeline() {
+export function Timeline() {
   const { 
     entries, 
     isLoading, 
@@ -31,13 +31,13 @@ export function ThreadTimeline() {
   // Skeleton loading component for timeline entries
   function SkeletonCard() {
     return (
-      <Card>
+      <Card className="w-full">
         <CardContent className="p-6">
           <div className="flex flex-col space-y-3">
-            <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+            <Skeleton className="h-[125px] w-full rounded-xl" />
             <div className="space-y-2">
-              <Skeleton className="h-4 w-[250px]" />
-              <Skeleton className="h-4 w-[200px]" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
             </div>
           </div>
         </CardContent>
@@ -48,7 +48,7 @@ export function ThreadTimeline() {
   // Skeleton list to mimic loading timeline entries
   function SkeletonList() {
     return (
-      <div className="space-y-4 md:space-y-5 lg:space-y-7">
+      <div className="h-full w-full flex flex-col justify-center space-y-4 md:space-y-5 lg:space-y-7 py-8 md:py-12 lg:py-16">
         {[...Array(3)].map((_, index) => (
           <SkeletonCard key={index} />
         ))}
