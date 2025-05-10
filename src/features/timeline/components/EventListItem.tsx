@@ -42,7 +42,7 @@ export function EventListItem({ entry }: EventListItemProps) {
           <CardContent className="pt-2 md:pt-3 lg:pt-4 px-2">
             {/* Event content */}
             <div>
-              <h3 className="text-lg md:text-xl lg:text-2xl mb-2 md:mb-3">{entry.title}</h3>
+              <h3 className="text-lg md:text-xl lg:text-2xl mb-2 md:mb-3">{entry.headline}</h3>
               <p className="mb-3 md:mb-4 text-sm md:text-base/relaxed">{entry.content}</p>
             </div>
           </CardContent>

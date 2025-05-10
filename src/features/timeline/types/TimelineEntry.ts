@@ -5,7 +5,7 @@
 export interface TimelineEntry {
   _id: string;
   location: string;
-  title: string;
+  headline: string;
   content: string;
   // Creation timestamp fields extracted from ObjectId
   createdAt?: number;
