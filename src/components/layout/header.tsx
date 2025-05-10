@@ -8,12 +8,12 @@ import { ThemeLogo } from '@/components/ThemeLogo';
 export function Header() {
   return (
     <header className="sticky top-0 z-10 backdrop-blur-sm">
-      <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 w-full">
+      <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 w-full min-h-[48px] md:min-h-[56px] lg:min-h-[64px]">
         <Link
           href="/"
           className="flex items-center justify-center gap-1 md:gap-2 font-medium text-sm md:text-base lg:text-lg"
         >
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center h-8 md:h-9 lg:h-10">
             <ThemeLogo width={24} height={24} className="rounded-full md:w-[28px] md:h-[28px] lg:w-[32px] lg:h-[32px]" />
           </div>
           <span className="flex items-center">Timeline</span>

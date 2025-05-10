@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { ThemeProviderWrapper } from '@/components/ThemeProvider';
 import './globals.css';
 
 // Optimize font loading
@@ -39,7 +40,9 @@ export default function RootLayout({
         <meta name="next-head-count" content="0" />
       </head>
       <body className={`${inter.variable} antialiased`}>
-        {children}
+        <ThemeProviderWrapper>
+          {children}
+        </ThemeProviderWrapper>
         <Analytics />
         <SpeedInsights />
       </body>
