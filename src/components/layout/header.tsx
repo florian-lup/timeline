@@ -27,9 +27,7 @@ export function Header() {
           {!isTimelinePage && (
             <Link href="/timeline">
               <Button 
-                variant="default" 
-                className="text-xs md:text-sm h-6 min-w-[65px] md:h-8 md:min-w-[80px] px-2 md:px-3"
-              >
+                variant="default" size="sm" className='text-xs md:text-sm'>
                 Explore Timeline
               </Button>
             </Link>
