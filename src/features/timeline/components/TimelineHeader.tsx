@@ -31,7 +31,7 @@ export function TimelineHeader({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button 
-                  variant="ghost" 
+                  variant="default" 
                   size="sm" 
                   onClick={handleRefresh}
                   className="p-1"
@@ -40,7 +40,7 @@ export function TimelineHeader({
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Refresh content</p>
+                <p>Reload Timeline</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -53,7 +53,7 @@ export function TimelineHeader({
                   value: views,
                   tooltip: (
                     <div className="flex items-center gap-2">
-                      <span>Total Timeline Views: {views.toLocaleString()}</span>
+                      <span>Total Timeline Views</span>
                     </div>
                   )
                 },
@@ -62,13 +62,13 @@ export function TimelineHeader({
                   value: entries,
                   tooltip: (
                     <div className="flex items-center gap-2">
-                      <span>Total Timeline Entries: {entries.toLocaleString()}</span>
+                      <span>Total Timeline Entries</span>
                     </div>
                   )
                 }
               ]}
-              variant="outline"
-              size="sm"
+              variant="secondary"
+              size="default"
               compact={true}
             />
           </div>

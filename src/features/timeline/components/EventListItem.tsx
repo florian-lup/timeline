@@ -5,7 +5,6 @@ import { MdCheck, MdTranslate, MdOutlineInsertPhoto, MdOutlineHeadphones, MdSear
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 
 interface EventListItemProps {
@@ -23,26 +22,24 @@ export function EventListItem({ entry }: EventListItemProps) {
       <div className="flex">
         {/* Timeline visual element */}
         <div className="relative flex flex-col items-center mr-2">
-          <div className="absolute h-full w-0.5 bg-muted-foreground/20 top-0 z-0"></div>
-          <Avatar className="z-10 h-6 w-6 bg-muted/20">
-            <AvatarFallback>
-              <MdCheck className="h-3 w-3" />
-            </AvatarFallback>
-          </Avatar>
+          <div className="absolute w-0.5 bg-muted-foreground/20 top-13 bottom-0 z-0"></div>
+          <div className="z-10 h-6 w-6 rounded-full bg-accent-blue flex items-center justify-center">
+            <MdCheck className="h-3 w-3 text-white" />
+          </div>
         </div>
 
         <div className="flex-1">
-          <CardHeader className="pb-0 px-3">
+          <CardHeader className="pb-0 px-2">
             {/* Event metadata: creation date, time and location */}
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="outline" className="text-xs md:text-sm">
                 {entry.creationDate} {entry.creationTime}
               </Badge>
-              <Badge variant="outline" className="text-xs">{entry.location}</Badge>
+              <Badge variant="outline" className="text-sm">{entry.location}</Badge>
             </div>
           </CardHeader>
 
-          <CardContent className="pt-2 md:pt-3 lg:pt-4 px-3">
+          <CardContent className="pt-2 md:pt-3 lg:pt-4 px-2">
             {/* Event content */}
             <div>
               <h3 className="text-lg md:text-xl lg:text-2xl mb-2 md:mb-3">{entry.title}</h3>
@@ -50,7 +47,7 @@ export function EventListItem({ entry }: EventListItemProps) {
             </div>
           </CardContent>
 
-          <CardFooter className="pt-0 px-3">
+          <CardFooter className="pt-0 px-2">
             {/* Interactive action buttons for the event */}
             <div className="flex items-center gap-1 md:gap-2">
               <Tooltip>
@@ -61,6 +58,16 @@ export function EventListItem({ entry }: EventListItemProps) {
                 </TooltipTrigger>
                 <TooltipContent side="top">
                   Search
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-md">
+                    <MdTranslate className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  Translate
                 </TooltipContent>
               </Tooltip>
               <Tooltip>
@@ -81,16 +88,6 @@ export function EventListItem({ entry }: EventListItemProps) {
                 </TooltipTrigger>
                 <TooltipContent side="top">
                   Listen
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-md">
-                    <MdTranslate className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="top">
-                  Translate
                 </TooltipContent>
               </Tooltip>
             </div>
