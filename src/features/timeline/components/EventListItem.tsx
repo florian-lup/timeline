@@ -19,77 +19,84 @@ interface EventListItemProps {
  */
 export function EventListItem({ entry }: EventListItemProps) {
   return (
-    <Card className="group relative">
-      <CardHeader className="pb-0">
-        {/* Event metadata: creation date, time and location */}
-        <div className="flex items-center gap-2">
-          <Avatar className="h-6 w-6 bg-primary text-primary-foreground">
+    <Card className="group relative shadow-none border-none bg-transparent">
+      <div className="flex">
+        {/* Timeline visual element */}
+        <div className="relative flex flex-col items-center mr-2">
+          <div className="absolute h-full w-0.5 bg-muted-foreground/20 top-0 z-0"></div>
+          <Avatar className="z-10 h-6 w-6 bg-muted/20">
             <AvatarFallback>
               <MdCheck className="h-3 w-3" />
             </AvatarFallback>
           </Avatar>
-          <time className="text-xs md:text-sm font-bold">
-            {entry.creationDate} <span className="font-normal ml-0.5 md:ml-1">{entry.creationTime}</span>
-          </time>
-          <Badge variant="outline" className="text-xs">{entry.location}</Badge>
         </div>
-      </CardHeader>
 
-      <CardContent className="pt-2 md:pt-3 lg:pt-4">
-        {/* Event content with visual timeline indicator */}
-        <div className="ml-0.5 md:ml-1 px-3 md:px-4 lg:px-5 border-l">
-          <div>
-            <h3 className="text-lg md:text-xl lg:text-2xl mb-2 md:mb-3">{entry.title}</h3>
-            <p className="mb-3 md:mb-4 text-sm md:text-base/relaxed">{entry.content}</p>
-          </div>
-        </div>
-      </CardContent>
+        <div className="flex-1">
+          <CardHeader className="pb-0 px-3">
+            {/* Event metadata: creation date, time and location */}
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="text-xs">
+                {entry.creationDate} {entry.creationTime}
+              </Badge>
+              <Badge variant="outline" className="text-xs">{entry.location}</Badge>
+            </div>
+          </CardHeader>
 
-      <CardFooter className="pl-8 md:pl-9 lg:pl-10 pt-0">
-        {/* Interactive action buttons for the event */}
-        <div className="flex items-center gap-1 md:gap-2">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-full">
-                <MdSearch className="h-3.5 w-3.5 md:h-4 md:w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top">
-              Search
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-full">
-                <MdOutlineInsertPhoto className="h-3.5 w-3.5 md:h-4 md:w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top">
-              View
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-full">
-                <MdOutlineHeadphones className="h-3.5 w-3.5 md:h-4 md:w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top">
-              Listen
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-full">
-                <MdTranslate className="h-3.5 w-3.5 md:h-4 md:w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top">
-              Translate
-            </TooltipContent>
-          </Tooltip>
+          <CardContent className="pt-2 md:pt-3 lg:pt-4 px-3">
+            {/* Event content */}
+            <div>
+              <h3 className="text-lg md:text-xl lg:text-2xl mb-2 md:mb-3">{entry.title}</h3>
+              <p className="mb-3 md:mb-4 text-sm md:text-base/relaxed">{entry.content}</p>
+            </div>
+          </CardContent>
+
+          <CardFooter className="pt-0 px-3">
+            {/* Interactive action buttons for the event */}
+            <div className="flex items-center gap-1 md:gap-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-md">
+                    <MdSearch className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  Search
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-md">
+                    <MdOutlineInsertPhoto className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  View
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-md">
+                    <MdOutlineHeadphones className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  Listen
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-md">
+                    <MdTranslate className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  Translate
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </CardFooter>
         </div>
-      </CardFooter>
+      </div>
     </Card>
   );
 }
