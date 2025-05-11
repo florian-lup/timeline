@@ -1,5 +1,5 @@
 import React from 'react';
-import { MdVisibility, MdEvent, MdRefresh } from 'react-icons/md';
+import { MdVisibility, MdHistoryEdu , MdRefresh } from 'react-icons/md';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
@@ -58,7 +58,7 @@ export function TimelineHeader({
                   )
                 },
                 {
-                  icon: <MdEvent className="h-4 w-4" />,
+                  icon: <MdHistoryEdu className="h-4 w-4" />,
                   value: entries,
                   tooltip: (
                     <div className="flex items-center gap-2">
