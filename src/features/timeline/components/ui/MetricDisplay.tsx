@@ -11,7 +11,7 @@ export interface MetricItem {
 
 export interface MetricDisplayProps extends React.HTMLAttributes<HTMLDivElement> {
   metrics: MetricItem[]
-  variant?: "outline" | "default" | "secondary"
+  variant?: "outline" | "default" | "secondary" | "primary"
   size?: "xs" | "sm" | "default" | "lg"
   compact?: boolean
 }
@@ -35,8 +35,9 @@ function MetricDisplay({
 }: MetricDisplayProps) {
   const variantStyles = {
     outline: "border bg-background hover:bg-accent/50 transition-colors",
-    default: "bg-primary text-primary-foreground",
+    default: "bg-transparent text-muted-foreground shadow-none",
     secondary: "bg-secondary text-secondary-foreground",
+    primary: "bg-primary text-primary-foreground",
   }
   
   const sizeStyles = {

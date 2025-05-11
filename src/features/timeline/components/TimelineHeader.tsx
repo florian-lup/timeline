@@ -67,7 +67,7 @@ export function TimelineHeader({
                   )
                 }
               ]}
-              variant="secondary"
+              variant="default"
               size="default"
               compact={true}
             />
