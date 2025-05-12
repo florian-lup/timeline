@@ -2,6 +2,7 @@ import { Pinecone } from '@pinecone-database/pinecone';
 import OpenAI from 'openai';
 import axios from 'axios';
 import { MongoClient } from 'mongodb';
+import { NextRequest, NextResponse } from 'next/server';
 
 // API keys and configuration
 const PERPLEXITY_API_KEY = process.env.PERPLEXITY_API_KEY;
@@ -9,6 +10,7 @@ const OPENAI_API = process.env.OPENAI_API || '';
 const PINECONE_API_KEY = process.env.PINECONE_API_KEY || '';
 const PINECONE_INDEX_NAME = process.env.PINECONE_INDEX_NAME || 'events';
 const MONGODB_URI = process.env.MONGODB_URI || '';
+const CRON_SECRET = process.env.CRON_SECRET || '';
 
 // Check for required environment variables
 if (!PERPLEXITY_API_KEY || !OPENAI_API || !PINECONE_API_KEY || !MONGODB_URI) {
@@ -316,5 +318,29 @@ export async function runEventPipeline() {
   } catch (error) {
     console.error('Error in event pipeline:', error);
     throw error;
+  }
+}
+
+// GET handler for cron job
+export async function GET(request: NextRequest) {
+  // Check authorization if CRON_SECRET is set
+  if (CRON_SECRET) {
+    const authHeader = request.headers.get('authorization');
+    if (authHeader !== `Bearer ${CRON_SECRET}`) {
+      return new Response('Unauthorized', {
+        status: 401,
+      });
+    }
+  }
+
+  try {
+    await runEventPipeline();
+    return NextResponse.json({ success: true, message: 'Event pipeline executed successfully' });
+  } catch (error) {
+    console.error('Error executing event pipeline:', error);
+    return NextResponse.json(
+      { success: false, message: 'Failed to execute event pipeline', error: String(error) },
+      { status: 500 }
+    );
   }
 } 
