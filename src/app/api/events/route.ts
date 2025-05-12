@@ -37,6 +37,23 @@ interface EventData {
   embedding?: number[];
 }
 
+// Function to strip markdown formatting (like ** for bold)
+function stripMarkdown(text: string): string {
+  if (!text) return '';
+  
+  // Remove common markdown formatting
+  return text
+    .replace(/\*\*/g, '')         // Bold: **text**
+    .replace(/\*/g, '')           // Italics: *text*
+    .replace(/\_\_/g, '')         // Bold: __text__
+    .replace(/\_/g, '')           // Italics: _text_
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')  // Links: [text](url) -> text
+    .replace(/\`\`\`[^`]*\`\`\`/g, '')        // Code blocks: ```code```
+    .replace(/\`([^`]+)\`/g, '$1')            // Inline code: `code`
+    .replace(/\#{1,6}\s?/g, '')               // Headers: # Heading
+    .trim();
+}
+
 // Function to fetch events from Perplexity API
 async function fetchEvents(): Promise<EventData[]> {
   console.log('Fetching events from Perplexity API...');
@@ -106,15 +123,18 @@ async function fetchEvents(): Promise<EventData[]> {
         events = JSON.parse(content);
         console.log('Successfully parsed events from response');
         console.log('Parsed events count:', events.length);
+        
+        // Clean markdown formatting from headlines and summaries
+        events = events.map(event => ({
+          ...event,
+          event_headline: stripMarkdown(event.event_headline),
+          event_summary: stripMarkdown(event.event_summary),
+          citations: citations
+        }));
+        
         if (events.length > 0) {
           console.log('First event:', JSON.stringify(events[0], null, 2));
         }
-        
-        // Add citations to each event
-        events = events.map(event => ({
-          ...event,
-          citations: citations
-        }));
         
         // Return the events with citations
         return events;
