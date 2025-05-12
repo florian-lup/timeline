@@ -14,7 +14,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Timeline',
-  description: 'We write history',
+  description: 'Powered by AI, the platform captures global events as they unfold, seamlessly weaving them into a continuous, evolving narrative.',
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
