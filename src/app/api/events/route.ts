@@ -45,6 +45,7 @@ function stripMarkdown(text: string): string {
     .replace(/\_\_/g, '')         // Bold: __text__
     .replace(/\_/g, '')           // Italics: _text_
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')  // Links: [text](url) -> text
+    .replace(/\[(\d+)\]/g, '')    // Citation references: [5]
     .replace(/\`\`\`[^`]*\`\`\`/g, '')        // Code blocks: ```code```
     .replace(/\`([^`]+)\`/g, '$1')            // Inline code: `code`
     .replace(/\#{1,6}\s?/g, '')               // Headers: # Heading
