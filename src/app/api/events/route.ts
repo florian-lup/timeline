@@ -33,9 +33,8 @@ const pinecone = new Pinecone({
 interface EventData {
   event_headline: string;
   event_summary: string;
-  sources: string[];
+  citations?: string[];
   embedding?: number[];
-  timestamp: Date;
 }
 
 // Function to fetch events from Perplexity API
@@ -45,16 +44,12 @@ async function fetchEvents(): Promise<EventData[]> {
   const today = new Date();
   const formattedDate = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
   
-  // Format today's date for Perplexity's date filter (MM/DD/YYYY)
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
-  const year = today.getFullYear();
-  const perplexityDateFormat = `${month}/${day}/${year}`;
-  
-  console.log(`Using date format: ${formattedDate} (ISO) and ${perplexityDateFormat} (Perplexity)`);
+  // Note: Perplexity API only supports "day" as the most granular recency filter
+  // It doesn't support hour-level filtering (e.g., "3 hours")
+  console.log(`Using recency filter: day (last 24 hours)`);
   
   try {
-    // Fixed API request based on error message
+    // API request with day recency filter
     const response = await axios.post(
       'https://api.perplexity.ai/chat/completions',
       {
@@ -62,12 +57,26 @@ async function fetchEvents(): Promise<EventData[]> {
         messages: [
           { 
             role: "user", 
-            content: `What are the major global events happening today (${formattedDate})? Please list the top 5 major global events happening right now. For each event, provide a headline and a 1-2 sentence summary.`
+            // Adjust prompt to request the most recent events (last few hours)
+            content: `What are the major global events happening in the last few hours today (${formattedDate})? Please list the top 5 very recent major global events happening right now. For each event, provide a headline and a summary.`
           }
         ],
-        // Simplified response format to use text
-        response_format: { 
-          type: "text" 
+        search_recency_filter: "day", // Most granular option available
+        response_format: {
+          type: "json_schema",
+          json_schema: {
+            schema: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  event_headline: { type: "string" },
+                  event_summary: { type: "string" }
+                },
+                required: ["event_headline", "event_summary"]
+              }
+            }
+          }
         }
       },
       {
@@ -83,21 +92,32 @@ async function fetchEvents(): Promise<EventData[]> {
     if (response.data && response.data.choices && response.data.choices.length > 0) {
       const content = response.data.choices[0].message.content;
       console.log('Received content from API:', typeof content);
+      console.log('Content preview:', typeof content === 'string' ? content.substring(0, 300) + '...' : JSON.stringify(content).substring(0, 300) + '...');
       
-      // Since we're using text format, we'll need to parse the textual response
-      // into structured data
+      // Extract citations from the response - Perplexity provides them at the top level
+      const citations = response.data.citations || [];
+      
+      console.log(`Found ${citations.length} citations in response`);
+      
+      let events: EventData[] = [];
+      
       try {
-        // Extract events from the text response
-        const events = parseTextIntoEvents(content);
-        console.log(`Parsed ${events.length} events from text response`);
+        // Parse the JSON response
+        events = JSON.parse(content);
+        console.log('Successfully parsed events from response');
+        console.log('Parsed events count:', events.length);
+        if (events.length > 0) {
+          console.log('First event:', JSON.stringify(events[0], null, 2));
+        }
         
-        // Add sources (if available) and timestamp to each event
-        const sources = response.data.sources || [];
-        return events.map((event: EventData) => ({
+        // Add citations to each event
+        events = events.map(event => ({
           ...event,
-          sources,
-          timestamp: new Date()
+          citations: citations
         }));
+        
+        // Return the events with citations
+        return events;
       } catch (error) {
         console.error('Error parsing events from response:', error);
         console.log('Raw content:', content);
@@ -183,16 +203,22 @@ async function isDuplicate(embedding: number[], threshold = 0.9): Promise<boolea
 async function indexEvent(event: EventData): Promise<void> {
   const index = pinecone.index(PINECONE_INDEX_NAME);
   
+  // Prepare metadata with citations if available
+  const metadata: Record<string, string | number | boolean> = {
+    headline: event.event_headline,
+    summary: event.event_summary
+  };
+  
+  // Only add citations if they exist
+  if (event.citations && event.citations.length > 0) {
+    metadata.citations = JSON.stringify(event.citations);
+  }
+  
   try {
     await index.upsert([{
       id: `event-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
       values: event.embedding!,
-      metadata: {
-        headline: event.event_headline,
-        summary: event.event_summary,
-        sources: event.sources,
-        timestamp: event.timestamp.toISOString()
-      }
+      metadata
     }]);
     
     console.log(`Indexed event: ${event.event_headline}`);
@@ -214,8 +240,7 @@ async function storeEvent(event: EventData): Promise<void> {
     await collection.insertOne({
       headline: event.event_headline,
       summary: event.event_summary,
-      sources: event.sources,
-      timestamp: event.timestamp
+      citations: event.citations || []
     });
     
     console.log(`Stored event in MongoDB: ${event.event_headline}`);
@@ -224,98 +249,6 @@ async function storeEvent(event: EventData): Promise<void> {
     throw error;
   } finally {
     await client.close();
-  }
-}
-
-// Function to parse text response into structured events
-function parseTextIntoEvents(text: string): EventData[] {
-  console.log('Parsing text into events:', text.substring(0, 100) + '...');
-  
-  // Initialize an empty array for events
-  const events: EventData[] = [];
-  
-  try {
-    // Simple pattern matching: Look for numbered or bulleted items
-    // This is a basic implementation that can be enhanced
-    
-    // Split by lines or paragraphs
-    const lines = text.split(/\n+/);
-    
-    let currentHeadline = '';
-    let currentSummary = '';
-    
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
-      
-      // Skip empty lines
-      if (!line) continue;
-      
-      // Check if this is a headline (numbered or with a special character)
-      const headlineMatch = line.match(/^(\d+[\.\):]|[\*\-•])?\s*(.+?):(.*)$/);
-      
-      if (headlineMatch) {
-        // If we already have a headline and summary, save the previous event
-        if (currentHeadline && currentSummary) {
-          events.push({
-            event_headline: currentHeadline,
-            event_summary: currentSummary,
-            sources: [],
-            timestamp: new Date()
-          });
-        }
-        
-        // Set the new headline and summary
-        currentHeadline = headlineMatch[2].trim();
-        currentSummary = headlineMatch[3].trim();
-      } else if (line.match(/^(\d+[\.\):]|[\*\-•])\s+(.+)$/)) {
-        // Handle bullet point format without colon
-        const bulletMatch = line.match(/^(\d+[\.\):]|[\*\-•])\s+(.+)$/);
-        
-        if (bulletMatch) {
-          // If we already have a headline and summary, save the previous event
-          if (currentHeadline && currentSummary) {
-            events.push({
-              event_headline: currentHeadline,
-              event_summary: currentSummary,
-              sources: [],
-              timestamp: new Date()
-            });
-          }
-          
-          // Set the new headline and prepare for the summary in the next lines
-          currentHeadline = bulletMatch[2].trim();
-          currentSummary = '';
-          
-          // Look ahead to the next line for the summary
-          if (i + 1 < lines.length) {
-            currentSummary = lines[i + 1].trim();
-            i++; // Skip the next line since we've used it as summary
-          }
-        }
-      } else if (currentHeadline && !currentSummary) {
-        // If we have a headline but no summary, this line is the summary
-        currentSummary = line;
-      } else if (currentHeadline && currentSummary) {
-        // If we already have both, append to the summary
-        currentSummary += ' ' + line;
-      }
-    }
-    
-    // Add the last event if there is one
-    if (currentHeadline && currentSummary) {
-      events.push({
-        event_headline: currentHeadline,
-        event_summary: currentSummary,
-        sources: [],
-        timestamp: new Date()
-      });
-    }
-    
-    console.log(`Found ${events.length} events in the text`);
-    return events;
-  } catch (error) {
-    console.error('Error parsing text into events:', error);
-    return [];
   }
 }
 

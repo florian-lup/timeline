@@ -1,6 +1,9 @@
 // CommonJS wrapper for running the event pipeline
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { execSync } = require('child_process');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const path = require('path');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const dotenv = require('dotenv');
 
 // Load .env.local file

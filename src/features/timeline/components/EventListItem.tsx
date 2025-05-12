@@ -1,11 +1,13 @@
 'use client';
 
 import { TimelineEntry } from '../types/TimelineEntry';
-import { MdCheck, MdTranslate, MdOutlineInsertPhoto, MdOutlineHeadphones, MdSearch } from 'react-icons/md';
+import { MdCheck, MdTranslate, MdOutlineInsertPhoto, MdOutlineHeadphones, MdSearch, MdOutlineLink } from 'react-icons/md';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { extractDomain, formatUrl } from '../utils/urlHelpers';
 
 interface EventListItemProps {
   entry: TimelineEntry;
@@ -17,6 +19,7 @@ interface EventListItemProps {
  * Uses the creation timestamp from MongoDB ObjectId
  */
 export function EventListItem({ entry }: EventListItemProps) {
+  
   return (
     <Card className="group relative shadow-none border-none bg-transparent">
       <div className="flex">
@@ -30,12 +33,57 @@ export function EventListItem({ entry }: EventListItemProps) {
 
         <div className="flex-1">
           <CardHeader className="pb-0 px-2">
-            {/* Event metadata: creation date, time and location */}
+            {/* Event metadata: creation date */}
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="text-sm">
-                {entry.creationDate} {entry.creationTime}
+              <Badge variant="outline" className="text-sm border-transparent">
+                {entry.creationDate}
               </Badge>
-              <Badge variant="outline" className="text-sm">{entry.location}</Badge>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Badge variant="outline" className="text-sm cursor-pointer hover:bg-accent/50">
+                    {entry.citations?.length || 0} Sources
+                  </Badge>
+                </SheetTrigger>
+                <SheetContent side="right">
+                  <SheetHeader>
+                    <SheetTitle>Sources & Citations</SheetTitle>
+                    <SheetDescription>
+                      References for &ldquo;{entry.headline}&rdquo;
+                    </SheetDescription>
+                  </SheetHeader>
+                  <div className="p-4">
+                    {entry.citations && entry.citations.length > 0 ? (
+                      <ul className="space-y-4">
+                        {entry.citations.map((citation, index) => {
+                          const domain = extractDomain(citation);
+                          const cleanUrl = formatUrl(citation);
+                          
+                          return (
+                            <li key={index} className="text-sm">
+                              <a 
+                                href={cleanUrl}
+                                target="_blank"
+                                rel="noopener noreferrer" 
+                                className="flex flex-col text-foreground hover:bg-accent p-2 rounded-md transition-colors"
+                              >
+                                <div className="flex items-center mb-1">
+                                  <span className="bg-muted text-muted-foreground h-6 w-6 rounded-full flex items-center justify-center mr-2">
+                                    <MdOutlineLink className="h-3.5 w-3.5" />
+                                  </span>
+                                  <span className="text-xs text-muted-foreground">{domain}</span>
+                                </div>
+                                <span className="text-sm break-words mt-1">{cleanUrl}</span>
+                              </a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      <p className="text-muted-foreground text-sm">No sources available.</p>
+                    )}
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
           </CardHeader>
 
@@ -43,7 +91,7 @@ export function EventListItem({ entry }: EventListItemProps) {
             {/* Event content */}
             <div>
               <h3 className="text-lg md:text-xl lg:text-2xl mb-2 md:mb-3">{entry.headline}</h3>
-              <p className="mb-3 md:mb-4 text-sm md:text-base/relaxed">{entry.content}</p>
+              <p className="mb-3 md:mb-4 text-sm md:text-base/relaxed">{entry.summary}</p>
             </div>
           </CardContent>
 

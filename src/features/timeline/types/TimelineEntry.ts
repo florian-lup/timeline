@@ -2,6 +2,7 @@
  * Interface representing a timeline event with all necessary properties
  * to render in the timeline feed
  */
+
 export interface TimelineEntry {
   _id: string;
   location: string;
@@ -11,4 +12,5 @@ export interface TimelineEntry {
   createdAt?: number;
   creationDate?: string;
   creationTime?: string;
+  citations?: string[]; // Array of citation URLs
 }
