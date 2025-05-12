@@ -1,21 +1,22 @@
 import { Pinecone } from '@pinecone-database/pinecone';
 import OpenAI from 'openai';
 import axios from 'axios';
-import { MongoClient } from 'mongodb';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import { stripMarkdown } from '@/utils/textProcessing';
+import clientPromise from '@/lib/mongodb';
+import { successResponse, errorResponse } from '@/utils/apiHelpers';
 
 // API keys and configuration
 const PERPLEXITY_API_KEY = process.env.PERPLEXITY_API_KEY;
 const OPENAI_API = process.env.OPENAI_API || '';
 const PINECONE_API_KEY = process.env.PINECONE_API_KEY || '';
 const PINECONE_INDEX_NAME = process.env.PINECONE_INDEX_NAME || 'events';
-const MONGODB_URI = process.env.MONGODB_URI || '';
 const CRON_SECRET = process.env.CRON_SECRET || '';
 
 // Check for required environment variables
-if (!PERPLEXITY_API_KEY || !OPENAI_API || !PINECONE_API_KEY || !MONGODB_URI) {
+if (!PERPLEXITY_API_KEY || !OPENAI_API || !PINECONE_API_KEY) {
   console.error('Missing required environment variables');
-  console.error('Required: PERPLEXITY_API_KEY, OPENAI_API, PINECONE_API_KEY, MONGODB_URI');
+  console.error('Required: PERPLEXITY_API_KEY, OPENAI_API, PINECONE_API_KEY');
 }
 
 // Initialize clients
@@ -32,24 +33,6 @@ interface EventData {
   event_summary: string;
   citations?: string[];
   embedding?: number[];
-}
-
-// Function to strip markdown formatting (like ** for bold)
-function stripMarkdown(text: string): string {
-  if (!text) return '';
-  
-  // Remove common markdown formatting
-  return text
-    .replace(/\*\*/g, '')         // Bold: **text**
-    .replace(/\*/g, '')           // Italics: *text*
-    .replace(/\_\_/g, '')         // Bold: __text__
-    .replace(/\_/g, '')           // Italics: _text_
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')  // Links: [text](url) -> text
-    .replace(/\[(\d+)\]/g, '')    // Citation references: [5]
-    .replace(/\`\`\`[^`]*\`\`\`/g, '')        // Code blocks: ```code```
-    .replace(/\`([^`]+)\`/g, '$1')            // Inline code: `code`
-    .replace(/\#{1,6}\s?/g, '')               // Headers: # Heading
-    .trim();
 }
 
 // Function to fetch events from Perplexity API
@@ -248,10 +231,8 @@ async function indexEvent(event: EventData): Promise<void> {
 
 // Function to store event in MongoDB
 async function storeEvent(event: EventData): Promise<void> {
-  const client = new MongoClient(MONGODB_URI);
-  
   try {
-    await client.connect();
+    const client = await clientPromise;
     const database = client.db('events');
     const collection = database.collection('global');
     
@@ -265,8 +246,6 @@ async function storeEvent(event: EventData): Promise<void> {
   } catch (error) {
     console.error('Error storing event in MongoDB:', error);
     throw error;
-  } finally {
-    await client.close();
   }
 }
 
@@ -274,7 +253,6 @@ async function storeEvent(event: EventData): Promise<void> {
 async function runEventPipeline() {
   console.log('Starting event pipeline...');
   console.log(`Using API keys: Perplexity (${PERPLEXITY_API_KEY ? '✓' : '✗'}), OpenAI (${OPENAI_API ? '✓' : '✗'}), Pinecone (${PINECONE_API_KEY ? '✓' : '✗'})`);
-  console.log(`Using MongoDB URI: ${MONGODB_URI ? MONGODB_URI.substring(0, 15) + '...' : '✗'}`);
   
   try {
     // Fetch events
@@ -328,20 +306,22 @@ export async function GET(request: NextRequest) {
   if (CRON_SECRET) {
     const authHeader = request.headers.get('authorization');
     if (authHeader !== `Bearer ${CRON_SECRET}`) {
-      return new Response('Unauthorized', {
-        status: 401,
-      });
+      return errorResponse('Unauthorized', 401);
     }
   }
 
   try {
     await runEventPipeline();
-    return NextResponse.json({ success: true, message: 'Event pipeline executed successfully' });
+    return successResponse({ 
+      success: true, 
+      message: 'Event pipeline executed successfully' 
+    });
   } catch (error) {
     console.error('Error executing event pipeline:', error);
-    return NextResponse.json(
-      { success: false, message: 'Failed to execute event pipeline', error: String(error) },
-      { status: 500 }
+    return errorResponse(
+      'Failed to execute event pipeline', 
+      500, 
+      error
     );
   }
 } 

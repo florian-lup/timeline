@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
+import { successResponse, errorResponse } from '@/utils/apiHelpers';
 
 // Get the total view count
 export async function GET() {
@@ -10,15 +10,12 @@ export async function GET() {
     // Get the view count document for the timeline
     const viewData = await db.collection('views').findOne({ pageId: 'timeline' });
     
-    return NextResponse.json({
+    return successResponse({
       count: viewData?.count || 0
     });
   } catch (error) {
     console.error('Error fetching view count:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch view count' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch view count', 500, error);
   }
 }
 
@@ -37,15 +34,12 @@ export async function POST() {
     
     const viewData = await db.collection('views').findOne({ pageId: 'timeline' });
     
-    return NextResponse.json({
+    return successResponse({
       count: viewData?.count || 0,
       updated: result.modifiedCount > 0 || result.upsertedCount > 0
     });
   } catch (error) {
     console.error('Error updating view count:', error);
-    return NextResponse.json(
-      { error: 'Failed to update view count' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to update view count', 500, error);
   }
 } 

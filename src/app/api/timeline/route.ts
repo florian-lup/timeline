@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import clientPromise from '@/lib/mongodb';
 import { NextRequest } from 'next/server';
-import { ObjectId } from 'mongodb';
+import clientPromise from '@/lib/mongodb';
+import { extractTimeFromObjectId } from '@/utils/mongoHelpers';
+import { successResponse, errorResponse } from '@/utils/apiHelpers';
 
 export async function GET(request: NextRequest) {
   try {
@@ -25,53 +25,15 @@ export async function GET(request: NextRequest) {
       .toArray();
     
     // Add creation timestamp from ObjectId
-    const entriesWithCreationTime = timelineEntries.map(entry => {
-      let creationTimestamp = null;
-      let creationDate = null;
-      let creationTime = null;
-      
-      if (entry._id instanceof ObjectId) {
-        const timestamp = entry._id.getTimestamp();
-        creationTimestamp = Math.floor(timestamp.getTime() / 1000);
-        // Format date with month name
-        creationDate = timestamp.toLocaleDateString([], { 
-          month: 'long', 
-          day: 'numeric', 
-          year: 'numeric' 
-        });
-        // Format time without seconds
-        creationTime = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      } else if (typeof entry._id === 'string') {
-        // If _id is a string representation of ObjectId
-        try {
-          // Fix for deprecated constructor: ensure we're passing a valid hex string
-          const objectId = new ObjectId(String(entry._id));
-          const timestamp = objectId.getTimestamp();
-          creationTimestamp = Math.floor(timestamp.getTime() / 1000);
-          // Format date with month name
-          creationDate = timestamp.toLocaleDateString([], { 
-            month: 'long', 
-            day: 'numeric', 
-            year: 'numeric' 
-          });
-          // Format time without seconds
-          creationTime = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        } catch {
-          // Not a valid ObjectId string
-        }
-      }
-      return {
-        ...entry,
-        createdAt: creationTimestamp,
-        creationDate,
-        creationTime
-      };
-    });
+    const entriesWithCreationTime = timelineEntries.map(entry => ({
+      ...entry,
+      ...extractTimeFromObjectId(entry._id)
+    }));
     
     // Get total count for pagination metadata
     const total = await db.collection('global').countDocuments({});
     
-    return NextResponse.json({
+    return successResponse({
       entries: entriesWithCreationTime,
       pagination: {
         total,
@@ -82,9 +44,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error fetching timeline data:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch timeline data' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch timeline data', 500, error);
   }
 } 
