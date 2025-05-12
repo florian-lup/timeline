@@ -1,16 +1,12 @@
 import { Pinecone } from '@pinecone-database/pinecone';
 import OpenAI from 'openai';
 import axios from 'axios';
-import dotenv from 'dotenv';
 import { MongoClient } from 'mongodb';
-
-// Load environment variables from .env.local
-dotenv.config({ path: '.env.local' });
 
 // API keys and configuration
 const PERPLEXITY_API_KEY = process.env.PERPLEXITY_API_KEY;
-const OPENAI_API = process.env.OPENAI_API;
-const PINECONE_API_KEY = process.env.PINECONE_API_KEY;
+const OPENAI_API = process.env.OPENAI_API || '';
+const PINECONE_API_KEY = process.env.PINECONE_API_KEY || '';
 const PINECONE_INDEX_NAME = process.env.PINECONE_INDEX_NAME || 'events';
 const MONGODB_URI = process.env.MONGODB_URI || '';
 
@@ -18,7 +14,6 @@ const MONGODB_URI = process.env.MONGODB_URI || '';
 if (!PERPLEXITY_API_KEY || !OPENAI_API || !PINECONE_API_KEY || !MONGODB_URI) {
   console.error('Missing required environment variables');
   console.error('Required: PERPLEXITY_API_KEY, OPENAI_API, PINECONE_API_KEY, MONGODB_URI');
-  process.exit(1);
 }
 
 // Initialize clients
@@ -273,7 +268,7 @@ async function storeEvent(event: EventData): Promise<void> {
 }
 
 // Main pipeline function
-async function runEventPipeline() {
+export async function runEventPipeline() {
   console.log('Starting event pipeline...');
   console.log(`Using API keys: Perplexity (${PERPLEXITY_API_KEY ? '✓' : '✗'}), OpenAI (${OPENAI_API ? '✓' : '✗'}), Pinecone (${PINECONE_API_KEY ? '✓' : '✗'})`);
   console.log(`Using MongoDB URI: ${MONGODB_URI ? MONGODB_URI.substring(0, 15) + '...' : '✗'}`);
@@ -320,21 +315,6 @@ async function runEventPipeline() {
     }
   } catch (error) {
     console.error('Error in event pipeline:', error);
-    process.exit(1);
+    throw error;
   }
-}
-
-// Run the pipeline if this file is executed directly
-console.log('Checking if this module should run the pipeline...');
-console.log('import.meta.url:', import.meta.url);
-try {
-  console.log('process.argv[1]:', process.argv[1]);
-  console.log('import.meta.resolve(process.argv[1]):', import.meta.resolve(process.argv[1]));
-} catch (error: unknown) {
-  console.log('Error resolving process.argv[1]:', error instanceof Error ? error.message : String(error));
-}
-
-// Always run the pipeline when imported
-runEventPipeline();
-
-export { runEventPipeline }; 
+} 

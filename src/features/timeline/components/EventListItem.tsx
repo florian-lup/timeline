@@ -67,7 +67,7 @@ export function EventListItem({ entry }: EventListItemProps) {
                                 className="flex flex-col text-foreground hover:bg-accent p-2 rounded-md transition-colors"
                               >
                                 <div className="flex items-center mb-1">
-                                  <span className="bg-muted text-muted-foreground h-6 w-6 rounded-full flex items-center justify-center mr-2">
+                                  <span className="bg-foreground/90 text-background h-6 w-6 rounded-full flex items-center justify-center mr-2">
                                     <MdOutlineLink className="h-3.5 w-3.5" />
                                   </span>
                                   <span className="text-xs text-muted-foreground">{domain}</span>
