@@ -5,7 +5,7 @@ import { TypewriterDots } from '@/features/home/components/typewriter-dots';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import { TimelineEntry } from '@/features/timeline/types/TimelineEntry';
-import { Skeleton } from '@/features/timeline/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // Skeleton component for event card
 function EventCardSkeleton() {

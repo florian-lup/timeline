@@ -25,14 +25,14 @@ export function TimelineHeader({
 
   return (
     <Card className="p-0 rounded-full">
-      <CardContent className="p-2">
+      <CardContent className="px-2">
         <div className="flex flex-row flex-wrap items-center gap-2 md:gap-4 lg:gap-6">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button 
-                  variant="default" 
-                  size="sm" 
+                  variant="secondary" 
+                  size="xs" 
                   onClick={handleRefresh}
                   className="p-1"
                 >

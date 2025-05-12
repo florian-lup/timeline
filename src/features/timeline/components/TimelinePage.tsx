@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/header';
 import { useTimelineEntries } from '../hooks/useTimelineEntries';
 import { TimelineHeader } from './TimelineHeader';
 import { usePageViews } from '@/features/analytics/hooks/usePageViews';
-import { Skeleton } from "@/features/timeline/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
 
 /**
