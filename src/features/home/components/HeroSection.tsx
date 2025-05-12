@@ -54,7 +54,7 @@ export function HeroSection() {
         <div className="w-full max-w-md md:max-w-2xl mx-auto px-6 mb-8">
           {/* Event Card */}
           <div className="w-full relative">
-            <div className="bg-card border rounded-lg shadow-sm p-3 md:p-4">
+            <div className="bg-card border rounded-full shadow-sm p-3 md:p-4">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeEventIndex}

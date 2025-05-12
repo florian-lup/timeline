@@ -52,7 +52,7 @@ export function EventListItem({ entry }: EventListItemProps) {
             <div className="flex items-center gap-1 md:gap-2">
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-md">
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
                     <MdSearch className="h-3.5 w-3.5 md:h-4 md:w-4" />
                   </Button>
                 </TooltipTrigger>
@@ -62,7 +62,7 @@ export function EventListItem({ entry }: EventListItemProps) {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-md">
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
                     <MdTranslate className="h-3.5 w-3.5 md:h-4 md:w-4" />
                   </Button>
                 </TooltipTrigger>
@@ -72,7 +72,7 @@ export function EventListItem({ entry }: EventListItemProps) {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-md">
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
                     <MdOutlineInsertPhoto className="h-3.5 w-3.5 md:h-4 md:w-4" />
                   </Button>
                 </TooltipTrigger>
@@ -82,7 +82,7 @@ export function EventListItem({ entry }: EventListItemProps) {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto rounded-md">
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
                     <MdOutlineHeadphones className="h-3.5 w-3.5 md:h-4 md:w-4" />
                   </Button>
                 </TooltipTrigger>
