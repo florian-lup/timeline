@@ -269,8 +269,8 @@ async function storeEvent(event: EventData): Promise<void> {
   }
 }
 
-// Main pipeline function
-export async function runEventPipeline() {
+// Main pipeline function - removing the export keyword
+async function runEventPipeline() {
   console.log('Starting event pipeline...');
   console.log(`Using API keys: Perplexity (${PERPLEXITY_API_KEY ? '✓' : '✗'}), OpenAI (${OPENAI_API ? '✓' : '✗'}), Pinecone (${PINECONE_API_KEY ? '✓' : '✗'})`);
   console.log(`Using MongoDB URI: ${MONGODB_URI ? MONGODB_URI.substring(0, 15) + '...' : '✗'}`);
