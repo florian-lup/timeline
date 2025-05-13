@@ -41,12 +41,19 @@ export async function fetchEvents(): Promise<EventData[]> {
           { 
             role: "user", 
             content: `Research and identify at least 5 or more of the most significant global events happening TODAY ONLY (${isoDate}). Focus on truly impactful events that occurred specifically today. Include a diverse range of topics that matter on a global scale. For each event:
-1. Provide a clear, compelling headline (under 100 characters)
-2. Write a concise summary (approximately 500 characters) that captures the key details and significance
-3. Include events from diverse geographical regions
-4. Prioritize accuracy and factual information from reliable sources
+            1. Provide a clear, compelling headline (under 100 characters)
+            2. Write a concise summary (approximately 500 characters) that captures the key details and significance
+            3. Include at least 5 URLs to reliable sources for each event as citations
+            4. Include events from diverse geographical regions
+            5. Prioritize accuracy and factual information from reliable sources
 
-You MUST return a properly formatted JSON array of events, with each event having event_headline and event_summary fields.`
+            You MUST return a properly formatted JSON array of events, with each event having event_headline, event_summary, and event_citations fields. The event_citations field should be an array of URLs to reliable sources.
+
+            You MUST return at least 5 events.
+
+            You MUST return events from diverse geographical regions.
+            
+            `
           }
         ],
         search_after_date_filter: formattedDate, // Filter for events on current date only
@@ -60,9 +67,13 @@ You MUST return a properly formatted JSON array of events, with each event havin
                 type: "object",
                 properties: {
                   event_headline: { type: "string" },
-                  event_summary: { type: "string" }
+                  event_summary: { type: "string" },
+                  event_citations: { 
+                    type: "array",
+                    items: { type: "string" }
+                  }
                 },
-                required: ["event_headline", "event_summary"]
+                required: ["event_headline", "event_summary", "event_citations"]
               }
             }
           }
@@ -120,7 +131,8 @@ You MUST return a properly formatted JSON array of events, with each event havin
           event && 
           typeof event === 'object' && 
           'event_headline' in event && 
-          'event_summary' in event
+          'event_summary' in event &&
+          'event_citations' in event
         );
         
         if (validEvents.length !== events.length) {
@@ -138,7 +150,8 @@ You MUST return a properly formatted JSON array of events, with each event havin
         return validEvents.map(event => ({
           ...event,
           event_headline: stripMarkdown(event.event_headline),
-          event_summary: stripMarkdown(event.event_summary)
+          event_summary: stripMarkdown(event.event_summary),
+          event_citations: Array.isArray(event.event_citations) ? event.event_citations : []
         }));
       } catch (error) {
         console.error('Error parsing events from response:', error);
@@ -224,9 +237,10 @@ export async function indexEvent(event: EventData): Promise<void> {
   const index = pinecone.index(config.storage.pinecone.indexName);
   
   // Prepare metadata
-  const metadata: Record<string, string | number | boolean> = {
+  const metadata: Record<string, string | number | boolean | string[]> = {
     headline: event.event_headline,
-    summary: event.event_summary
+    summary: event.event_summary,
+    citations: event.event_citations || []
   };
   
   try {
@@ -255,7 +269,8 @@ export async function storeEvent(event: EventData): Promise<void> {
     
     await collection.insertOne({
       headline: event.event_headline,
-      summary: event.event_summary
+      summary: event.event_summary,
+      citations: event.event_citations || []
     });
     
     console.log(`Stored event in MongoDB: ${event.event_headline}`);
