@@ -16,7 +16,6 @@ export interface PerplexityResponse {
       content: string;
     };
   }[];
-  citations?: string[];
 }
 
 /**
