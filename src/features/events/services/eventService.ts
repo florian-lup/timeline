@@ -23,21 +23,29 @@ export async function fetchEvents(): Promise<EventData[]> {
   console.log('Fetching events from Perplexity API...');
   
   const today = new Date();
-  const formattedDate = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+  // Format date as MM/DD/YYYY for Perplexity API date filter
+  const formattedDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+  // Keep ISO format for display in the prompt
+  const isoDate = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
   
   try {
-    // API request with day recency filter
+    // API request with date filter instead of recency filter
     const response = await axios.post<PerplexityResponse>(
       `${config.api.perplexity.baseUrl}/chat/completions`,
       {
-        model: "sonar",
+        model: "sonar-reasoning-pro",
         messages: [
           { 
             role: "user", 
-            content: `What are the major global events happening in the last few hours today (${formattedDate})? Please list the top 5 very recent major global events happening right now. For each event, provide a headline and a summary.`
+            content: `Research and identify at least 5 or more of the most significant global events happening within the last few hours (${isoDate}). Focus on truly impactful events regardless of category or domain. Include a diverse range of topics that matter on a global scale. For each event:
+1. Provide a clear, compelling headline (under 100 characters)
+2. Write a concise summary (approximately 500 characters) that captures the key details and significance
+3. Include events from diverse geographical regions
+4. Prioritize accuracy and factual information from reliable sources`
           }
         ],
-        search_recency_filter: "day", // Most granular option available
+        search_after_date_filter: formattedDate, // Use today's date as the filter
+        search_before_date_filter: formattedDate, // Use today's date as the filter
         response_format: {
           type: "json_schema",
           json_schema: {
@@ -74,7 +82,14 @@ export async function fetchEvents(): Promise<EventData[]> {
       
       try {
         // Parse the JSON response
-        const events: EventData[] = JSON.parse(content);
+        let jsonContent = content;
+        
+        // Extract JSON portion after </think> tag if present
+        if (content.includes('</think>')) {
+          jsonContent = content.split('</think>')[1].trim();
+        }
+        
+        const events: EventData[] = JSON.parse(jsonContent);
         console.log(`Parsed ${events.length} events successfully`);
         
         // Clean markdown formatting from headlines and summaries
