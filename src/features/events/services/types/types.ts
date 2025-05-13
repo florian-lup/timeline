@@ -4,7 +4,6 @@
 export interface EventData {
   event_headline: string;
   event_summary: string;
-  citations?: string[];
   embedding?: number[];
 }
 

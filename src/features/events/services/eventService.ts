@@ -23,29 +23,34 @@ export async function fetchEvents(): Promise<EventData[]> {
   console.log('Fetching events from Perplexity API...');
   
   const today = new Date();
+  
   // Format date as MM/DD/YYYY for Perplexity API date filter
   const formattedDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
   // Keep ISO format for display in the prompt
   const isoDate = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+  
+  console.log(`Using date filters: ${formattedDate} (formatted), ${isoDate} (ISO)`);
   
   try {
     // API request with date filter instead of recency filter
     const response = await axios.post<PerplexityResponse>(
       `${config.api.perplexity.baseUrl}/chat/completions`,
       {
-        model: "sonar-reasoning-pro",
+        model: "sonar-reasoning",
         messages: [
           { 
             role: "user", 
-            content: `Research and identify at least 5 or more of the most significant global events happening within the last few hours (${isoDate}). Focus on truly impactful events regardless of category or domain. Include a diverse range of topics that matter on a global scale. For each event:
+            content: `Research and identify at least 5 or more of the most significant global events happening TODAY ONLY (${isoDate}). Focus on truly impactful events that occurred specifically today. Include a diverse range of topics that matter on a global scale. For each event:
 1. Provide a clear, compelling headline (under 100 characters)
 2. Write a concise summary (approximately 500 characters) that captures the key details and significance
 3. Include events from diverse geographical regions
-4. Prioritize accuracy and factual information from reliable sources`
+4. Prioritize accuracy and factual information from reliable sources
+
+You MUST return a properly formatted JSON array of events, with each event having event_headline and event_summary fields.`
           }
         ],
-        search_after_date_filter: formattedDate, // Use today's date as the filter
-        search_before_date_filter: formattedDate, // Use today's date as the filter
+        search_after_date_filter: formattedDate, // Filter for events on current date only
+        search_before_date_filter: formattedDate, // Filter for events on current date only
         response_format: {
           type: "json_schema",
           json_schema: {
@@ -72,13 +77,13 @@ export async function fetchEvents(): Promise<EventData[]> {
     );
 
     console.log('API response status:', response.status);
+    console.log('Response structure:', JSON.stringify({
+      choices_length: response.data?.choices?.length || 0
+    }));
     
     if (response.data?.choices?.length > 0) {
       const content = response.data.choices[0].message.content;
-      
-      // Extract citations from the response
-      const citations = response.data.citations || [];
-      console.log(`Found ${citations.length} citations in response`);
+      console.log('Content starts with:', content.substring(0, 100) + '...');
       
       try {
         // Parse the JSON response
@@ -86,18 +91,54 @@ export async function fetchEvents(): Promise<EventData[]> {
         
         // Extract JSON portion after </think> tag if present
         if (content.includes('</think>')) {
+          console.log('Found </think> tag, extracting JSON content after it');
           jsonContent = content.split('</think>')[1].trim();
+          console.log('Extracted content starts with:', jsonContent.substring(0, 100) + '...');
         }
         
+        // Check if jsonContent looks like JSON and extract if needed
+        if (!jsonContent.trim().startsWith('[') && !jsonContent.trim().startsWith('{')) {
+          console.log('Content does not appear to be valid JSON, trying to extract JSON portion');
+          // Try to find JSON array in the content
+          const jsonMatch = content.match(/(\[[\s\S]*\])/g) || content.match(/(\{[\s\S]*\})/g);
+          if (jsonMatch) {
+            jsonContent = jsonMatch[0];
+            console.log('Extracted potential JSON content');
+          } else {
+            console.error('Could not find valid JSON in the response');
+            console.log('Full content:', content);
+            return [];
+          }
+        }
+        
+        // Parse JSON content
         const events: EventData[] = JSON.parse(jsonContent);
-        console.log(`Parsed ${events.length} events successfully`);
+        console.log(`Found ${events.length} events in JSON response`);
+        
+        // Validate that events have required properties
+        const validEvents = events.filter(event => 
+          event && 
+          typeof event === 'object' && 
+          'event_headline' in event && 
+          'event_summary' in event
+        );
+        
+        if (validEvents.length !== events.length) {
+          console.warn(`Found ${events.length} events but only ${validEvents.length} have valid properties`);
+        }
+        
+        console.log(`Parsed ${validEvents.length} events successfully`);
+        
+        // Log events
+        validEvents.forEach((event, index) => {
+          console.log(`Event ${index + 1}: "${event.event_headline}"`);
+        });
         
         // Clean markdown formatting from headlines and summaries
-        return events.map(event => ({
+        return validEvents.map(event => ({
           ...event,
           event_headline: stripMarkdown(event.event_headline),
-          event_summary: stripMarkdown(event.event_summary),
-          citations: citations
+          event_summary: stripMarkdown(event.event_summary)
         }));
       } catch (error) {
         console.error('Error parsing events from response:', error);
@@ -105,7 +146,8 @@ export async function fetchEvents(): Promise<EventData[]> {
         return [];
       }
     } else {
-      console.log('No events found in API response');
+      console.log('No choices found in API response');
+      console.log('Response data structure:', JSON.stringify(Object.keys(response.data || {})));
       return [];
     }
   } catch (error) {
@@ -181,16 +223,11 @@ export async function indexEvent(event: EventData): Promise<void> {
   
   const index = pinecone.index(config.storage.pinecone.indexName);
   
-  // Prepare metadata with citations if available
+  // Prepare metadata
   const metadata: Record<string, string | number | boolean> = {
     headline: event.event_headline,
     summary: event.event_summary
   };
-  
-  // Only add citations if they exist
-  if (event.citations?.length) {
-    metadata.citations = JSON.stringify(event.citations);
-  }
   
   try {
     await index.upsert([{
@@ -218,8 +255,7 @@ export async function storeEvent(event: EventData): Promise<void> {
     
     await collection.insertOne({
       headline: event.event_headline,
-      summary: event.event_summary,
-      citations: event.citations || []
+      summary: event.event_summary
     });
     
     console.log(`Stored event in MongoDB: ${event.event_headline}`);
