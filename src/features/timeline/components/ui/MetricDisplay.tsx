@@ -11,7 +11,6 @@ export interface MetricItem {
 
 export interface MetricDisplayProps extends React.HTMLAttributes<HTMLDivElement> {
   metrics: MetricItem[]
-  variant?: "default"
   size?: "xs" | "sm" | "default" | "lg"
   compact?: boolean
 }
@@ -28,7 +27,6 @@ function formatCompactNumber(value: number): string {
 function MetricDisplay({
   className,
   metrics,
-  variant = "default",
   size = "default",
   compact = false,
   ...props

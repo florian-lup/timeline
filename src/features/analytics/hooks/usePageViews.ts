@@ -39,7 +39,6 @@ export function usePageViews() {
     // const intervalId = setInterval(fetchViewCount, 60000); // Refresh every minute
 
     // return () => clearInterval(intervalId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

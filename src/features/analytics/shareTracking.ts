@@ -74,7 +74,7 @@ export const shareContent = async (
         url,
       });
       if (onSuccess) onSuccess();
-    } catch (error) {
+    } catch (_) {
       // User cancelled or share failed
       copyToClipboard(url);
     }
