@@ -28,7 +28,7 @@ export function Header() {
             <Link href="/timeline">
               <Button
                 variant="default" size="sm">
-                Read Timeline
+                Explore Timeline
               </Button>
             </Link>
           )}
