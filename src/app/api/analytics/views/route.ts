@@ -6,10 +6,10 @@ export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db('analytics');
-    
+
     // Get the view count document for the timeline
     const viewData = await db.collection('views').findOne({ pageId: 'timeline' });
-    
+
     return successResponse({
       count: viewData?.count || 0
     });
@@ -24,16 +24,16 @@ export async function POST() {
   try {
     const client = await clientPromise;
     const db = client.db('analytics');
-    
+
     // Update view count using upsert (create if doesn't exist)
     const result = await db.collection('views').updateOne(
       { pageId: 'timeline' },
       { $inc: { count: 1 } },
       { upsert: true }
     );
-    
+
     const viewData = await db.collection('views').findOne({ pageId: 'timeline' });
-    
+
     return successResponse({
       count: viewData?.count || 0,
       updated: result.modifiedCount > 0 || result.upsertedCount > 0

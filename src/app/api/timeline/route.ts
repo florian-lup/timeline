@@ -10,10 +10,10 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '12', 10);
     const page = parseInt(searchParams.get('page') || '1', 10);
     const skip = (page - 1) * limit;
-    
+
     const client = await clientPromise;
     const db = client.db('events');
-    
+
     // Fetch timeline entries from MongoDB collection with pagination
     // Sort by _id which corresponds to creation timestamp in descending order (newest first)
     const timelineEntries = await db
@@ -23,16 +23,16 @@ export async function GET(request: NextRequest) {
       .skip(skip)
       .limit(limit)
       .toArray();
-    
+
     // Add creation timestamp from ObjectId
     const entriesWithCreationTime = timelineEntries.map(entry => ({
       ...entry,
       ...extractTimeFromObjectId(entry._id)
     }));
-    
+
     // Get total count for pagination metadata
     const total = await db.collection('global').countDocuments({});
-    
+
     return successResponse({
       entries: entriesWithCreationTime,
       pagination: {
