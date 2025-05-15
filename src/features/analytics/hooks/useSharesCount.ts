@@ -22,15 +22,9 @@ export function useSharesCount() {
     }
   };
 
-  // Load shares count on initial mount
+  // Load shares count once on initial mount (no polling)
   useEffect(() => {
-    // Initial fetch
     fetchSharesCount();
-
-    // Set up an interval to refresh the count periodically
-    const intervalId = setInterval(fetchSharesCount, 30000); // Refresh every 30 seconds
-
-    return () => clearInterval(intervalId);
   }, []);
 
   return {

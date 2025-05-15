@@ -33,12 +33,9 @@ export function useReactionsCount() {
     }
   };
 
-  // Load reactions count on initial mount
+  // Load reactions count once on initial mount (no polling)
   useEffect(() => {
     fetchReactionsCount();
-    // Refresh every 30 seconds
-    const intervalId = setInterval(fetchReactionsCount, 30000);
-    return () => clearInterval(intervalId);
   }, []);
 
   return {
