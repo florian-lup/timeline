@@ -12,6 +12,7 @@ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover
 import { trackReaction } from '@/features/analytics/reactionTracking';
 import { useState } from 'react';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 
 interface EventListItemProps {
   entry: TimelineEntry;
@@ -138,9 +139,10 @@ export function EventListItem({ entry }: EventListItemProps) {
                 </DrawerHeader>
                 <div data-vaul-no-drag className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
                   {entry.content ? (
-                    <p className="text-sm md:text-base whitespace-pre-wrap leading-relaxed">
-                      {entry.content}
-                    </p>
+                    <MarkdownRenderer
+                      content={entry.content}
+                      className="prose prose-sm md:prose-base dark:prose-invert max-w-none"
+                    />
                   ) : (
                     <p className="text-muted-foreground text-sm">
                       No additional content available.
