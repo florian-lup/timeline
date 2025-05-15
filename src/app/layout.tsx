@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ThemeProviderWrapper } from '@/components/ThemeProvider';
+import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
 // Optimize font loading
@@ -35,13 +36,14 @@ export default function RootLayout({
       <head>
         {/* Preconnect to domains that will be used */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
+
         {/* Add a prefetch strategy hint for browsers */}
         <meta name="next-head-count" content="0" />
       </head>
       <body className={`${inter.variable} antialiased`}>
         <ThemeProviderWrapper>
           {children}
+          <Toaster />
         </ThemeProviderWrapper>
         <Analytics />
         <SpeedInsights />
