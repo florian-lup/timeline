@@ -26,8 +26,8 @@ export function Header() {
         <div className="flex items-center gap-4">
           {!isTimelinePage && (
             <Link href="/timeline">
-              <Button 
-                variant="default" size="xs" className='text-xs'>
+              <Button
+                variant="default" size="sm">
                 Explore Timeline
               </Button>
             </Link>

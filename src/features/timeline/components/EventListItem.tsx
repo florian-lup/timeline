@@ -1,12 +1,13 @@
 'use client';
 
 import { TimelineEntry } from '../types/TimelineEntry';
-import { MdCheck, MdTranslate, MdOutlineInsertPhoto, MdOutlineHeadphones, MdSearch, MdOutlineLink } from 'react-icons/md';
+import { MdCheck, MdTranslate, MdOutlineInsertPhoto, MdOutlineHeadphones, MdSearch, MdOutlineLink, MdOutlineTextSnippet, MdNotes } from 'react-icons/md';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/features/timeline/components/ui/sheet';
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from '@/features/timeline/components/ui/drawer';
 import { extractDomain, formatUrl } from '../utils/urlHelpers';
 
 interface EventListItemProps {
@@ -102,6 +103,38 @@ export function EventListItem({ entry }: EventListItemProps) {
           <CardFooter className="pt-0 px-2">
             {/* Interactive action buttons for the event */}
             <div className="flex items-center gap-1 md:gap-2">
+              <Drawer autoFocus>
+                <Tooltip>
+                  <DrawerTrigger asChild>
+                    <TooltipTrigger asChild>
+                      <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
+                        <MdOutlineTextSnippet className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                  </DrawerTrigger>
+                  <TooltipContent side="top">
+                    Read
+                  </TooltipContent>
+                </Tooltip>
+
+                <DrawerContent>
+                  <DrawerHeader>
+                    <DrawerTitle>{entry.title}</DrawerTitle>
+                    <DrawerDescription>Full content</DrawerDescription>
+                  </DrawerHeader>
+                  <div className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
+                    {entry.content ? (
+                      <p className="text-sm md:text-base whitespace-pre-wrap leading-relaxed">
+                        {entry.content}
+                      </p>
+                    ) : (
+                      <p className="text-muted-foreground text-sm">
+                        No additional content available.
+                      </p>
+                    )}
+                  </div>
+                </DrawerContent>
+              </Drawer>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
