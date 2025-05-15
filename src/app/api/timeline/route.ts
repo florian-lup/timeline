@@ -1,6 +1,5 @@
 import { NextRequest } from 'next/server';
 import clientPromise from '@/lib/mongodb';
-import { extractTimeFromObjectId } from '@/utils/mongoHelpers';
 import { successResponse, errorResponse } from '@/utils/apiHelpers';
 
 export async function GET(request: NextRequest) {
@@ -15,26 +14,23 @@ export async function GET(request: NextRequest) {
     const db = client.db('events');
 
     // Fetch timeline entries from MongoDB collection with pagination
-    // Sort by _id which corresponds to creation timestamp in descending order (newest first)
+    // Sort by the explicit date field in descending order (newest first)
     const timelineEntries = await db
       .collection('global')
       .find({})
-      .sort({ _id: -1 })  // Changed from date: -1 to _id: -1
+      .sort({ date: -1 })
       .skip(skip)
       .limit(limit)
       .toArray();
 
-    // Add creation timestamp from ObjectId
-    const entriesWithCreationTime = timelineEntries.map(entry => ({
-      ...entry,
-      ...extractTimeFromObjectId(entry._id)
-    }));
+    // Entries already contain the date field, no additional processing required
+    const entriesWithDate = timelineEntries;
 
     // Get total count for pagination metadata
     const total = await db.collection('global').countDocuments({});
 
     return successResponse({
-      entries: entriesWithCreationTime,
+      entries: entriesWithDate,
       pagination: {
         total,
         page,

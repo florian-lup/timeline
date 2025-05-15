@@ -19,7 +19,7 @@ interface EventListItemProps {
  * Uses the creation timestamp from MongoDB ObjectId
  */
 export function EventListItem({ entry }: EventListItemProps) {
-  
+
   return (
     <Card className="group relative shadow-none border-none bg-transparent">
       <div className="flex">
@@ -36,34 +36,38 @@ export function EventListItem({ entry }: EventListItemProps) {
             {/* Event metadata: creation date */}
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="text-sm border-transparent">
-                {entry.creationDate}
+                {new Date(entry.date).toLocaleDateString(undefined, {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
               </Badge>
               <Sheet>
                 <SheetTrigger asChild>
                   <Badge variant="outline" className="text-sm cursor-pointer hover:bg-accent/50">
-                    {entry.citations?.length || 0} Sources
+                    {entry.sources?.length || 0} Sources
                   </Badge>
                 </SheetTrigger>
                 <SheetContent side="right">
                   <SheetHeader>
                     <SheetTitle>Sources & Citations</SheetTitle>
                     <SheetDescription>
-                      References for &ldquo;{entry.headline}&rdquo;
+                      References for &ldquo;{entry.title}&rdquo;
                     </SheetDescription>
                   </SheetHeader>
                   <div className="p-4">
-                    {entry.citations && entry.citations.length > 0 ? (
+                    {entry.sources && entry.sources.length > 0 ? (
                       <ul className="space-y-4">
-                        {entry.citations.map((citation, index) => {
-                          const domain = extractDomain(citation);
-                          const cleanUrl = formatUrl(citation);
-                          
+                        {entry.sources.map((source, index) => {
+                          const domain = extractDomain(source);
+                          const cleanUrl = formatUrl(source);
+
                           return (
                             <li key={index} className="text-sm">
-                              <a 
+                              <a
                                 href={cleanUrl}
                                 target="_blank"
-                                rel="noopener noreferrer" 
+                                rel="noopener noreferrer"
                                 className="flex flex-col text-foreground hover:bg-accent p-2 rounded-md transition-colors"
                               >
                                 <div className="flex items-center mb-1">
@@ -90,7 +94,7 @@ export function EventListItem({ entry }: EventListItemProps) {
           <CardContent className="pt-2 md:pt-3 lg:pt-4 px-2">
             {/* Event content */}
             <div>
-              <h3 className="text-lg md:text-xl lg:text-2xl mb-2 md:mb-3">{entry.headline}</h3>
+              <h3 className="text-lg md:text-xl lg:text-2xl mb-2 md:mb-3">{entry.title}</h3>
               <p className="mb-3 md:mb-4 text-sm md:text-base/relaxed">{entry.summary}</p>
             </div>
           </CardContent>

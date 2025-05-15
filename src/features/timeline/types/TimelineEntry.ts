@@ -5,12 +5,8 @@
 
 export interface TimelineEntry {
   _id: string;
-  location: string;
-  headline: string;
+  title: string;
   summary: string;
-  // Creation timestamp fields extracted from ObjectId
-  createdAt?: number;
-  creationDate?: string;
-  creationTime?: string;
-  citations?: string[]; // Array of citation URLs
+  date: string | Date;
+  sources?: string[];
 }
