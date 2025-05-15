@@ -16,15 +16,15 @@ interface EventListProps {
  */
 export function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventListProps) {
   return (
-    <div className="space-y-4 md:space-y-5 lg:space-y-7">
+    <ol className="relative list-none ml-2 md:ml-4 border-l border-muted-foreground/20 space-y-4 md:space-y-5 lg:space-y-7">
       {/* Display events in chronological order (already sorted from the API) */}
       {events.map((entry) => (
         <EventListItem key={entry._id} entry={entry} />
       ))}
-      
+
       {/* Load more button */}
       {hasMore && (
-        <div className="pt-2 md:pt-3 lg:pt-4 pb-4 md:pb-6 lg:pb-8 flex justify-center">
+        <li className="pt-2 md:pt-3 lg:pt-4 pb-4 md:pb-6 lg:pb-8 flex justify-center">
           <Button
             onClick={onLoadMore}
             disabled={isLoadingMore}
@@ -32,8 +32,8 @@ export function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventL
           >
             {isLoadingMore ? 'Loading...' : 'Load More'}
           </Button>
-        </div>
+        </li>
       )}
-    </div>
+    </ol>
   );
 }
