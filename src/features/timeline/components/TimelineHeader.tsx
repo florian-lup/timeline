@@ -1,5 +1,5 @@
 import React from 'react';
-import { MdVisibility, MdHistoryEdu, MdRefresh, MdShare } from 'react-icons/md';
+import { MdVisibility, MdHistoryEdu, MdRefresh, MdShare, MdInsertEmoticon } from 'react-icons/md';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,6 +11,7 @@ import {
 import { MetricDisplay } from '@/features/timeline/components/ui/MetricDisplay';
 import { shareContent } from '@/utils/shareHelper';
 import { useSharesCount } from '@/features/analytics/hooks/useSharesCount';
+import { useReactionsCount } from '@/features/analytics/hooks/useReactionsCount';
 
 interface TimelineHeaderProps {
   views: number;
@@ -22,6 +23,7 @@ export function TimelineHeader({
   entries,
 }: TimelineHeaderProps) {
   const { sharesCount } = useSharesCount();
+  const { reactionsCount } = useReactionsCount();
 
   const handleRefresh = () => {
     window.location.reload();
@@ -97,6 +99,15 @@ export function TimelineHeader({
                   tooltip: (
                     <div className="flex items-center gap-2">
                       <span>Total Timeline Entries</span>
+                    </div>
+                  )
+                },
+                {
+                  icon: <MdInsertEmoticon />,
+                  value: reactionsCount,
+                  tooltip: (
+                    <div className="flex items-center gap-2">
+                      <span>Total Timeline Reactions</span>
                     </div>
                   )
                 }

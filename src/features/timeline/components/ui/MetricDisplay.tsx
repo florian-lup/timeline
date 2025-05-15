@@ -34,7 +34,7 @@ function MetricDisplay({
   const sizeStyles = {
     xs: "h-7 text-xs gap-1 px-2",
     sm: "h-8 text-xs gap-1.5 px-3",
-    default: "h-9 text-sm gap-2 px-4",
+    default: "h-9 text-sm gap-1 px-4",
     lg: "h-10 text-base gap-2 px-6",
   }
 

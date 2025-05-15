@@ -1,7 +1,7 @@
 'use client';
 
 import { TimelineEntry } from '../types/TimelineEntry';
-import { MdCheck, MdTranslate, MdOutlineInsertPhoto, MdOutlineHeadphones, MdSearch, MdOutlineLink, MdOutlineTextSnippet } from 'react-icons/md';
+import { MdCheck, MdTranslate, MdSearch, MdOutlineLink, MdInfoOutline, MdInsertEmoticon } from 'react-icons/md';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,10 @@ import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/features/timeline/components/ui/sheet';
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from '@/features/timeline/components/ui/drawer';
 import { extractDomain, formatUrl } from '../utils/urlHelpers';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { useReactionsCount } from '@/features/analytics/hooks/useReactionsCount';
+import { trackReaction } from '@/features/analytics/reactionTracking';
+import { useState } from 'react';
 
 interface EventListItemProps {
   entry: TimelineEntry;
@@ -20,6 +24,21 @@ interface EventListItemProps {
  * Uses the creation timestamp from MongoDB ObjectId
  */
 export function EventListItem({ entry }: EventListItemProps) {
+
+  // Reactions analytics hook
+  const { refreshReactionsCount } = useReactionsCount();
+  const [reactionsOpen, setReactionsOpen] = useState(false);
+
+  // Available emoji reactions (display purposes only, all aggregated)
+  const emojis = ['👍', '❤️', '😂', '😠', '😮', '😢'];
+
+  // Handle click on an emoji reaction
+  const handleReactionClick = async () => {
+    await trackReaction();
+    // Refresh aggregated count after tracking
+    refreshReactionsCount();
+    setReactionsOpen(false);
+  };
 
   return (
     <Card className="group relative shadow-none border-none bg-transparent">
@@ -108,7 +127,7 @@ export function EventListItem({ entry }: EventListItemProps) {
                   <DrawerTrigger asChild>
                     <TooltipTrigger asChild>
                       <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                        <MdOutlineTextSnippet className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                        <MdInfoOutline className="h-3.5 w-3.5 md:h-4 md:w-4" />
                       </Button>
                     </TooltipTrigger>
                   </DrawerTrigger>
@@ -155,26 +174,35 @@ export function EventListItem({ entry }: EventListItemProps) {
                   Translate
                 </TooltipContent>
               </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                    <MdOutlineInsertPhoto className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="top">
-                  View
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                    <MdOutlineHeadphones className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="top">
-                  Listen
-                </TooltipContent>
-              </Tooltip>
+              {/* Reactions Button */}
+              <Popover open={reactionsOpen} onOpenChange={setReactionsOpen}>
+                <Tooltip>
+                  <PopoverTrigger asChild>
+                    <TooltipTrigger asChild>
+                      <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto relative">
+                        <MdInsertEmoticon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                  </PopoverTrigger>
+                  <TooltipContent side="top">
+                    Reactions
+                  </TooltipContent>
+                </Tooltip>
+
+                <PopoverContent className="p-2 max-w-[95vw] w-fit" align="start">
+                  <div className="grid grid-cols-6 gap-2">
+                    {emojis.map((emoji) => (
+                      <button
+                        key={emoji}
+                        onClick={handleReactionClick}
+                        className="text-xl hover:scale-110 transition-transform cursor-pointer"
+                      >
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           </CardFooter>
         </div>
