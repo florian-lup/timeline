@@ -1,7 +1,7 @@
 'use client';
 
 import { TimelineEntry } from '../types/TimelineEntry';
-import { MdCheck, MdTranslate, MdOutlineInsertPhoto, MdOutlineHeadphones, MdSearch, MdOutlineLink, MdOutlineTextSnippet, MdNotes } from 'react-icons/md';
+import { MdCheck, MdTranslate, MdOutlineInsertPhoto, MdOutlineHeadphones, MdSearch, MdOutlineLink, MdOutlineTextSnippet } from 'react-icons/md';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
