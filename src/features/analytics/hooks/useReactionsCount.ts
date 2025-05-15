@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getReactionsCount, trackReaction } from '@/features/analytics/reactionTracking';
 
-export function useReactionsCount() {
+export function useReactionsCount(skipInitialFetch = false) {
   const [reactionsCount, setReactionsCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,10 +33,12 @@ export function useReactionsCount() {
     }
   };
 
-  // Load reactions count once on initial mount (no polling)
+  // Load reactions count once on initial mount if not skipped
   useEffect(() => {
-    fetchReactionsCount();
-  }, []);
+    if (!skipInitialFetch) {
+      fetchReactionsCount();
+    }
+  }, [skipInitialFetch]);
 
   return {
     reactionsCount,

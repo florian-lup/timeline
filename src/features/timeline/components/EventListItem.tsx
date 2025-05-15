@@ -2,7 +2,6 @@
 
 import { TimelineEntry } from '../types/TimelineEntry';
 import { MdCheck, MdTranslate, MdSearch, MdOutlineLink, MdInfoOutline, MdInsertEmoticon } from 'react-icons/md';
-import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,7 +9,6 @@ import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescri
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from '@/features/timeline/components/ui/drawer';
 import { extractDomain, formatUrl } from '../utils/urlHelpers';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { useReactionsCount } from '@/features/analytics/hooks/useReactionsCount';
 import { trackReaction } from '@/features/analytics/reactionTracking';
 import { useState } from 'react';
 
@@ -25,8 +23,7 @@ interface EventListItemProps {
  */
 export function EventListItem({ entry }: EventListItemProps) {
 
-  // Reactions analytics hook
-  const { refreshReactionsCount } = useReactionsCount();
+  // State for reactions popover
   const [reactionsOpen, setReactionsOpen] = useState(false);
 
   // Available emoji reactions (display purposes only, all aggregated)
@@ -35,8 +32,6 @@ export function EventListItem({ entry }: EventListItemProps) {
   // Handle click on an emoji reaction
   const handleReactionClick = async () => {
     await trackReaction();
-    // Refresh aggregated count after tracking
-    refreshReactionsCount();
     setReactionsOpen(false);
   };
 
@@ -123,18 +118,11 @@ export function EventListItem({ entry }: EventListItemProps) {
             {/* Interactive action buttons for the event */}
             <div className="flex items-center gap-1 md:gap-2">
               <Drawer autoFocus>
-                <Tooltip>
-                  <DrawerTrigger asChild>
-                    <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                        <MdInfoOutline className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                  </DrawerTrigger>
-                  <TooltipContent side="top">
-                    Read
-                  </TooltipContent>
-                </Tooltip>
+                <DrawerTrigger asChild>
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
+                    <MdInfoOutline className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  </Button>
+                </DrawerTrigger>
 
                 <DrawerContent>
                   <DrawerHeader>
@@ -154,40 +142,19 @@ export function EventListItem({ entry }: EventListItemProps) {
                   </div>
                 </DrawerContent>
               </Drawer>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                    <MdSearch className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="top">
-                  Search
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                    <MdTranslate className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="top">
-                  Translate
-                </TooltipContent>
-              </Tooltip>
+              <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
+                <MdSearch className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              </Button>
+              <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
+                <MdTranslate className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              </Button>
               {/* Reactions Button */}
               <Popover open={reactionsOpen} onOpenChange={setReactionsOpen}>
-                <Tooltip>
-                  <PopoverTrigger asChild>
-                    <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto relative">
-                        <MdInsertEmoticon className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                  </PopoverTrigger>
-                  <TooltipContent side="top">
-                    Reactions
-                  </TooltipContent>
-                </Tooltip>
+                <PopoverTrigger asChild>
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto relative">
+                    <MdInsertEmoticon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  </Button>
+                </PopoverTrigger>
 
                 <PopoverContent className="p-2 max-w-[95vw] w-fit" align="start">
                   <div className="grid grid-cols-6 gap-2">
