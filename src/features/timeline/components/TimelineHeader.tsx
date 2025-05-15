@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { MetricDisplay } from '@/features/timeline/components/ui/MetricDisplay';
-import { shareContent } from '@/features/analytics/shareTracking';
+import { shareContent } from '@/utils/shareHelper';
 import { useSharesCount } from '@/features/analytics/hooks/useSharesCount';
 
 interface TimelineHeaderProps {

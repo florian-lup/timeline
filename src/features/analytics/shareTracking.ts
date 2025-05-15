@@ -1,5 +1,3 @@
-import { toast } from "sonner";
-
 /**
  * Tracks a share in the analytics database
  * Returns a Promise that resolves after the database update
@@ -42,61 +40,4 @@ export const getSharesCount = async (): Promise<number> => {
     console.error('Failed to fetch shares count:', err);
     return 0;
   }
-};
-
-/**
- * Shares content using Web Share API if available, falls back to clipboard copy
- * Also tracks the share in analytics
- */
-export const shareContent = async (
-  options: {
-    title?: string;
-    text?: string;
-    url?: string;
-    onSuccess?: () => void;
-  } = {}
-) => {
-  const {
-    title = 'Timeline',
-    text = 'Check out this timeline!',
-    url = window.location.href,
-    onSuccess
-  } = options;
-
-  // Track the share attempt
-  await trackShare();
-
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title,
-        text,
-        url,
-      });
-      if (onSuccess) onSuccess();
-    } catch {
-      // User cancelled or share failed
-      copyToClipboard(url);
-    }
-  } else {
-    copyToClipboard(url);
-  }
-};
-
-/**
- * Copies text to clipboard and shows a toast notification
- */
-export const copyToClipboard = (text: string) => {
-  navigator.clipboard.writeText(text)
-    .then(() => {
-      toast("Link copied", {
-        description: "Timeline link copied to clipboard",
-      });
-    })
-    .catch((err) => {
-      console.error('Failed to copy: ', err);
-      toast("Copy failed", {
-        description: "Could not copy to clipboard",
-      });
-    });
 }; 
