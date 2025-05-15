@@ -11,6 +11,7 @@ import { extractDomain, formatUrl } from '../utils/urlHelpers';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { trackReaction } from '@/features/analytics/reactionTracking';
 import { useState } from 'react';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 
 interface EventListItemProps {
   entry: TimelineEntry;
@@ -118,18 +119,23 @@ export function EventListItem({ entry }: EventListItemProps) {
             {/* Interactive action buttons for the event */}
             <div className="flex items-center gap-1 md:gap-2">
               <Drawer autoFocus>
-                <DrawerTrigger asChild>
-                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                    <MdInfoOutline className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                  </Button>
-                </DrawerTrigger>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <DrawerTrigger asChild>
+                      <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
+                        <MdInfoOutline className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                      </Button>
+                    </DrawerTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent side="top">Read</TooltipContent>
+                </Tooltip>
 
                 <DrawerContent>
                   <DrawerHeader>
                     <DrawerTitle>{entry.title}</DrawerTitle>
                     <DrawerDescription>Full content</DrawerDescription>
                   </DrawerHeader>
-                  <div className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
+                  <div data-vaul-no-drag className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
                     {entry.content ? (
                       <p className="text-sm md:text-base whitespace-pre-wrap leading-relaxed">
                         {entry.content}
@@ -142,19 +148,33 @@ export function EventListItem({ entry }: EventListItemProps) {
                   </div>
                 </DrawerContent>
               </Drawer>
-              <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                <MdSearch className="h-3.5 w-3.5 md:h-4 md:w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                <MdTranslate className="h-3.5 w-3.5 md:h-4 md:w-4" />
-              </Button>
-              {/* Reactions Button */}
-              <Popover open={reactionsOpen} onOpenChange={setReactionsOpen}>
-                <PopoverTrigger asChild>
-                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto relative">
-                    <MdInsertEmoticon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
+                    <MdSearch className="h-3.5 w-3.5 md:h-4 md:w-4" />
                   </Button>
-                </PopoverTrigger>
+                </TooltipTrigger>
+                <TooltipContent side="top">Search</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
+                    <MdTranslate className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top">Translate</TooltipContent>
+              </Tooltip>
+              <Popover open={reactionsOpen} onOpenChange={setReactionsOpen}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto relative">
+                        <MdInsertEmoticon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent side="top">React</TooltipContent>
+                </Tooltip>
 
                 <PopoverContent className="p-2 max-w-[95vw] w-fit" align="start">
                   <div className="grid grid-cols-6 gap-2">
