@@ -16,7 +16,7 @@ interface EventListProps {
  */
 export function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventListProps) {
   return (
-    <ol className="relative list-none ml-2 md:ml-4 border-l border-muted-foreground/20 space-y-4 md:space-y-5 lg:space-y-7">
+    <ol className="relative list-none ml-4 md:ml-6 ">
       {/* Display events in chronological order (already sorted from the API) */}
       {events.map((entry) => (
         <EventListItem key={entry._id} entry={entry} />

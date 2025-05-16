@@ -39,30 +39,32 @@ export function EventListItem({ entry }: EventListItemProps) {
 
   return (
     // Each timeline entry is a list item. The parent <ol> owns the vertical rule (border-l).
-    <li className="relative pl-6">
+    <li className="relative pl-6 border-l border-muted-foreground/20 my-16">
+      {/* Timeline bullet with checkmark */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span className="absolute -left-3 top-0 h-6 w-6 rounded-full bg-accent-blue flex items-center justify-center cursor-default">
+            <MdCheck className="h-3 w-3 text-white" />
+          </span>
+        </TooltipTrigger>
+        <TooltipContent side="top">Verified</TooltipContent>
+      </Tooltip>
+
       {/* Event card */}
-      <Card className="group bg-background shadow-none border-none gap-3">
-        <CardHeader className="pb-0 px-2">
+      <Card className="group bg-background shadow-none border-none gap-3 py-0">
+        <CardHeader className="px-2">
           {/* Event metadata: creation date */}
-          <div className="flex items-center gap-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="h-6 w-6 rounded-full bg-accent-blue flex items-center justify-center cursor-default">
-                  <MdCheck className="h-3 w-3 text-white" />
-                </span>
-              </TooltipTrigger>
-              <TooltipContent side="top">Verified</TooltipContent>
-            </Tooltip>
-            <Badge variant="outline" className="text-sm border-transparent">
+          <div className="flex items-center gap-4">
+            <span className="text-sm">
               {new Date(entry.date).toLocaleDateString(undefined, {
                 month: 'long',
                 day: 'numeric',
                 year: 'numeric',
               })}
-            </Badge>
+            </span>
             <Sheet>
               <SheetTrigger asChild>
-                <Badge variant="outline" className="text-sm cursor-pointer hover:bg-accent/50">
+                <Badge variant="outline" className="text-sm cursor-pointer hover:bg-accent/50 text-muted-foreground">
                   {entry.sources?.length || 0} Sources
                 </Badge>
               </SheetTrigger>
@@ -113,7 +115,7 @@ export function EventListItem({ entry }: EventListItemProps) {
           {/* Event content */}
           <div>
             <h3 className="text-lg md:text-xl lg:text-2xl mb-2 md:mb-3">{entry.title}</h3>
-            <p className="mb-3 md:mb-4 text-sm md:text-base/relaxed">{entry.summary}</p>
+            <p className="mb-2 md:mb-3 text-sm md:text-base/relaxed">{entry.summary}</p>
           </div>
         </CardContent>
 
