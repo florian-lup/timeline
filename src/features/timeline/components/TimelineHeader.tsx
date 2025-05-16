@@ -1,5 +1,5 @@
 import React from 'react';
-import { MdVisibility, MdHistoryEdu, MdRefresh, MdShare, MdInsertEmoticon } from 'react-icons/md';
+import { Eye, History, RefreshCcw, Share as ShareIcon, Smile } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
@@ -46,7 +46,7 @@ export function TimelineHeader({
                     size="xs"
                     onClick={handleRefresh}
                   >
-                    <MdRefresh />
+                    <RefreshCcw />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -61,7 +61,7 @@ export function TimelineHeader({
                     size="xs"
                     onClick={handleShare}
                   >
-                    <MdShare />
+                    <ShareIcon />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -76,7 +76,7 @@ export function TimelineHeader({
             <MetricDisplay
               metrics={[
                 {
-                  icon: <MdVisibility />,
+                  icon: <Eye />,
                   value: views,
                   tooltip: (
                     <div className="flex items-center gap-2">
@@ -85,7 +85,7 @@ export function TimelineHeader({
                   )
                 },
                 {
-                  icon: <MdShare />,
+                  icon: <ShareIcon />,
                   value: sharesCount,
                   tooltip: (
                     <div className="flex items-center gap-2">
@@ -94,7 +94,7 @@ export function TimelineHeader({
                   )
                 },
                 {
-                  icon: <MdHistoryEdu />,
+                  icon: <History />,
                   value: entries,
                   tooltip: (
                     <div className="flex items-center gap-2">
@@ -103,7 +103,7 @@ export function TimelineHeader({
                   )
                 },
                 {
-                  icon: <MdInsertEmoticon />,
+                  icon: <Smile />,
                   value: reactionsCount,
                   tooltip: (
                     <div className="flex items-center gap-2">
