@@ -39,11 +39,19 @@ export function EventListItem({ entry }: EventListItemProps) {
 
   return (
     // Each timeline entry is a list item. The parent <ol> owns the vertical rule (border-l).
-    <li className="relative pl-6 border-l border-muted-foreground/20 my-16">
+    <li
+      className="
+        relative pl-8 my-16
+        before:absolute before:left-0 before:top-1
+        before:bottom-0 before:w-px
+        before:bg-muted-foreground/20
+        before:content-['']
+      "
+    >
       {/* Timeline bullet with checkmark */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="absolute -left-3 top-0 h-6 w-6 rounded-full bg-accent-blue flex items-center justify-center cursor-default">
+          <span className="absolute -left-3 top-1 h-6 w-6 rounded-full bg-accent-blue flex items-center justify-center cursor-default">
             <Check className="h-3 w-3 text-white" />
           </span>
         </TooltipTrigger>
@@ -119,7 +127,7 @@ export function EventListItem({ entry }: EventListItemProps) {
           </div>
         </CardContent>
 
-        <CardFooter className="pt-0 px-2">
+        <CardFooter className="pt-0 px-0">
           {/* Interactive action buttons for the event */}
           <div className="flex items-center gap-1 md:gap-2">
             <Drawer>
