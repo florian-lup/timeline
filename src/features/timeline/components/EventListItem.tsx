@@ -130,7 +130,7 @@ export function EventListItem({ entry }: EventListItemProps) {
         <CardFooter className="pt-0 px-0">
           {/* Interactive action buttons for the event */}
           <div className="flex items-center gap-1 md:gap-2">
-            <Drawer>
+            <Drawer modal={true}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <DrawerTrigger asChild>
