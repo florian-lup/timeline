@@ -130,7 +130,7 @@ export function EventListItem({ entry }: EventListItemProps) {
         <CardFooter className="pt-0 px-0">
           {/* Interactive action buttons for the event */}
           <div className="flex items-center gap-1 md:gap-2">
-            <Drawer modal={true}>
+            <Drawer>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <DrawerTrigger asChild>
@@ -147,7 +147,7 @@ export function EventListItem({ entry }: EventListItemProps) {
                   <DrawerTitle>{entry.title}</DrawerTitle>
                   <DrawerDescription>Full content</DrawerDescription>
                 </DrawerHeader>
-                <div data-vaul-no-drag className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
+                <div className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
                   {entry.content ? (
                     <MarkdownRenderer
                       content={entry.content}
