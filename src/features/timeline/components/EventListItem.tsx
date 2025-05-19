@@ -145,12 +145,12 @@ export function EventListItem({ entry }: EventListItemProps) {
               <DrawerContent>
                 <DrawerHeader>
                   <DrawerTitle>{entry.title}</DrawerTitle>
-                  <DrawerDescription>Full content</DrawerDescription>
+                  <DrawerDescription>Full report</DrawerDescription>
                 </DrawerHeader>
                 <div className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
-                  {entry.content ? (
+                  {entry.report ? (
                     <MarkdownRenderer
-                      content={entry.content}
+                      content={entry.report}
                       className="prose prose-sm md:prose-base dark:prose-invert max-w-none"
                     />
                   ) : (
