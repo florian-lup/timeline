@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const timelineEntries = await db
       .collection('global')
       .find({})
-      .sort({ date: -1 })
+      .sort({ date: -1, _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray();
