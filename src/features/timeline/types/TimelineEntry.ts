@@ -9,5 +9,5 @@ export interface TimelineEntry {
   summary: string;
   date: string | Date;
   sources?: string[];
-  report?: string;
+  research?: string;
 }

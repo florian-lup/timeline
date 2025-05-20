@@ -13,6 +13,7 @@ import { trackReaction } from '@/features/analytics/reactionTracking';
 import { useState } from 'react';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
+import { formatEventDate } from '@/utils/dateFormatters';
 
 interface EventListItemProps {
   entry: TimelineEntry;
@@ -21,7 +22,6 @@ interface EventListItemProps {
 /**
  * EventListItem component renders a single timeline entry
  * Displays event metadata, content, and interactive buttons
- * Uses the creation timestamp from MongoDB ObjectId
  */
 export function EventListItem({ entry }: EventListItemProps) {
 
@@ -64,11 +64,7 @@ export function EventListItem({ entry }: EventListItemProps) {
           {/* Event metadata: creation date */}
           <div className="flex items-center gap-4">
             <span className="text-sm">
-              {new Date(entry.date).toLocaleDateString(undefined, {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
+              {formatEventDate(entry.date)}
             </span>
             <Sheet>
               <SheetTrigger asChild>
@@ -145,12 +141,12 @@ export function EventListItem({ entry }: EventListItemProps) {
               <DrawerContent>
                 <DrawerHeader>
                   <DrawerTitle>{entry.title}</DrawerTitle>
-                  <DrawerDescription>Full report</DrawerDescription>
+                  <DrawerDescription>Full research</DrawerDescription>
                 </DrawerHeader>
                 <div className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
-                  {entry.report ? (
+                  {entry.research ? (
                     <MarkdownRenderer
-                      content={entry.report}
+                      content={entry.research}
                       className="prose prose-sm md:prose-base dark:prose-invert max-w-none"
                     />
                   ) : (

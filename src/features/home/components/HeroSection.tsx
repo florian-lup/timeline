@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import { TimelineEntry } from '@/features/timeline/types/TimelineEntry';
 import { Skeleton } from '@/components/ui/skeleton';
+import { formatEventDate } from '@/utils/dateFormatters';
 
 // Skeleton component for event card
 function EventCardSkeleton() {
@@ -127,11 +128,7 @@ export function HeroSection() {
                         {recentEvents[activeEventIndex].title}
                       </p>
                       <Badge variant="outline" className="ml-2 text-xs font-medium">
-                        {new Date(recentEvents[activeEventIndex].date).toLocaleDateString(undefined, {
-                          month: 'long',
-                          day: 'numeric',
-                          year: 'numeric',
-                        })}
+                        {formatEventDate(recentEvents[activeEventIndex].date)}
                       </Badge>
                     </div>
                   </motion.div>
