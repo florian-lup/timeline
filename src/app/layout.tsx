@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProviderWrapper } from '@/components/ThemeProvider';
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
@@ -15,14 +15,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Timeline',
-  description: 'Powered by AI, the platform captures global events as they unfold, seamlessly weaving them into a continuous, evolving narrative.',
+  description:
+    'Powered by AI, the platform captures global events as they unfold, seamlessly weaving them into a continuous, evolving narrative.',
   icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-    ],
-    apple: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-    ],
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+    apple: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
   },
 };
 

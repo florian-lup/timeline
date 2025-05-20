@@ -35,7 +35,7 @@ MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/events?retryWrites
 2. Create a database named `events`
 3. Create the following collections:
    - `global`  (stores timeline entries)
-   - `views`   (stores analytics data)
+   - `views`  (stores analytics data)
 4. Update your `.env.local` file with the connection string
 
 ### Installation and Development

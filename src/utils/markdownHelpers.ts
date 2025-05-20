@@ -13,4 +13,4 @@ export function normalizeMarkdown(md: string): string {
   cleaned = cleaned.replace(/([^\n])\n(\s*(?:[-*+]|\d+\. )\s?)/g, '$1\n\n$2');
 
   return cleaned;
-} 
+}

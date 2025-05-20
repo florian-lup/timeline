@@ -17,9 +17,6 @@ export function successResponse<T>(data: T, status = 200) {
  */
 export function errorResponse(message: string, status = 500, error?: unknown) {
   console.error(`API Error (${status}): ${message}`, error);
-  
-  return NextResponse.json(
-    { success: false, error: message },
-    { status }
-  );
-} 
+
+  return NextResponse.json({ success: false, error: message }, { status });
+}

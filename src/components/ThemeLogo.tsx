@@ -21,7 +21,7 @@ export function ThemeLogo({ width = 24, height = 24, className = '' }: ThemeLogo
 
   // Use resolvedTheme to also handle system preference
   const currentTheme = theme === 'system' ? resolvedTheme : theme;
-  
+
   if (!mounted) {
     // Return a placeholder to avoid layout shift
     return <div style={{ width, height }} className={className} />;
@@ -30,12 +30,6 @@ export function ThemeLogo({ width = 24, height = 24, className = '' }: ThemeLogo
   const logoSrc = currentTheme === 'dark' ? '/logo-dark.svg' : '/logo-light.svg';
 
   return (
-    <Image 
-      src={logoSrc} 
-      alt="Timeline Logo" 
-      width={width} 
-      height={height} 
-      className={className} 
-    />
+    <Image src={logoSrc} alt="Timeline Logo" width={width} height={height} className={className} />
   );
-} 
+}

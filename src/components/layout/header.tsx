@@ -19,15 +19,18 @@ export function Header() {
           className="flex items-center justify-center gap-1 md:gap-2 font-medium text-sm md:text-base lg:text-lg"
         >
           <div className="flex items-center justify-center h-8 md:h-9 lg:h-10">
-            <ThemeLogo width={24} height={24} className="rounded-full md:w-[28px] md:h-[28px] lg:w-[32px] lg:h-[32px]" />
+            <ThemeLogo
+              width={24}
+              height={24}
+              className="rounded-full md:w-[28px] md:h-[28px] lg:w-[32px] lg:h-[32px]"
+            />
           </div>
           <span className="flex items-center">Timeline</span>
         </Link>
         <div className="flex items-center gap-4">
           {!isTimelinePage && (
             <Link href="/timeline">
-              <Button
-                variant="default" size="sm">
+              <Button variant="default" size="sm">
                 Explore Timeline
               </Button>
             </Link>

@@ -1,5 +1,5 @@
-import { toast } from "sonner";
-import { trackShare } from "../features/analytics/shareTracking";
+import { toast } from 'sonner';
+import { trackShare } from '@/services/analytics/shareTracking';
 
 /**
  * Shares content using Web Share API if available, falls back to clipboard copy
@@ -11,13 +11,13 @@ export const shareContent = async (
     text?: string;
     url?: string;
     onSuccess?: () => void;
-  } = {}
+  } = {},
 ) => {
   const {
     title = 'Timeline',
     text = 'Check out this timeline!',
     url = window.location.href,
-    onSuccess
+    onSuccess,
   } = options;
 
   // Track the share attempt
@@ -50,16 +50,17 @@ export const shareContent = async (
  * Copies text to clipboard and shows a toast notification
  */
 export const copyToClipboard = (text: string) => {
-  navigator.clipboard.writeText(text)
+  navigator.clipboard
+    .writeText(text)
     .then(() => {
-      toast("Link copied", {
-        description: "Timeline link copied to clipboard",
+      toast('Link copied', {
+        description: 'Timeline link copied to clipboard',
       });
     })
     .catch((err) => {
       console.error('Failed to copy: ', err);
-      toast("Copy failed", {
-        description: "Could not copy to clipboard",
+      toast('Copy failed', {
+        description: 'Could not copy to clipboard',
       });
     });
-}; 
+};

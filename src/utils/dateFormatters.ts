@@ -9,4 +9,4 @@ export function formatEventDate(date: string | Date): string {
     month: 'long',
     year: 'numeric',
   });
-} 
+}
