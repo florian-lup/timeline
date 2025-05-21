@@ -6,8 +6,8 @@ import { getMetric, incrementMetric } from '@/services/analytics/metricsDb';
 /**
  * Retrieves metric value
  */
-export async function GET(_req: NextRequest, { params }: { params: { metric: string } }) {
-  const { metric } = params;
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ metric: string }> }) {
+  const { metric } = await params;
 
   if (!isMetric(metric)) {
     return errorResponse('Unknown metric', 400);
@@ -24,8 +24,8 @@ export async function GET(_req: NextRequest, { params }: { params: { metric: str
 /**
  * Increments metric value
  */
-export async function POST(_req: NextRequest, { params }: { params: { metric: string } }) {
-  const { metric } = params;
+export async function POST(_req: NextRequest, { params }: { params: Promise<{ metric: string }> }) {
+  const { metric } = await params;
 
   if (!isMetric(metric)) {
     return errorResponse('Unknown metric', 400);
