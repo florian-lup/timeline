@@ -5,21 +5,18 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { MetricDisplay } from './MetricDisplay';
 import { shareContent } from '@/utils/shareHelper';
-import { useSharesCount } from '@/hooks/analytics/useSharesCount';
-import { useReactionsCount } from '@/hooks/analytics/useReactionsCount';
 
 interface TimelineHeaderProps {
   views: number;
+  shares: number;
+  reactions: number;
   entries: number;
 }
 
 /**
  * Header with analytics metrics and action buttons
  */
-export function TimelineHeader({ views, entries }: TimelineHeaderProps) {
-  const { sharesCount } = useSharesCount();
-  const { reactionsCount } = useReactionsCount();
-
+export function TimelineHeader({ views, shares, reactions, entries }: TimelineHeaderProps) {
   const handleRefresh = () => {
     window.location.reload();
   };
@@ -73,7 +70,7 @@ export function TimelineHeader({ views, entries }: TimelineHeaderProps) {
                 },
                 {
                   icon: <ShareIcon />,
-                  value: sharesCount,
+                  value: shares,
                   tooltip: (
                     <div className="flex items-center gap-2">
                       <span>Total Timeline Shares</span>
@@ -91,7 +88,7 @@ export function TimelineHeader({ views, entries }: TimelineHeaderProps) {
                 },
                 {
                   icon: <Smile />,
-                  value: reactionsCount,
+                  value: reactions,
                   tooltip: (
                     <div className="flex items-center gap-2">
                       <span>Total Timeline Reactions</span>

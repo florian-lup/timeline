@@ -4,18 +4,28 @@ import { EventList } from './EventList';
 import { Header } from '@/components/layout/header';
 import { useArticles } from '@/hooks/events/useArticles';
 import { TimelineHeader } from './TimelineHeader';
-import { usePageViews } from '@/hooks/analytics/usePageViews';
+import { useMetrics } from '@/hooks/analytics/useMetrics';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
+import { trackPageView } from '@/services/analytics/viewTracking';
+import { useEffect } from 'react';
 
 /**
  * Main timeline page with events feed and analytics
  */
 export function Timeline() {
-  const { entries, isLoading, isLoadingMore, error, loadMore, hasMore, pagination } =
-    useArticles();
+  const { entries, isLoading, isLoadingMore, error, loadMore, hasMore } = useArticles();
 
-  const { viewCount } = usePageViews();
+  const { views, shares, reactions, entries: totalEntries } = useMetrics();
+
+  // Track page view once on mount (write-only, no immediate refresh)
+  useEffect(() => {
+    const registerView = async () => {
+      await trackPageView();
+    };
+
+    registerView();
+  }, []);
 
   /**
    * Skeleton card for loading state
@@ -59,7 +69,12 @@ export function Timeline() {
           {/* Metrics Panel */}
           {!isLoading && (
             <div className="mb-4 md:mb-5 lg:mb-6">
-              <TimelineHeader views={viewCount} entries={pagination?.total || 0} />
+              <TimelineHeader
+                views={views}
+                shares={shares}
+                reactions={reactions}
+                entries={totalEntries}
+              />
             </div>
           )}
 

@@ -1,7 +1,7 @@
 /**
  * Constants and type guards for analytics metrics
  */
-export const ALLOWED_METRICS = ['views', 'shares', 'reactions'] as const;
+export const ALLOWED_METRICS = ['views', 'shares', 'reactions', 'entries'] as const;
 export type Metric = (typeof ALLOWED_METRICS)[number];
 
 export function isMetric(str: string): str is Metric {
