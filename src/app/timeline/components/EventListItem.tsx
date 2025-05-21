@@ -80,7 +80,7 @@ export function EventListItem({ entry }: EventListItemProps) {
               <SheetTrigger asChild>
                 <Badge
                   variant="outline"
-                  className="text-sm cursor-pointer hover:bg-accent/50 text-muted-foreground"
+                  className="cursor-pointer hover:bg-accent/50"
                 >
                   {entry.sources?.length || 0} Sources
                 </Badge>
