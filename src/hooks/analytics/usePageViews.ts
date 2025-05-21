@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { trackPageView, getViewCount } from '@/services/analytics/viewTracking';
 
+/**
+ * Hook for tracking and retrieving page view counts
+ */
 export function usePageViews() {
   const [viewCount, setViewCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to fetch the current view count
+  // Fetch current view count
   const fetchViewCount = async () => {
     try {
       setLoading(true);
@@ -22,14 +25,10 @@ export function usePageViews() {
     }
   };
 
-  // Load view count on initial mount and track the view
+  // Track view and load count on mount
   useEffect(() => {
-    // Track the page view and then fetch the updated count
     const initializeTracking = async () => {
-      // First track the view
       await trackPageView();
-
-      // Then fetch the updated count
       await fetchViewCount();
     };
 

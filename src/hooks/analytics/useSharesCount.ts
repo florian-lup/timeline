@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { getSharesCount } from '@/services/analytics/shareTracking';
 
+/**
+ * Hook for retrieving shares count
+ */
 export function useSharesCount() {
   const [sharesCount, setSharesCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to fetch the current shares count
+  // Fetch current shares count
   const fetchSharesCount = async () => {
     try {
       setLoading(true);
@@ -22,7 +25,7 @@ export function useSharesCount() {
     }
   };
 
-  // Load shares count once on initial mount (no polling)
+  // Fetch count on mount
   useEffect(() => {
     fetchSharesCount();
   }, []);

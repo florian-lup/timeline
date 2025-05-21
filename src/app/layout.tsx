@@ -6,11 +6,11 @@ import { ThemeProviderWrapper } from '@/components/ThemeProvider';
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
-// Optimize font loading
+// Load Inter font with optimization
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
-  display: 'swap', // Ensure text remains visible during font loading
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -31,10 +31,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preconnect to domains that will be used */}
+        {/* Preconnect to external resources */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
-        {/* Add a prefetch strategy hint for browsers */}
+        {/* Browser prefetch hint */}
         <meta name="next-head-count" content="0" />
       </head>
       <body className={`${inter.variable} antialiased`}>

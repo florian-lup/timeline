@@ -4,7 +4,7 @@ import { isMetric, Metric } from '@/types/analytics/metrics';
 import { getMetric, incrementMetric } from '@/services/analytics/metricsDb';
 
 /**
- * GET /api/analytics/[metric]
+ * Retrieves metric value
  */
 export async function GET(_req: NextRequest, { params }: { params: { metric: string } }) {
   const { metric } = params;
@@ -22,7 +22,7 @@ export async function GET(_req: NextRequest, { params }: { params: { metric: str
 }
 
 /**
- * POST /api/analytics/[metric]
+ * Increments metric value
  */
 export async function POST(_req: NextRequest, { params }: { params: { metric: string } }) {
   const { metric } = params;

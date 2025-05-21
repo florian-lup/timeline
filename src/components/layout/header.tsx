@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
 /**
- * Header component for the timeline page with navigation and theme toggle
+ * Main navigation header with logo and theme toggle
  */
 export function Header() {
   const pathname = usePathname();

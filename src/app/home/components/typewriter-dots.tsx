@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 
+/**
+ * Animated ellipsis effect for text
+ */
 export function TypewriterDots() {
   const [dots, setDots] = useState('');
 

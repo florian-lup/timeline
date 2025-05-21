@@ -8,10 +8,7 @@ interface MarkdownRendererProps {
 }
 
 /**
- * MarkdownRenderer converts a markdown string into React elements.
- *
- * It leverages `react-markdown` with the GitHub Flavored Markdown (GFM)
- * plugin for tables, strikethrough, task lists, etc.
+ * Renders markdown content with GitHub-flavored styling
  */
 export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
   if (!content) return null;

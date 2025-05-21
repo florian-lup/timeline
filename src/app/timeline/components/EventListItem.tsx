@@ -1,6 +1,6 @@
 'use client';
 
-import { TimelineEntry } from '@/types/timeline/TimelineEntry';
+import { ArticlesData } from '@/types/events/articles';
 import { Check, Languages, Search, Link as LinkIcon, FileText, Smile } from 'lucide-react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -30,12 +30,11 @@ import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { formatEventDate } from '@/utils/dateFormatters';
 
 interface EventListItemProps {
-  entry: TimelineEntry;
+  entry: ArticlesData;
 }
 
 /**
- * EventListItem component renders a single timeline entry
- * Displays event metadata, content, and interactive buttons
+ * Single timeline entry with metadata, content and interactive elements
  */
 export function EventListItem({ entry }: EventListItemProps) {
   // State for reactions popover

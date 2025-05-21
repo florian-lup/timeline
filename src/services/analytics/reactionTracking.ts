@@ -1,3 +1,6 @@
+/**
+ * Tracks timeline reaction event
+ */
 export const trackReaction = async (): Promise<boolean> => {
   try {
     const response = await fetch('/api/analytics/reactions', {
@@ -19,6 +22,9 @@ export const trackReaction = async (): Promise<boolean> => {
   }
 };
 
+/**
+ * Retrieves current reaction count
+ */
 export const getReactionsCount = async (): Promise<number> => {
   try {
     const response = await fetch('/api/analytics/reactions');

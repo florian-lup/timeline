@@ -1,5 +1,5 @@
 /**
- * Shared constant + type-guard for analytics metrics.
+ * Constants and type guards for analytics metrics
  */
 export const ALLOWED_METRICS = ['views', 'shares', 'reactions'] as const;
 export type Metric = (typeof ALLOWED_METRICS)[number];

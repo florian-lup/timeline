@@ -1,7 +1,5 @@
 /**
- * Tracks a page view in the analytics database
- * Includes session storage check to prevent duplicate counts
- * Returns a Promise that resolves after the database update
+ * Tracks timeline page view with session storage check
  */
 export const trackPageView = async (): Promise<boolean> => {
   // Check if we're on the client side
@@ -51,7 +49,7 @@ export const trackPageView = async (): Promise<boolean> => {
 };
 
 /**
- * Gets current view count from the API
+ * Retrieves current view count
  */
 export const getViewCount = async (): Promise<number> => {
   try {

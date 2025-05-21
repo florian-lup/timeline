@@ -13,6 +13,9 @@ interface TimelineHeaderProps {
   entries: number;
 }
 
+/**
+ * Header with analytics metrics and action buttons
+ */
 export function TimelineHeader({ views, entries }: TimelineHeaderProps) {
   const { sharesCount } = useSharesCount();
   const { reactionsCount } = useReactionsCount();

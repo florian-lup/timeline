@@ -2,24 +2,24 @@
 
 import { EventList } from './EventList';
 import { Header } from '@/components/layout/header';
-import { useTimelineEntries } from '@/hooks/timeline/useTimelineEntries';
+import { useArticles } from '@/hooks/events/useArticles';
 import { TimelineHeader } from './TimelineHeader';
 import { usePageViews } from '@/hooks/analytics/usePageViews';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 
 /**
- * ThreadTimeline component serves as the main layout for the timeline page
- * Provides the overall structure including header, navigation, and main content area
- * Renders the EventList component to display historical events in a feed-like format
+ * Main timeline page with events feed and analytics
  */
 export function Timeline() {
   const { entries, isLoading, isLoadingMore, error, loadMore, hasMore, pagination } =
-    useTimelineEntries();
+    useArticles();
 
   const { viewCount } = usePageViews();
 
-  // Skeleton loading component for timeline entries
+  /**
+   * Skeleton card for loading state
+   */
   function SkeletonCard() {
     return (
       <Card className="w-full">
@@ -36,7 +36,9 @@ export function Timeline() {
     );
   }
 
-  // Skeleton list to mimic loading timeline entries
+  /**
+   * Multiple skeleton cards for timeline loading
+   */
   function SkeletonList() {
     return (
       <div className="h-full w-full flex flex-col justify-center space-y-4 md:space-y-5 lg:space-y-7 py-8 md:py-12 lg:py-16">

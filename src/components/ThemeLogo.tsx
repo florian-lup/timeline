@@ -10,11 +10,14 @@ type ThemeLogoProps = {
   className?: string;
 };
 
+/**
+ * Logo that changes based on current theme
+ */
 export function ThemeLogo({ width = 24, height = 24, className = '' }: ThemeLogoProps) {
   const [mounted, setMounted] = useState(false);
   const { theme, resolvedTheme } = useTheme();
 
-  // useEffect only runs on the client, so now we can safely show the UI
+  // Wait for client-side hydration
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -23,7 +26,7 @@ export function ThemeLogo({ width = 24, height = 24, className = '' }: ThemeLogo
   const currentTheme = theme === 'system' ? resolvedTheme : theme;
 
   if (!mounted) {
-    // Return a placeholder to avoid layout shift
+    // Placeholder to avoid layout shift
     return <div style={{ width, height }} className={className} />;
   }
 

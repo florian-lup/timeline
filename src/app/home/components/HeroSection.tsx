@@ -4,11 +4,14 @@ import { useState, useEffect } from 'react';
 import { TypewriterDots } from './typewriter-dots';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
-import { TimelineEntry } from '@/types/timeline/TimelineEntry';
+import { ArticlesData } from '@/types/events/articles';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatEventDate } from '@/utils/dateFormatters';
+import { fetchEvents } from '@/services/events/api';
 
-// Skeleton component for event card
+/**
+ * Loading state for event card
+ */
 function EventCardSkeleton() {
   return (
     <div className="flex items-center w-full">
@@ -22,7 +25,9 @@ function EventCardSkeleton() {
   );
 }
 
-// Empty state with skeleton badge
+/**
+ * Empty state when no events available
+ */
 function EmptyEventCard() {
   return (
     <div className="flex items-center w-full">
@@ -36,25 +41,22 @@ function EmptyEventCard() {
   );
 }
 
+/**
+ * Animated hero section with recent timeline events
+ */
 export function HeroSection() {
   const [activeEventIndex, setActiveEventIndex] = useState(0);
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
-  const [recentEvents, setRecentEvents] = useState<TimelineEntry[]>([]);
+  const [recentEvents, setRecentEvents] = useState<ArticlesData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Fetch recent events from the API
   useEffect(() => {
     let isMounted = true;
 
-    async function fetchRecentEvents() {
+    async function getRecentEvents() {
       try {
-        const response = await fetch('/api/timeline?page=1&limit=5');
-
-        if (!response.ok) {
-          throw new Error(`Error fetching timeline data: ${response.statusText}`);
-        }
-
-        const data = await response.json();
+        const data = await fetchEvents(1, 5);
 
         if (isMounted) {
           setRecentEvents(data.entries);
@@ -68,7 +70,7 @@ export function HeroSection() {
       }
     }
 
-    fetchRecentEvents();
+    getRecentEvents();
 
     return () => {
       isMounted = false;
@@ -147,11 +149,10 @@ export function HeroSection() {
                 <button
                   key={index}
                   onClick={() => handleEventClick(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === activeEventIndex
-                      ? 'bg-primary w-4'
-                      : 'bg-muted-foreground/30 hover:bg-muted-foreground/60'
-                  }`}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${index === activeEventIndex
+                    ? 'bg-primary w-4'
+                    : 'bg-muted-foreground/30 hover:bg-muted-foreground/60'
+                    }`}
                   aria-label={`Go to event ${index + 1}`}
                 />
               ))}

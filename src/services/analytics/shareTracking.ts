@@ -1,6 +1,5 @@
 /**
- * Tracks a share in the analytics database
- * Returns a Promise that resolves after the database update
+ * Tracks timeline share event
  */
 export const trackShare = async (): Promise<boolean> => {
   try {
@@ -24,7 +23,7 @@ export const trackShare = async (): Promise<boolean> => {
 };
 
 /**
- * Gets current share count from the API
+ * Retrieves current share count
  */
 export const getSharesCount = async (): Promise<number> => {
   try {

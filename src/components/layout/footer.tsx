@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Site footer with copyright information
+ */
 export function Footer() {
   const currentYear = new Date().getFullYear();
 

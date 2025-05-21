@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { getReactionsCount, trackReaction } from '@/services/analytics/reactionTracking';
 
+/**
+ * Hook for managing reactions count
+ */
 export function useReactionsCount(skipInitialFetch = false) {
   const [reactionsCount, setReactionsCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to fetch the current reactions count
+  // Fetch current reactions count
   const fetchReactionsCount = async () => {
     try {
       setLoading(true);
@@ -22,18 +25,17 @@ export function useReactionsCount(skipInitialFetch = false) {
     }
   };
 
-  // Function to record a reaction and refresh count
+  // Track reaction and refresh count
   const addReaction = async () => {
     try {
       await trackReaction();
-      // Refresh the count after successfully tracking
       await fetchReactionsCount();
     } catch (err) {
       console.error('Failed to add reaction:', err);
     }
   };
 
-  // Load reactions count once on initial mount if not skipped
+  // Fetch count on mount if not skipped
   useEffect(() => {
     if (!skipInitialFetch) {
       fetchReactionsCount();

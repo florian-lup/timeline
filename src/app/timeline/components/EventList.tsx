@@ -1,18 +1,16 @@
-import { TimelineEntry } from '@/types/timeline/TimelineEntry';
+import { ArticlesData } from '@/types/events/articles';
 import { EventListItem } from './EventListItem';
 import { Button } from '@/components/ui/button';
 
 interface EventListProps {
-  events: TimelineEntry[];
+  events: ArticlesData[];
   isLoadingMore: boolean;
   hasMore: boolean;
   onLoadMore: () => void;
 }
 
 /**
- * EventList component displays a chronological feed of timeline events
- * Renders events in reverse chronological order (newest first)
- * Supports loading more events on demand
+ * Displays timeline events in reverse chronological order with load more functionality
  */
 export function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventListProps) {
   return (

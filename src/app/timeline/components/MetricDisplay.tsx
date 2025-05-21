@@ -15,7 +15,9 @@ export interface MetricDisplayProps extends React.HTMLAttributes<HTMLDivElement>
   compact?: boolean;
 }
 
-// Format numbers to compact form (e.g., 1200 -> 1.2k, 1500000 -> 1.5M)
+/**
+ * Formats numbers in compact form (1200 → 1.2k)
+ */
 function formatCompactNumber(value: number): string {
   const formatter = Intl.NumberFormat('en', {
     notation: 'compact',
@@ -24,6 +26,9 @@ function formatCompactNumber(value: number): string {
   return formatter.format(value);
 }
 
+/**
+ * Displays metrics in a horizontal list with optional tooltips
+ */
 function MetricDisplay({
   className,
   metrics,

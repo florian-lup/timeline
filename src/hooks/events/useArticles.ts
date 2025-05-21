@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
-import { TimelineEntry } from '@/types/timeline/TimelineEntry';
-import { fetchTimelineEntries, PaginationMetadata } from '@/services/timeline/timelineService';
+import { ArticlesData } from '@/types/events/articles';
+import { fetchEvents, PaginationMetadata } from '@/services/events/api';
 
 /**
- * Custom hook for fetching and managing timeline entries with pagination
+ * Hook for managing paginated timeline entries
  */
-export function useTimelineEntries() {
-  const [entries, setEntries] = useState<TimelineEntry[]>([]);
+export function useArticles() {
+  const [entries, setEntries] = useState<ArticlesData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,7 +22,7 @@ export function useTimelineEntries() {
         setIsLoadingMore(true);
       }
 
-      const data = await fetchTimelineEntries(pageNum);
+      const data = await fetchEvents(pageNum);
 
       if (append) {
         setEntries((prev) => [...prev, ...data.entries]);

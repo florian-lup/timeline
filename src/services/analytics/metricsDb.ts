@@ -1,6 +1,9 @@
 import clientPromise from '@/lib/mongodb';
 import type { Metric } from '@/types/analytics/metrics';
 
+/**
+ * Retrieves metric value from MongoDB
+ */
 export async function getMetric(metric: Metric): Promise<number> {
   const client = await clientPromise;
   const db = client.db('analytics');
@@ -10,6 +13,9 @@ export async function getMetric(metric: Metric): Promise<number> {
   return doc?.count ?? 0;
 }
 
+/**
+ * Increments metric value in MongoDB
+ */
 export async function incrementMetric(metric: Metric): Promise<number> {
   const client = await clientPromise;
   const db = client.db('analytics');
