@@ -1,33 +1,12 @@
 'use client';
 
 import { ArticlesData } from '@/types/events/articles';
-import { Check, Languages, Search, Link as LinkIcon, FileText, Smile } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from '@/components/ui/sheet';
-import {
-  Drawer,
-  DrawerTrigger,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-} from '@/components/ui/drawer';
-import { extractDomain, formatUrl } from '@/utils/timeline/urlHelpers';
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { trackReaction } from '@/services/analytics/reactionTracking';
-import { useState } from 'react';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { formatEventDate } from '@/utils/dateFormatters';
+import { SourcesSheet } from './SourcesSheet';
+import { EventActions } from './EventActions';
 
 interface EventListItemProps {
   entry: ArticlesData;
@@ -37,18 +16,6 @@ interface EventListItemProps {
  * Single timeline entry with metadata, content and interactive elements
  */
 export function EventListItem({ entry }: EventListItemProps) {
-  // State for reactions popover
-  const [reactionsOpen, setReactionsOpen] = useState(false);
-
-  // Available emoji reactions (display purposes only, all aggregated)
-  const emojis = ['👍', '❤️', '😂', '😠', '😮', '😢'];
-
-  // Handle click on an emoji reaction
-  const handleReactionClick = async () => {
-    await trackReaction();
-    setReactionsOpen(false);
-  };
-
   return (
     // Each timeline entry is a list item. The parent <ol> owns the vertical rule (border-l).
     <li
@@ -76,53 +43,7 @@ export function EventListItem({ entry }: EventListItemProps) {
           {/* Event metadata: creation date */}
           <div className="flex items-center gap-4">
             <span className="text-sm">{formatEventDate(entry.date)}</span>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Badge
-                  variant="outline"
-                  className="cursor-pointer hover:bg-accent/50"
-                >
-                  {entry.sources?.length || 0} Sources
-                </Badge>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader>
-                  <SheetTitle>Sources & Citations</SheetTitle>
-                  <SheetDescription>References for &ldquo;{entry.title}&rdquo;</SheetDescription>
-                </SheetHeader>
-                <div className="p-4">
-                  {entry.sources && entry.sources.length > 0 ? (
-                    <ul className="space-y-4">
-                      {entry.sources.map((source, index) => {
-                        const domain = extractDomain(source);
-                        const cleanUrl = formatUrl(source);
-
-                        return (
-                          <li key={index} className="text-sm">
-                            <a
-                              href={cleanUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex flex-col text-foreground hover:bg-accent p-2 rounded-md transition-colors"
-                            >
-                              <div className="flex items-center mb-1">
-                                <span className="bg-foreground/90 text-background h-6 w-6 rounded-full flex items-center justify-center mr-2">
-                                  <LinkIcon className="h-3.5 w-3.5" />
-                                </span>
-                                <span className="text-xs text-muted-foreground">{domain}</span>
-                              </div>
-                              <span className="text-sm break-words mt-1">{cleanUrl}</span>
-                            </a>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  ) : (
-                    <p className="text-muted-foreground text-sm">No sources available.</p>
-                  )}
-                </div>
-              </SheetContent>
-            </Sheet>
+            <SourcesSheet title={entry.title} sources={entry.sources} />
           </div>
         </CardHeader>
 
@@ -136,85 +57,7 @@ export function EventListItem({ entry }: EventListItemProps) {
 
         <CardFooter className="pt-0 px-0">
           {/* Interactive action buttons for the event */}
-          <div className="flex items-center gap-1 md:gap-2">
-            <Drawer>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <DrawerTrigger asChild>
-                    <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                      <FileText className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                    </Button>
-                  </DrawerTrigger>
-                </TooltipTrigger>
-                <TooltipContent side="top">Read</TooltipContent>
-              </Tooltip>
-
-              <DrawerContent>
-                <DrawerHeader>
-                  <DrawerTitle>{entry.title}</DrawerTitle>
-                  <DrawerDescription>Full research</DrawerDescription>
-                </DrawerHeader>
-                <div className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
-                  {entry.research ? (
-                    <MarkdownRenderer
-                      content={entry.research}
-                      className="prose prose-sm md:prose-base dark:prose-invert max-w-none"
-                    />
-                  ) : (
-                    <p className="text-muted-foreground text-sm">
-                      No additional content available.
-                    </p>
-                  )}
-                </div>
-              </DrawerContent>
-            </Drawer>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                  <Search className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="top">Search</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-                  <Languages className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="top">Translate</TooltipContent>
-            </Tooltip>
-            <Popover open={reactionsOpen} onOpenChange={setReactionsOpen}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="p-1.5 md:p-2 h-auto w-auto relative"
-                    >
-                      <Smile className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                    </Button>
-                  </PopoverTrigger>
-                </TooltipTrigger>
-                <TooltipContent side="top">React</TooltipContent>
-              </Tooltip>
-
-              <PopoverContent className="p-2 max-w-[95vw] w-fit" align="start">
-                <div className="grid grid-cols-6 gap-2">
-                  {emojis.map((emoji) => (
-                    <button
-                      key={emoji}
-                      onClick={handleReactionClick}
-                      className="text-xl hover:scale-110 transition-transform cursor-pointer"
-                    >
-                      {emoji}
-                    </button>
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
-          </div>
+          <EventActions entry={entry} />
         </CardFooter>
       </Card>
     </li>
