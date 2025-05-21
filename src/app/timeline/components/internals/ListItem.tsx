@@ -6,7 +6,7 @@ import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card'
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { formatEventDate } from '@/utils/dateFormatters';
 import { SourcesSheet } from './SourcesSheet';
-import { EventActions } from './EventActions';
+import { EventActions } from '../actions/ActionMenu';
 
 interface EventListItemProps {
   entry: ArticlesData;

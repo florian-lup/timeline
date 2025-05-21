@@ -2,7 +2,7 @@ import React from 'react';
 import { Share as ShareIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { TimelineMetrics } from './TimelineMetrics';
+import { TimelineMetrics } from './internals/EventMetrics';
 import { shareContent } from '@/utils/shareHelper';
 
 interface TimelineHeaderProps {

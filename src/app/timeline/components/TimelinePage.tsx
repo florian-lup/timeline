@@ -1,6 +1,6 @@
 'use client';
 
-import { EventList } from './EventList';
+import { EventList } from './TimelineList';
 import { Header } from '@/components/layout/header';
 import { useArticles } from '@/hooks/events/useArticles';
 import { TimelineHeader } from './TimelineHeader';
