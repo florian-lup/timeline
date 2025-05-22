@@ -8,14 +8,12 @@ import { trackShare } from '@/services/analytics/shareTracking';
 export const shareContent = async (
   options: {
     title?: string;
-    text?: string;
     url?: string;
     onSuccess?: () => void;
   } = {},
 ) => {
   const {
     title = 'Timeline',
-    text = 'Check out this timeline!',
     url = window.location.href,
     onSuccess,
   } = options;
@@ -30,11 +28,12 @@ export const shareContent = async (
 
   if (isMobile && navigator.share) {
     try {
-      await navigator.share({
+      const shareData = {
         title,
-        text,
         url,
-      });
+      } satisfies ShareData;
+
+      await navigator.share(shareData);
       if (onSuccess) onSuccess();
       return;
     } catch (error) {
@@ -58,7 +57,7 @@ export const copyToClipboard = (text: string) => {
     .writeText(text)
     .then(() => {
       toast('Link copied', {
-        description: 'Timeline link copied to clipboard',
+        description: 'Link copied to clipboard',
       });
     })
     .catch((err) => {
