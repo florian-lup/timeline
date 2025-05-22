@@ -47,7 +47,6 @@ export function EventActions({ entry }: ActionMenu) {
             onClick={() =>
               shareContent({
                 title: entry.title,
-                text: entry.summary,
                 url: `${window.location.origin}/article/${entry._id}`,
               })
             }

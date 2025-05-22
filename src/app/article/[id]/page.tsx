@@ -16,8 +16,7 @@ interface ArticlePageProps {
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { id } = await params;
 
-  // Build absolute URL for the API call (Node fetch requires absolute URLs)
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+  const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
   const apiUrl = `${baseUrl}/api/events/${id}`;
 
   const res = await fetch(apiUrl, {
