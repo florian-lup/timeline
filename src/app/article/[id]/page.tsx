@@ -11,20 +11,20 @@ import { PageViewTracker } from '@/components/PageViewTracker';
 import { headers } from 'next/headers';
 
 interface ArticlePageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const { id } = params;
+  const { id } = await params;
 
   // Build the URL dynamically from the incoming request headers so that it
   // works in every environment (local dev, Vercel preview, production) and
   // removes the need for any env variables.
   // `headers()` is available in Server Components and returns the incoming
   // request headers at runtime.
-  // `headers()` typing may differ between runtime versions; we cast to `any`
-  // to safely access `.get()` without TypeScript errors.
-  const host = (headers() as any).get('host') ?? 'localhost:3000';
+  // The return type from `headers()` can vary across Next.js versions. We cast via
+  // `unknown` to `Headers` so we can safely access `.get()` without using `any`.
+  const host = (headers() as unknown as Headers).get('host') ?? 'localhost:3000';
   const protocol = host.startsWith('localhost') ? 'http' : 'https';
   const apiUrl = `${protocol}://${host}/api/events/${id}`;
 
