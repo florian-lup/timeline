@@ -10,13 +10,15 @@ import type { ArticlesData } from '@/types/events/articles';
 import { PageViewTracker } from '@/components/PageViewTracker';
 
 interface ArticlePageProps {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const { id } = await params;
+  const { id } = params;
 
-  const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
+  const baseUrl = process.env.NODE_ENV === 'production'
+    ? 'https://www.timeline.supply'
+    : 'http://localhost:3000';
   const apiUrl = `${baseUrl}/api/events/${id}`;
 
   const res = await fetch(apiUrl, {

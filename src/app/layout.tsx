@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title: 'Timeline',
   description:
     'Powered by AI, the platform captures global events as they unfold, seamlessly weaving them into a continuous, evolving narrative.',
+  keywords: ['timeline', 'ai', 'events', 'news', 'global', 'timeline'],
   icons: {
     icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
     apple: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
