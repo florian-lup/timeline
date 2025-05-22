@@ -8,6 +8,7 @@ import { SourcesSheet } from '@/app/timeline/components/internals/SourcesSheet';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import type { ArticlesData } from '@/types/events/articles';
 import { PageViewTracker } from '@/components/PageViewTracker';
+import { headers } from 'next/headers';
 
 interface ArticlePageProps {
   params: { id: string };
@@ -16,10 +17,16 @@ interface ArticlePageProps {
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { id } = params;
 
-  const baseUrl = process.env.NODE_ENV === 'production'
-    ? 'https://www.timeline.supply'
-    : 'http://localhost:3000';
-  const apiUrl = `${baseUrl}/api/events/${id}`;
+  // Build the URL dynamically from the incoming request headers so that it
+  // works in every environment (local dev, Vercel preview, production) and
+  // removes the need for any env variables.
+  // `headers()` is available in Server Components and returns the incoming
+  // request headers at runtime.
+  // `headers()` typing may differ between runtime versions; we cast to `any`
+  // to safely access `.get()` without TypeScript errors.
+  const host = (headers() as any).get('host') ?? 'localhost:3000';
+  const protocol = host.startsWith('localhost') ? 'http' : 'https';
+  const apiUrl = `${protocol}://${host}/api/events/${id}`;
 
   const res = await fetch(apiUrl, {
     cache: 'no-store',
