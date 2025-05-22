@@ -32,16 +32,16 @@ export function ReportDialog({ entry }: ReportDialogProps) {
         <TooltipContent side="top">Read</TooltipContent>
       </Tooltip>
 
-      <DialogContent className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-3xl">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-3xl bg-card">
+        <DialogHeader className="text-left pr-6">
           <DialogTitle>{entry.title}</DialogTitle>
           <DialogDescription>Full report</DialogDescription>
         </DialogHeader>
-        <div className="py-4 space-y-4 overflow-y-auto max-h-[60vh]">
+        <div className="py-4 space-y-4 overflow-y-auto max-h-[70vh]">
           {entry.research ? (
             <MarkdownRenderer
               content={entry.research}
-              className="prose prose-sm md:prose-base dark:prose-invert max-w-none"
+              className="prose prose-sm md:prose-base dark:prose-invert max-w-none pr-2"
             />
           ) : (
             <p className="text-muted-foreground text-sm">
