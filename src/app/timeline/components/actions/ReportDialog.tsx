@@ -4,40 +4,40 @@ import { ArticlesData } from '@/types/events/articles';
 import { FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
-  Drawer,
-  DrawerTrigger,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-} from '@/components/ui/drawer';
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 
-interface ReportDrawerProps {
+interface ReportDialogProps {
   entry: ArticlesData;
 }
 
-export function ReportDrawer({ entry }: ReportDrawerProps) {
+export function ReportDialog({ entry }: ReportDialogProps) {
   return (
-    <Drawer>
+    <Dialog>
       <Tooltip>
         <TooltipTrigger asChild>
-          <DrawerTrigger asChild>
+          <DialogTrigger asChild>
             <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
               <FileText className="h-3.5 w-3.5 md:h-4 md:w-4" />
             </Button>
-          </DrawerTrigger>
+          </DialogTrigger>
         </TooltipTrigger>
         <TooltipContent side="top">Read</TooltipContent>
       </Tooltip>
 
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>{entry.title}</DrawerTitle>
-          <DrawerDescription>Full report</DrawerDescription>
-        </DrawerHeader>
-        <div className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
+      <DialogContent className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-3xl">
+        <DialogHeader>
+          <DialogTitle>{entry.title}</DialogTitle>
+          <DialogDescription>Full report</DialogDescription>
+        </DialogHeader>
+        <div className="py-4 space-y-4 overflow-y-auto max-h-[60vh]">
           {entry.research ? (
             <MarkdownRenderer
               content={entry.research}
@@ -49,7 +49,7 @@ export function ReportDrawer({ entry }: ReportDrawerProps) {
             </p>
           )}
         </div>
-      </DrawerContent>
-    </Drawer>
+      </DialogContent>
+    </Dialog>
   );
 }
