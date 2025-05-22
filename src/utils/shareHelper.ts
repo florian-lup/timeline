@@ -23,7 +23,12 @@ export const shareContent = async (
   // Track the share attempt
   await trackShare();
 
-  if (navigator.share) {
+  // Simple mobile check based on user agent
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod|Windows Phone/i.test(
+    navigator.userAgent,
+  );
+
+  if (isMobile && navigator.share) {
     try {
       await navigator.share({
         title,
@@ -31,19 +36,18 @@ export const shareContent = async (
         url,
       });
       if (onSuccess) onSuccess();
+      return;
     } catch (error) {
-      // Check if it's an AbortError (user cancelled) or another error
+      // AbortError (user canceled) — silently ignore.
       if (error instanceof DOMException && error.name === 'AbortError') {
-        // User cancelled share, do nothing
         return;
       }
-
-      // Actual share failure, fall back to clipboard
-      copyToClipboard(url);
+      // Any other failure: fall back to clipboard.
     }
-  } else {
-    copyToClipboard(url);
   }
+
+  // Desktop or mobile fallback
+  copyToClipboard(url);
 };
 
 /**

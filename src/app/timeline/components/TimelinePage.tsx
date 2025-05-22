@@ -7,8 +7,7 @@ import { TimelineHeader } from './TimelineHeader';
 import { useMetrics } from '@/hooks/analytics/useMetrics';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
-import { trackPageView } from '@/services/analytics/viewTracking';
-import { useEffect } from 'react';
+import { PageViewTracker } from '@/components/PageViewTracker';
 
 /**
  * Main timeline page with events feed and analytics
@@ -18,14 +17,7 @@ export function Timeline() {
 
   const { views, shares, reactions, entries: totalEntries } = useMetrics();
 
-  // Track page view once on mount (write-only, no immediate refresh)
-  useEffect(() => {
-    const registerView = async () => {
-      await trackPageView();
-    };
-
-    registerView();
-  }, []);
+  /* PageViewTracker handles tracking */
 
   /**
    * Skeleton card for loading state
@@ -62,6 +54,7 @@ export function Timeline() {
   return (
     <div className="min-h-screen flex flex-col pb-8 md:pb-12 lg:pb-16">
       <Header />
+      <PageViewTracker />
 
       {/* Main content container with responsive padding and max width */}
       <main className="flex-1 w-full">

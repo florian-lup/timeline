@@ -1,5 +1,6 @@
 import clientPromise from '@/lib/mongodb';
 import type { ArticlesData } from '@/types/events/articles';
+import { ObjectId } from 'mongodb';
 
 export interface ListArticlesOptions {
   page: number;
@@ -47,4 +48,30 @@ export async function listEvents({ page, limit, skip }: ListArticlesOptions): Pr
       totalPages: Math.ceil(total / limit),
     },
   };
+}
+
+/**
+ * Fetches a single timeline event by its MongoDB ObjectId
+ */
+export async function findEventById(id: string): Promise<ArticlesData | null> {
+  const client = await clientPromise;
+  const db = client.db('events');
+
+  try {
+    const doc = await db.collection('articles').findOne({ _id: new ObjectId(id) });
+
+    if (!doc) return null;
+
+    const { _id, ...rest } = doc as unknown as {
+      _id: { toString(): string };
+    } & Omit<ArticlesData, '_id'>;
+
+    return {
+      _id: _id.toString(),
+      ...rest,
+    } satisfies ArticlesData;
+  } catch (error) {
+    console.error('Error fetching event by id:', error);
+    return null;
+  }
 }

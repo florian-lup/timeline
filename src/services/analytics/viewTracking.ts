@@ -7,17 +7,17 @@ export const trackPageView = async (): Promise<boolean> => {
     return false;
   }
 
-  // Check if current page is the timeline
   const pathname = window.location.pathname;
-  const isTimelinePage = pathname === '/timeline' || pathname === '/';
 
-  // Only track views for the timeline page
-  if (!isTimelinePage) {
+  // Only track views for timeline and article pages (e.g., /article/[id])
+  const isTrackablePage = pathname === '/timeline' || pathname === '/' || pathname.startsWith('/article/');
+
+  if (!isTrackablePage) {
     return false;
   }
 
-  // Check if already counted this session
-  const hasCountedKey = 'timeline_view_counted';
+  // Create unique key per page type to avoid multiple counts per session
+  const hasCountedKey = `view_counted_${pathname}`;
   const hasCounted = sessionStorage.getItem(hasCountedKey);
 
   if (hasCounted) {
