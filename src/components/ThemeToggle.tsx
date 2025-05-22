@@ -9,7 +9,7 @@ import { Toggle } from '@/components/ui/toggle';
  */
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   // Wait for client-side hydration
   useEffect(() => {
@@ -22,13 +22,13 @@ export function ThemeToggle() {
 
   return (
     <Toggle
-      pressed={theme === 'dark'}
-      onPressedChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      pressed={resolvedTheme === 'dark'}
+      onPressedChange={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
       aria-label="Toggle theme"
       variant="outline"
       size="sm"
     >
-      {theme === 'dark' ? (
+      {resolvedTheme === 'dark' ? (
         // Sun icon for dark mode
         <svg
           xmlns="http://www.w3.org/2000/svg"
