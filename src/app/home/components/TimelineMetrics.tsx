@@ -61,7 +61,7 @@ function TimelineMetrics({
 
   // Show skeleton while loading
   if (loading) {
-    return <TimelineMetricsSkeleton className={className} />;
+    return <TimelineMetricsSkeleton />;
   }
 
   return (
@@ -105,7 +105,7 @@ function TimelineMetrics({
 /**
  * Loading skeleton for timeline metrics
  */
-function TimelineMetricsSkeleton({ className }: { className?: string }) {
+function TimelineMetricsSkeleton() {
   return (
     <div className="inline-flex items-center justify-center rounded-full h-12 w-75 border border-border/50"
     >
