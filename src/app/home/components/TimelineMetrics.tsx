@@ -107,25 +107,9 @@ function TimelineMetrics({
  */
 function TimelineMetricsSkeleton({ className }: { className?: string }) {
   return (
-    <div
-      className={cn(
-        "inline-flex items-center justify-center font-medium whitespace-nowrap",
-        "bg-card/50 backdrop-blur-sm border border-border/50 rounded-full",
-        "px-4 py-3 gap-4",
-        className,
-      )}
+    <div className="inline-flex items-center justify-center rounded-full h-12 w-75 border border-border/50"
     >
-      {Array.from({ length: 4 }, (_, index) => (
-        <React.Fragment key={index}>
-          {index > 0 && (
-            <div className="w-px h-4 bg-border/40" />
-          )}
-          <div className="flex items-center gap-2">
-            <Skeleton className="size-4 rounded" />
-            <Skeleton className="h-4 w-8" />
-          </div>
-        </React.Fragment>
-      ))}
+      <Skeleton className="h-4 w-60" />
     </div>
   );
 }
