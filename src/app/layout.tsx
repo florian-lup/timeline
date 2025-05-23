@@ -18,10 +18,6 @@ export const metadata: Metadata = {
   description:
     'Timeline is an AI-powered platform that captures and curates global events in real time, providing a seamless, interactive, and continuously evolving narrative of what is happening around the world.',
   keywords: ['timeline', 'ai', 'artificial intelligence', 'global events', 'news', 'breaking news', 'real-time updates', 'world news', 'event tracking', 'interactive timeline'],
-  icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
-    apple: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
-  },
 };
 
 export default function RootLayout({
