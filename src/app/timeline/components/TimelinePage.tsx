@@ -4,7 +4,6 @@ import { EventList } from './TimelineList';
 import { Header } from '@/components/layout/header';
 import { useArticles } from '@/hooks/events/useArticles';
 import { TimelineHeader } from './TimelineHeader';
-import { useMetrics } from '@/hooks/analytics/useMetrics';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import { PageViewTracker } from '@/components/PageViewTracker';
@@ -14,14 +13,6 @@ import { PageViewTracker } from '@/components/PageViewTracker';
  */
 export function Timeline() {
   const { entries, isLoading, isLoadingMore, error, loadMore, hasMore } = useArticles();
-
-  const {
-    views,
-    shares,
-    reactions,
-    entries: totalEntries,
-    loading: metricsLoading,
-  } = useMetrics();
 
   /* PageViewTracker handles tracking */
 
@@ -65,17 +56,10 @@ export function Timeline() {
       {/* Main content container with responsive padding and max width */}
       <main className="flex-1 w-full">
         <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto pt-4 md:pt-6 lg:pt-10 pb-4 md:pb-6 lg:pb-8 px-3 md:px-4 lg:px-6">
-          {/* Metrics Panel */}
-          {!isLoading && !metricsLoading && (
-            <div className="mb-4 md:mb-5 lg:mb-6">
-              <TimelineHeader
-                views={views}
-                shares={shares}
-                reactions={reactions}
-                entries={totalEntries}
-              />
-            </div>
-          )}
+          {/* Search Header */}
+          <div className="mb-4 md:mb-5 lg:mb-6">
+            <TimelineHeader />
+          </div>
 
           {isLoading ? (
             <SkeletonList />

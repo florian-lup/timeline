@@ -4,7 +4,7 @@ import { redirect, notFound } from 'next/navigation';
 import { Header } from '@/components/layout/header';
 import { Card, CardContent } from '@/components/ui/card';
 import { formatEventDate } from '@/utils/dateFormatters';
-import { SourcesSheet } from '@/app/timeline/components/internals/SourcesSheet';
+import { SourcesSheet } from '@/components/SourcesSheet';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import type { ArticlesData } from '@/types/events/articles';
 import { PageViewTracker } from '@/components/PageViewTracker';
@@ -17,13 +17,6 @@ interface ArticlePageProps {
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { id } = await params;
 
-  // Build the URL dynamically from the incoming request headers so that it
-  // works in every environment (local dev, Vercel preview, production) and
-  // removes the need for any env variables.
-  // `headers()` is available in Server Components and returns the incoming
-  // request headers at runtime.
-  // The return type from `headers()` can vary across Next.js versions. We cast via
-  // `unknown` to `Headers` so we can safely access `.get()` without using `any`.
   const host = (headers() as unknown as Headers).get('host') ?? 'localhost:3000';
   const protocol = host.startsWith('localhost') ? 'http' : 'https';
   const apiUrl = `${protocol}://${host}/api/events/${id}`;
