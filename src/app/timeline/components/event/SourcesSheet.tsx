@@ -48,18 +48,17 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
         <TooltipContent side="top">View sources</TooltipContent>
       </Tooltip>
 
-      <SheetContent className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-xl bg-card">
+      <SheetContent side="right" className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-xl bg-card">
         <SheetHeader className="text-left">
           <SheetTitle className="mt-4">{title}</SheetTitle>
           <SheetDescription>Sources</SheetDescription>
         </SheetHeader>
-
-        <div className="p-4 overflow-y-auto flex-1">
+        <div className="p-2 overflow-y-auto">
           <ul className="space-y-2">
             {sources.map((source, index) => (
               <li
                 key={index}
-                className="flex items-start gap-2 rounded hover:bg-muted transition-colors"
+                className="flex items-start gap-2 rounded p-2 hover:bg-muted transition-colors"
               >
                 <LinkIcon className="h-4 w-4 mt-0.5 shrink-0 text-muted-foreground" />
                 <a

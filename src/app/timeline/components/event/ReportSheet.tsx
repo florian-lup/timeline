@@ -32,12 +32,12 @@ export function ReportSheet({ entry }: ReportDialogProps) {
         <TooltipContent side="top">Read</TooltipContent>
       </Tooltip>
 
-      <SheetContent side="bottom" className="bg-card">
+      <SheetContent side="bottom" className="bg-card max-h-[100vh]">
         <SheetHeader className="text-left">
           <SheetTitle className="mt-4">{entry.title}</SheetTitle>
           <SheetDescription>Full report</SheetDescription>
         </SheetHeader>
-        <div className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
+        <div className="p-4 space-y-4 overflow-y-auto ">
           {entry.research ? (
             <MarkdownRenderer
               content={entry.research}
