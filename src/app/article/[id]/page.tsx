@@ -2,6 +2,7 @@
 
 import { redirect, notFound } from 'next/navigation';
 import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { formatEventDate } from '@/utils/dateFormatters';
 import { SourcesSheet } from '@/app/timeline/components/event/SourcesSheet';
@@ -73,6 +74,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </Card>
         </div>
       </main>
+      <Footer />
     </div>
   );
 } 

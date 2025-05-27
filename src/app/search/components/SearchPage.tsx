@@ -28,7 +28,7 @@ export function SearchPage() {
       <Header />
 
       <main className="flex flex-col flex-grow w-full p-4 md:p-6 lg:p-8 items-center justify-center gap-8">
-        <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-center">Search Events</h1>
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-center">Search News</h1>
         {/* Search input */}
         <form onSubmit={handleSearchSubmit} className="w-full max-w-xl">
           <SearchInput value={query} onChange={(e) => setQuery(e.target.value)} />

@@ -1,6 +1,7 @@
 'use client';
 
 import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
 import { EventList } from './TimelineList';
 import { useArticles } from '@/hooks/events/useArticles';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -81,6 +82,7 @@ export function Timeline() {
           )}
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

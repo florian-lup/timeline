@@ -35,7 +35,7 @@ export function Header() {
             <Link href="/timeline">
               <Button variant="default" size="sm" className="w-9 h-9 p-0 sm:w-auto sm:h-auto sm:px-3 sm:py-2 gap-0 sm:gap-1.5">
                 <Newspaper className="h-4 w-4 sm:hidden" />
-                <span className="hidden sm:inline">Explore Timeline</span>
+                <span className="hidden sm:inline">Read Timeline</span>
               </Button>
             </Link>
           )}
@@ -43,7 +43,7 @@ export function Header() {
             <Link href="/search">
               <Button variant="outline" size="sm" className="w-9 h-9 p-0 sm:w-auto sm:h-auto sm:px-3 sm:py-2 gap-0 sm:gap-1.5">
                 <Search className="h-4 w-4 sm:hidden" />
-                <span className="hidden sm:inline">Search Events</span>
+                <span className="hidden sm:inline">Search News</span>
               </Button>
             </Link>
           )}
