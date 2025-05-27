@@ -17,7 +17,7 @@ interface ArticlePageProps {
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { id } = await params;
 
-  const host = (headers() as unknown as Headers).get('host') ?? 'localhost:3000';
+  const host = (await headers()).get('host') ?? 'localhost:3000';
   const protocol = host.startsWith('localhost') ? 'http' : 'https';
   const apiUrl = `${protocol}://${host}/api/events/${id}`;
 
