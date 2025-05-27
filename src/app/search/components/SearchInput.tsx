@@ -29,6 +29,8 @@ const SearchInput = React.forwardRef<HTMLInputElement, React.ComponentProps<type
 
         {/* Switch toggle */}
         <Switch
+          id="search-mode-toggle"
+          name="search-mode"
           checked={isWeb}
           onCheckedChange={setIsWeb}
           className="absolute left-8 top-1/2 -translate-y-1/2 scale-75"
@@ -38,6 +40,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, React.ComponentProps<type
         <Input
           ref={ref}
           id="search-input"
+          name="search-query"
           className={cn('pl-[4.5rem] pr-4 rounded-r-none rounded-l-full focus-visible:ring-0', className)}
           type="search"
           {...props}
