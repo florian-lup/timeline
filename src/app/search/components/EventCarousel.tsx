@@ -96,10 +96,10 @@ export function EventCarousel() {
   };
 
   return (
-    <div className="w-full max-w-md md:max-w-2xl mx-auto">
+    <div className="w-full max-w-xl mx-auto">
       {/* Event Card */}
       <div className="w-full relative">
-        <div className="bg-card border rounded-xl shadow-sm p-3 md:p-4">
+        <div className="border-t px-6 py-4">
           <AnimatePresence mode="wait">
             {isLoading ? (
               <EventCardSkeleton />
@@ -113,10 +113,10 @@ export function EventCarousel() {
                 className="flex items-center w-full"
               >
                 <div className="flex justify-between items-center w-full">
-                  <p className="text-xs md:text-sm text-center">
+                  <p className="text-sm md:text-base text-center truncate">
                     {recentEvents[activeEventIndex].title}
                   </p>
-                  <Badge variant="outline" className="ml-2 text-xs font-medium">
+                  <Badge variant="outline" className="ml-2 text-xs md:text-sm font-medium rounded-full px-2 py-0.5">
                     {formatEventDate(recentEvents[activeEventIndex].date)}
                   </Badge>
                 </div>
