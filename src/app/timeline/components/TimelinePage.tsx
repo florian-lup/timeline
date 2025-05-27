@@ -1,8 +1,8 @@
 'use client';
 
+import { Header } from '@/components/layout/header';
 import { EventList } from './TimelineList';
 import { useArticles } from '@/hooks/events/useArticles';
-import { TimelineHeader } from './TimelineHeader';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import { PageViewTracker } from '@/components/PageViewTracker';
@@ -49,15 +49,12 @@ export function Timeline() {
 
   return (
     <div className="min-h-screen flex flex-col pb-8 md:pb-12 lg:pb-16">
+      <Header />
       <PageViewTracker />
 
       {/* Main content container with responsive padding and max width */}
       <main className="flex-1 w-full">
-        <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto pt-4 md:pt-6 lg:pt-10 pb-4 md:pb-6 lg:pb-8 px-3 md:px-4 lg:px-6">
-          {/* Search Header */}
-          <div className="mb-4 md:mb-5 lg:mb-6">
-            <TimelineHeader />
-          </div>
+        <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto px-3 md:px-4 lg:px-6">
 
           {isLoading ? (
             <SkeletonList />

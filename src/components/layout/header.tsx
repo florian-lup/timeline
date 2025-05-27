@@ -4,6 +4,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { ThemeLogo } from '@/components/ThemeLogo';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { Newspaper, Search } from 'lucide-react';
 
 /**
  * Main navigation header with logo and theme toggle
@@ -11,6 +12,7 @@ import { Button } from '@/components/ui/button';
 export function Header() {
   const pathname = usePathname();
   const isTimelinePage = pathname === '/timeline';
+  const isSearchPage = pathname === '/search';
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-sm">
@@ -31,8 +33,17 @@ export function Header() {
         <div className="flex items-center gap-4">
           {!isTimelinePage && (
             <Link href="/timeline">
-              <Button variant="default" size="sm">
-                Explore Timeline
+              <Button variant="default" size="sm" className="w-9 h-9 p-0 sm:w-auto sm:h-auto sm:px-3 sm:py-2 gap-0 sm:gap-1.5">
+                <Newspaper className="h-4 w-4 sm:hidden" />
+                <span className="hidden sm:inline">Explore Timeline</span>
+              </Button>
+            </Link>
+          )}
+          {!isSearchPage && (
+            <Link href="/search">
+              <Button variant="outline" size="sm" className="w-9 h-9 p-0 sm:w-auto sm:h-auto sm:px-3 sm:py-2 gap-0 sm:gap-1.5">
+                <Search className="h-4 w-4 sm:hidden" />
+                <span className="hidden sm:inline">Search Events</span>
               </Button>
             </Link>
           )}

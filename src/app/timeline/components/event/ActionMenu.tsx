@@ -1,7 +1,7 @@
 'use client';
 
 import { ArticlesData } from '@/types/events/articles';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquareMore } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { ReportSheet } from './ReportSheet';
@@ -23,7 +23,7 @@ export function EventActions({ entry }: ActionMenu) {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-            <MessageSquare className="h-3.5 w-3.5 md:h-4 md:w-4" />
+            <MessageSquareMore className="h-3.5 w-3.5 md:h-4 md:w-4" />
           </Button>
         </TooltipTrigger>
         <TooltipContent side="top">Coming soon</TooltipContent>
