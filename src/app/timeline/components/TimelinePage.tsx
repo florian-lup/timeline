@@ -1,7 +1,6 @@
 'use client';
 
 import { EventList } from './TimelineList';
-import { Header } from '@/components/layout/header';
 import { useArticles } from '@/hooks/events/useArticles';
 import { TimelineHeader } from './TimelineHeader';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -50,7 +49,6 @@ export function Timeline() {
 
   return (
     <div className="min-h-screen flex flex-col pb-8 md:pb-12 lg:pb-16">
-      <Header />
       <PageViewTracker />
 
       {/* Main content container with responsive padding and max width */}
@@ -80,7 +78,7 @@ export function Timeline() {
           )}
 
           {!isLoading && entries.length === 0 && (
-            <Card className="p-6">
+            <Card className="p-6 mt-6">
               <div className="text-center">No timeline entries found.</div>
             </Card>
           )}
