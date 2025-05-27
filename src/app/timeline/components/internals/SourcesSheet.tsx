@@ -66,7 +66,7 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
                   href={source}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm break-words hover:underline hover:text-primary underline-offset-2"
+                  className="text-sm break-all max-w-full hover:underline hover:text-primary underline-offset-2"
                 >
                   {source}
                 </a>
