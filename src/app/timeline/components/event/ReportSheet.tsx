@@ -32,7 +32,10 @@ export function ReportSheet({ entry }: ReportDialogProps) {
         <TooltipContent side="top">Read</TooltipContent>
       </Tooltip>
 
-      <SheetContent side="bottom" className="bg-card max-h-[100vh]">
+      <SheetContent
+        side="bottom"
+        className="bg-card top-0"
+      >
         <SheetHeader className="text-left">
           <SheetTitle className="mt-6">{entry.title}</SheetTitle>
           <SheetDescription>Full report</SheetDescription>
