@@ -4,13 +4,13 @@ import { ArticlesData } from '@/types/events/articles';
 import { FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 
@@ -18,26 +18,26 @@ interface ReportDialogProps {
   entry: ArticlesData;
 }
 
-export function ReportDialog({ entry }: ReportDialogProps) {
+export function ReportSheet({ entry }: ReportDialogProps) {
   return (
-    <Dialog>
+    <Sheet>
       <Tooltip>
         <TooltipTrigger asChild>
-          <DialogTrigger asChild>
+          <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
               <FileText className="h-3.5 w-3.5 md:h-4 md:w-4" />
             </Button>
-          </DialogTrigger>
+          </SheetTrigger>
         </TooltipTrigger>
         <TooltipContent side="top">Read</TooltipContent>
       </Tooltip>
 
-      <DialogContent className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-3xl bg-card">
-        <DialogHeader className="text-left pr-6">
-          <DialogTitle>{entry.title}</DialogTitle>
-          <DialogDescription>Full report</DialogDescription>
-        </DialogHeader>
-        <div className="py-4 space-y-4 overflow-y-auto max-h-[70vh]">
+      <SheetContent side="bottom" className="bg-card">
+        <SheetHeader className="text-left">
+          <SheetTitle className="mt-4">{entry.title}</SheetTitle>
+          <SheetDescription>Full report</SheetDescription>
+        </SheetHeader>
+        <div className="p-4 space-y-4 overflow-y-auto max-h-[70vh]">
           {entry.research ? (
             <MarkdownRenderer
               content={entry.research}
@@ -49,7 +49,7 @@ export function ReportDialog({ entry }: ReportDialogProps) {
             </p>
           )}
         </div>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet >
   );
 }

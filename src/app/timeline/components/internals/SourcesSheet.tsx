@@ -3,13 +3,13 @@
 import { Badge } from '@/components/ui/badge';
 import { Link as LinkIcon } from 'lucide-react';
 import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 
 interface SourcesSheetProps {
@@ -32,34 +32,34 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
   if (!sources || sources.length === 0) return null;
 
   return (
-    <Dialog>
+    <Sheet>
       <Tooltip>
         <TooltipTrigger asChild>
-          {/* Use the dialog trigger to open the modal */}
-          <DialogTrigger asChild>
+          {/* Use the sheet trigger to open the panel */}
+          <SheetTrigger asChild>
             <Badge
               variant="outline"
               className="cursor-pointer text-xs md:text-sm font-medium px-2 py-1"
             >
               Sources ({sources.length})
             </Badge>
-          </DialogTrigger>
+          </SheetTrigger>
         </TooltipTrigger>
         <TooltipContent side="top">View sources</TooltipContent>
       </Tooltip>
 
-      <DialogContent className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-xl bg-card">
-        <DialogHeader className="text-left pr-6">
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>Sources</DialogDescription>
-        </DialogHeader>
+      <SheetContent className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-xl bg-card">
+        <SheetHeader className="text-left">
+          <SheetTitle className="mt-4">{title}</SheetTitle>
+          <SheetDescription>Sources</SheetDescription>
+        </SheetHeader>
 
-        <div className="py-4 overflow-y-auto max-h-[70vh] pr-2">
+        <div className="p-4 overflow-y-auto flex-1">
           <ul className="space-y-2">
             {sources.map((source, index) => (
               <li
                 key={index}
-                className="flex items-start gap-2 rounded px-1 py-1 hover:bg-muted transition-colors"
+                className="flex items-start gap-2 rounded hover:bg-muted transition-colors"
               >
                 <LinkIcon className="h-4 w-4 mt-0.5 shrink-0 text-muted-foreground" />
                 <a
@@ -74,7 +74,7 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
             ))}
           </ul>
         </div>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

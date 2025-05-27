@@ -4,7 +4,7 @@ import { ArticlesData } from '@/types/events/articles';
 import { MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-import { ReportDialog } from './ReportDialog';
+import { ReportSheet } from './ReportSheet';
 import { ReactionsPopover } from './ReactionsPopover';
 import { ShareButton } from './ShareButton';
 
@@ -18,7 +18,7 @@ interface ActionMenu {
 export function EventActions({ entry }: ActionMenu) {
   return (
     <div className="flex items-center gap-2">
-      <ReportDialog entry={entry} />
+      <ReportSheet entry={entry} />
 
       <Tooltip>
         <TooltipTrigger asChild>
