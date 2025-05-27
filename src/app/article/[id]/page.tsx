@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/header';
 import { Card, CardContent } from '@/components/ui/card';
 import { formatEventDate } from '@/utils/dateFormatters';
 import { SourcesSheet } from '@/app/timeline/components/event/SourcesSheet';
-import { MarkdownRenderer } from '@/components/MarkdownRenderer';
+import ReactMarkdown from 'react-markdown';
 import type { ArticlesData } from '@/types/events/articles';
 import { PageViewTracker } from '@/components/PageViewTracker';
 import { headers } from 'next/headers';
@@ -53,10 +53,17 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <p className="text-base md:text-lg/relaxed">{data.summary}</p>
 
               {data.research && (
-                <MarkdownRenderer
-                  content={data.research}
-                  className="prose prose-sm md:prose-base dark:prose-invert max-w-none"
-                />
+                <article className="prose prose-sm md:prose-base dark:prose-invert max-w-none">
+                  <ReactMarkdown
+                    components={{
+                      a: ({ ...props }) => (
+                        <a target="_blank" rel="noopener noreferrer" {...props} />
+                      ),
+                    }}
+                  >
+                    {(data.research)}
+                  </ReactMarkdown>
+                </article>
               )}
 
               <div className="flex items-center gap-3 pt-2">

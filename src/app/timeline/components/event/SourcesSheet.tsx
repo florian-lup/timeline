@@ -50,10 +50,10 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
 
       <SheetContent side="right" className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-xl bg-card">
         <SheetHeader className="text-left">
-          <SheetTitle className="mt-4">{title}</SheetTitle>
+          <SheetTitle className="mt-6">{title}</SheetTitle>
           <SheetDescription>Sources</SheetDescription>
         </SheetHeader>
-        <div className="p-2 overflow-y-auto">
+        <div className="p-2 overflow-y-auto scrollbar-hide">
           <ul className="space-y-2">
             {sources.map((source, index) => (
               <li

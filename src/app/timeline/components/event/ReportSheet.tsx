@@ -12,7 +12,7 @@ import {
   SheetDescription,
 } from '@/components/ui/sheet';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-import { MarkdownRenderer } from '@/components/MarkdownRenderer';
+import ReactMarkdown from 'react-markdown';
 
 interface ReportDialogProps {
   entry: ArticlesData;
@@ -34,15 +34,22 @@ export function ReportSheet({ entry }: ReportDialogProps) {
 
       <SheetContent side="bottom" className="bg-card max-h-[100vh]">
         <SheetHeader className="text-left">
-          <SheetTitle className="mt-4">{entry.title}</SheetTitle>
+          <SheetTitle className="mt-6">{entry.title}</SheetTitle>
           <SheetDescription>Full report</SheetDescription>
         </SheetHeader>
-        <div className="p-4 space-y-4 overflow-y-auto ">
+        <div className="p-4 space-y-4 overflow-y-auto scrollbar-hide">
           {entry.research ? (
-            <MarkdownRenderer
-              content={entry.research}
-              className="prose prose-sm md:prose-base dark:prose-invert max-w-none pr-2"
-            />
+            <article className="prose prose-sm md:prose-base dark:prose-invert max-w-none">
+              <ReactMarkdown
+                components={{
+                  a: ({ ...props }) => (
+                    <a target="_blank" rel="noopener noreferrer" {...props} />
+                  ),
+                }}
+              >
+                {(entry.research)}
+              </ReactMarkdown>
+            </article>
           ) : (
             <p className="text-muted-foreground text-sm">
               No additional content available.

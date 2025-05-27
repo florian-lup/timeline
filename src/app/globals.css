@@ -8,8 +8,12 @@
 @tailwind utilities;
 
 @import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
+
+@plugin "@tailwindcss/typography";
+@plugin "tailwind-scrollbar-hide";
 
 :root {
   --background-secondary: #f7f6f3;
