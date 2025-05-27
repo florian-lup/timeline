@@ -1,5 +1,5 @@
 import { ArticlesData } from '@/types/events/articles';
-import { EventListItem } from './internals/ListItem';
+import { EventListItem } from './ListItem';
 import { Button } from '@/components/ui/button';
 
 interface EventListProps {

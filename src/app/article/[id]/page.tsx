@@ -4,7 +4,7 @@ import { redirect, notFound } from 'next/navigation';
 import { Header } from '@/components/layout/header';
 import { Card, CardContent } from '@/components/ui/card';
 import { formatEventDate } from '@/utils/dateFormatters';
-import { SourcesSheet } from '@/app/timeline/components/internals/SourcesSheet';
+import { SourcesSheet } from '@/app/timeline/components/event/SourcesSheet';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import type { ArticlesData } from '@/types/events/articles';
 import { PageViewTracker } from '@/components/PageViewTracker';

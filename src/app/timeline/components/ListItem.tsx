@@ -5,8 +5,8 @@ import { Check } from 'lucide-react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { formatEventDate } from '@/utils/dateFormatters';
-import { SourcesSheet } from './SourcesSheet';
-import { EventActions } from '../actions/ActionMenu';
+import { SourcesSheet } from './event/SourcesSheet';
+import { EventActions } from './event/ActionMenu';
 
 interface EventListItemProps {
   entry: ArticlesData;
