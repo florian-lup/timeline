@@ -17,6 +17,8 @@ export function SearchPage() {
   const [query, setQuery] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  // Search mode: false = timeline (default), true = web search
+  const [isWeb, setIsWeb] = useState(false);
 
   // Handle search form submission
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -47,7 +49,12 @@ export function SearchPage() {
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-center">Search News</h1>
         {/* Search input */}
         <form onSubmit={handleSearchSubmit} className="w-full max-w-xl">
-          <SearchInput value={query} onChange={(e) => setQuery(e.target.value)} />
+          <SearchInput
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            isWeb={isWeb}
+            onModeChange={setIsWeb}
+          />
         </form>
 
         {/* Recent events carousel */}
@@ -63,6 +70,7 @@ export function SearchPage() {
         isOpen={isDialogOpen}
         onOpenChange={handleDialogClose}
         searchQuery={searchQuery}
+        isWeb={isWeb}
       />
     </div>
   );

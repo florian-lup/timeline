@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { fetchWebSearch } from '@/services/search/api';
 
 interface Message {
   id: string;
@@ -24,6 +25,8 @@ interface SearchResultsDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   searchQuery: string;
+  /** Determines if the current search was a web search (Tavily) or timeline search */
+  isWeb: boolean;
 }
 
 /**
@@ -34,6 +37,7 @@ export function SearchResultsDialog({
   isOpen,
   onOpenChange,
   searchQuery,
+  isWeb,
 }: SearchResultsDialogProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [followUpQuery, setFollowUpQuery] = useState('');
@@ -42,16 +46,51 @@ export function SearchResultsDialog({
 
   // Initialize conversation with search results when dialog opens
   useEffect(() => {
-    if (isOpen && searchQuery && messages.length === 0) {
-      // Simulate initial search results
-      const initialMessage: Message = {
-        id: `msg-${Date.now()}`,
-        role: 'system',
-        content: `Here are the search results for "${searchQuery}". I found several relevant events and articles. What specific aspect would you like to explore further?`,
-      };
-      setMessages([initialMessage]);
+    if (!isOpen || !searchQuery || messages.length > 0) return;
+
+    async function initConversation() {
+      // Clear previous conversation when starting a new search
+      setMessages([]);
+
+      if (isWeb) {
+        // Perform web search via API route
+        setIsLoading(true);
+        try {
+          const result = await fetchWebSearch(searchQuery);
+
+          const initialMessage: Message = {
+            id: `msg-${Date.now()}`,
+            role: 'system',
+            content: result.answer || `No answer found for "${searchQuery}"`,
+          };
+
+          setMessages([initialMessage]);
+        } catch (error) {
+          console.error('Failed to fetch web search results:', error);
+          setMessages([
+            {
+              id: `msg-${Date.now()}`,
+              role: 'system',
+              content: 'Sorry, something went wrong while searching the web. Please try again later.',
+            },
+          ]);
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        // Simulate timeline search results
+        const initialMessage: Message = {
+          id: `msg-${Date.now()}`,
+          role: 'system',
+          content: `Here are the search results for "${searchQuery}". I found several relevant events and articles. What specific aspect would you like to explore further?`,
+        };
+        setMessages([initialMessage]);
+      }
     }
-  }, [isOpen, searchQuery, messages.length]);
+
+    initConversation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, searchQuery, isWeb]);
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
@@ -73,29 +112,63 @@ export function SearchResultsDialog({
     setFollowUpQuery('');
     setIsLoading(true);
 
-    // Simulate API response (replace with actual API call)
-    setTimeout(() => {
-      const assistantMessage: Message = {
-        id: `msg-${Date.now()}-assistant`,
-        role: 'system',
-        content: `That's an interesting follow-up question about "${followUpQuery}". Let me search for more specific information related to your query.`,
-      };
+    if (isWeb) {
+      try {
+        const result = await fetchWebSearch(followUpQuery);
+        const assistantMessage: Message = {
+          id: `msg-${Date.now()}-assistant`,
+          role: 'system',
+          content: result.answer || `I couldn't find a direct answer.`,
+        };
 
-      setMessages(prev => [...prev, assistantMessage]);
-      setIsLoading(false);
-    }, 1500);
+        setMessages(prev => [...prev, assistantMessage]);
+      } catch (error) {
+        console.error('Follow-up web search failed:', error);
+        const assistantMessage: Message = {
+          id: `msg-${Date.now()}-assistant`,
+          role: 'system',
+          content: 'Sorry, something went wrong while searching the web. Please try again later.',
+        };
+        setMessages(prev => [...prev, assistantMessage]);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      // Simulate timeline follow-up response
+      setTimeout(() => {
+        const assistantMessage: Message = {
+          id: `msg-${Date.now()}-assistant`,
+          role: 'system',
+          content: `That's an interesting follow-up question about "${followUpQuery}". Let me search for more specific information related to your query.`,
+        };
+
+        setMessages(prev => [...prev, assistantMessage]);
+        setIsLoading(false);
+      }, 1500);
+    }
   };
+
+  // Reset session when the dialog closes
+  useEffect(() => {
+    if (!isOpen && messages.length > 0) {
+      setMessages([]);
+      setFollowUpQuery('');
+      setIsLoading(false);
+    }
+    // Only run when isOpen changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="top-0 flex flex-col gap-6 p-4"
+        className="top-0 flex flex-col gap-6 p-4 focus-visible:outline-none focus-visible:ring-0 ring-0 border-0"
       >
         <SheetHeader className="w-full max-w-2xl mx-auto p-0">
-          <SheetTitle className="mt-6">Search Results for &quot;{searchQuery}&quot;</SheetTitle>
+          <SheetTitle className="mt-6">Search Results</SheetTitle>
           <SheetDescription>
-            Explore search results and ask follow-up questions to get more specific information.
+            Ask follow-up questions to get more specific information.
           </SheetDescription>
         </SheetHeader>
 
