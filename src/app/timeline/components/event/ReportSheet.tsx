@@ -34,7 +34,7 @@ export function ReportSheet({ entry }: ReportDialogProps) {
 
       <SheetContent
         side="bottom"
-        className="bg-card top-0"
+        className="bg-card top-0 focus-visible:outline-none focus-visible:ring-0 ring-0 border-0"
       >
         <SheetHeader className="text-left">
           <SheetTitle className="mt-6">{entry.title}</SheetTitle>

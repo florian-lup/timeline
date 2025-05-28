@@ -48,7 +48,7 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
         <TooltipContent side="top">View sources</TooltipContent>
       </Tooltip>
 
-      <SheetContent side="right" className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-xl bg-card">
+      <SheetContent side="right" className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-xl bg-card focus-visible:outline-none focus-visible:ring-0 ring-0 border-0">
         <SheetHeader className="text-left">
           <SheetTitle className="mt-6">{title}</SheetTitle>
           <SheetDescription>Sources</SheetDescription>
