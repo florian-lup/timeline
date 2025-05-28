@@ -116,7 +116,7 @@ export function EventCarousel() {
                   <p className="text-sm md:text-base text-center truncate">
                     {recentEvents[activeEventIndex].title}
                   </p>
-                  <Badge variant="outline" className="ml-2 text-xs md:text-sm font-medium rounded-full px-2 py-0.5">
+                  <Badge variant="outline" className="ml-2 text-xs md:text-sm font-medium rounded-full px-2 py-0.5 cursor-default">
                     {formatEventDate(recentEvents[activeEventIndex].date)}
                   </Badge>
                 </div>

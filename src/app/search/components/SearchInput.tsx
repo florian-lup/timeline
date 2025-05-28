@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 const SearchInput = React.forwardRef<HTMLInputElement, React.ComponentProps<typeof Input>>(function SearchInput({ className, ...props }, ref) {
   const [isWeb, setIsWeb] = React.useState(false);
 
-  const placeholder = isWeb ? 'search the web...' : 'search the timeline...';
+  const placeholder = isWeb ? 'search the web...' : 'search in timeline...';
 
   return (
     <div className="flex w-full">
