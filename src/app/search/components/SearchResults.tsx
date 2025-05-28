@@ -4,21 +4,20 @@ import { useState, useRef, useEffect } from 'react';
 import { Send } from 'lucide-react';
 
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface Message {
   id: string;
-  role: 'user' | 'assistant';
+  role: 'user' | 'system';
   content: string;
-  timestamp: Date;
 }
 
 interface SearchResultsDialogProps {
@@ -28,8 +27,8 @@ interface SearchResultsDialogProps {
 }
 
 /**
- * Dialog component that opens after search submission, showing search results
- * and allowing follow-up questions in a conversation format.
+ * Sheet component that slides from the top after search submission, showing
+ * search results and allowing follow-up questions in a conversation format.
  */
 export function SearchResultsDialog({
   isOpen,
@@ -47,9 +46,8 @@ export function SearchResultsDialog({
       // Simulate initial search results
       const initialMessage: Message = {
         id: `msg-${Date.now()}`,
-        role: 'assistant',
+        role: 'system',
         content: `Here are the search results for "${searchQuery}". I found several relevant events and articles. What specific aspect would you like to explore further?`,
-        timestamp: new Date(),
       };
       setMessages([initialMessage]);
     }
@@ -69,7 +67,6 @@ export function SearchResultsDialog({
       id: `msg-${Date.now()}-user`,
       role: 'user',
       content: followUpQuery,
-      timestamp: new Date(),
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -80,9 +77,8 @@ export function SearchResultsDialog({
     setTimeout(() => {
       const assistantMessage: Message = {
         id: `msg-${Date.now()}-assistant`,
-        role: 'assistant',
+        role: 'system',
         content: `That's an interesting follow-up question about "${followUpQuery}". Let me search for more specific information related to your query.`,
-        timestamp: new Date(),
       };
 
       setMessages(prev => [...prev, assistantMessage]);
@@ -90,26 +86,21 @@ export function SearchResultsDialog({
     }, 1500);
   };
 
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-  };
-
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[calc(100vw-2rem)] max-w-2xl h-[80vh] flex flex-col gap-6 sm:w-full">
-        <DialogHeader>
-          <DialogTitle className="mt-6">Search Results for "{searchQuery}"</DialogTitle>
-          <DialogDescription>
+    <Sheet open={isOpen} onOpenChange={onOpenChange}>
+      <SheetContent
+        side="bottom"
+        className="top-0 flex flex-col gap-6 p-4"
+      >
+        <SheetHeader className="w-full max-w-2xl mx-auto p-0">
+          <SheetTitle className="mt-6">Search Results for "{searchQuery}"</SheetTitle>
+          <SheetDescription>
             Explore search results and ask follow-up questions to get more specific information.
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto space-y-4 pr-4">
+        <div className="flex-1 overflow-y-auto space-y-4 w-full max-w-2xl mx-auto pr-4">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -140,7 +131,7 @@ export function SearchResultsDialog({
         </div>
 
         {/* Follow-up Input */}
-        <form onSubmit={handleFollowUpSubmit} className="flex gap-2 pt-4 border-t">
+        <form onSubmit={handleFollowUpSubmit} className="flex gap-2 pt-4 border-t w-full max-w-2xl mx-auto">
           <Input
             value={followUpQuery}
             onChange={(e) => setFollowUpQuery(e.target.value)}
@@ -153,7 +144,7 @@ export function SearchResultsDialog({
             <Send className="h-4 w-4" />
           </Button>
         </form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 } 
