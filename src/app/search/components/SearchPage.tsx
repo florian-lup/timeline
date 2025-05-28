@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { SearchInput } from './SearchInput';
 import { EventCarousel } from './EventCarousel';
+import { SearchResultsDialog } from './SearchResults';
 import { PageViewTracker } from '@/components/PageViewTracker';
 
 
@@ -14,12 +15,27 @@ import { PageViewTracker } from '@/components/PageViewTracker';
  */
 export function SearchPage() {
   const [query, setQuery] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Placeholder submit handler
+  // Handle search form submission
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: integrate search results handling
-    console.log('Searching for:', query);
+
+    if (!query.trim()) return;
+
+    // Set the search query and open the dialog
+    setSearchQuery(query);
+    setIsDialogOpen(true);
+  };
+
+  // Handle dialog close
+  const handleDialogClose = (open: boolean) => {
+    setIsDialogOpen(open);
+    if (!open) {
+      // Reset query when dialog closes
+      setQuery('');
+    }
   };
 
   return (
@@ -41,6 +57,13 @@ export function SearchPage() {
       </main>
 
       <Footer />
+
+      {/* Search Results Dialog */}
+      <SearchResultsDialog
+        isOpen={isDialogOpen}
+        onOpenChange={handleDialogClose}
+        searchQuery={searchQuery}
+      />
     </div>
   );
 }

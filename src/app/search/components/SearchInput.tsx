@@ -12,10 +12,11 @@ import { cn } from '@/lib/utils';
  * Search input with leading search icon.
  * Extends the base `Input` component from the design system.
  */
-const SearchInput = React.forwardRef<HTMLInputElement, React.ComponentProps<typeof Input>>(function SearchInput({ className, ...props }, ref) {
+const SearchInput = React.forwardRef<HTMLInputElement, React.ComponentProps<typeof Input>>(function SearchInput({ className, value, ...props }, ref) {
   const [isWeb, setIsWeb] = React.useState(false);
 
   const placeholder = isWeb ? 'search the web...' : 'search in timeline...';
+  const isInputEmpty = !value || (typeof value === 'string' && value.trim() === '');
 
   return (
     <div className="flex w-full">
@@ -43,11 +44,12 @@ const SearchInput = React.forwardRef<HTMLInputElement, React.ComponentProps<type
           name="search-query"
           className={cn('pl-[4.5rem] pr-4 rounded-r-none rounded-l-full focus-visible:ring-0', className)}
           type="search"
+          value={value}
           {...props}
           placeholder={placeholder}
         />
       </div>
-      <Button type="submit" className="rounded-l-none whitespace-nowrap h-9 px-4">
+      <Button type="submit" disabled={isInputEmpty} className="rounded-l-none whitespace-nowrap h-9 px-4">
         Search
       </Button>
     </div>
