@@ -93,7 +93,7 @@ export function SearchResultsDialog({
         className="top-0 flex flex-col gap-6 p-4"
       >
         <SheetHeader className="w-full max-w-2xl mx-auto p-0">
-          <SheetTitle className="mt-6">Search Results for "{searchQuery}"</SheetTitle>
+          <SheetTitle className="mt-6">Search Results for &quot;{searchQuery}&quot;</SheetTitle>
           <SheetDescription>
             Explore search results and ask follow-up questions to get more specific information.
           </SheetDescription>
