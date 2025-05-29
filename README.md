@@ -1,114 +1,117 @@
 # Timeline
 
-A real-time timeline application built with Next.js and MongoDB.
+AI-powered news tracker that captures and curates noteworthy events from around the globe in real time. Timeline combines web search, vector similarity search, and large-language models to stitch events into a continuously evolving narrative you can browse, search, and ask questions about.
 
-## Project Overview
+## ✨ Features
 
-This application stores and displays a paginated timeline of entries kept in MongoDB. An analytics endpoint tracks page-view counts so you can understand engagement over time.
+- **Real-time event feed** – Paginated timeline backed by MongoDB.
+- **Semantic search** – Ask natural-language questions that query a Pinecone vector index and get answers from GPT.
+- **Web search fallback** – Optionally route the question through Tavily + GPT for up-to-the-minute answers.
+- **Follow-up chat** – Conversational UI that keeps short-term chat history so you can dig deeper.
+- **Dark/light theme** – Automatic theme switcher via `next-themes`.
+- **Analytics** – Vercel Analytics & Speed Insights baked in.
 
-## Tech Stack
+## 🏗 Tech Stack
 
-- **Frontend**: Next.js 15, React, TailwindCSS
-- **Backend**: Next.js API Routes, Node.js
-- **Database**: MongoDB
-- **Deployment**: Vercel
+- [Next.js 15](https://nextjs.org/) App Router
+- TypeScript, React 19
+- Tailwind CSS 4 & [shadcn/ui](https://ui.shadcn.com/) (Radix UI primitives)
+- MongoDB Atlas – event storage
+- Pinecone – vector similarity search
+- OpenAI – embeddings & GPT completions
+- Tavily Search API – fresh web context
+- Vercel deployment (zero-config)
 
-## Getting Started
+## 📂 Project Structure (high-level)
 
-### Prerequisites
-
-- Node.js 18+ and npm/yarn/pnpm
-- MongoDB Atlas account (or any reachable MongoDB instance)
-
-### Environment Setup
-
-Create a `.env.local` file in the root directory with the following variable:
-
-```bash
-# MongoDB
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/events?retryWrites=true&w=majority
 ```
-
-### Database Setup
-
-1. Create an account on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and spin up a free cluster
-2. Create a database named `events`
-3. Create the following collections:
-   - `global`  (stores timeline entries)
-   - `views`  (stores analytics data)
-4. Update your `.env.local` file with the connection string
-
-### Installation and Development
-
-```bash
-# Install dependencies
-npm install
-
-# Run the development server
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to view the application.
-
-## Project Architecture
-
-### Directory Structure
-
-```text
 src/
-├── app/
-│   ├── api/
-│   │   ├── analytics/   # Analytics endpoints
-│   │   └── timeline/    # Timeline retrieval endpoints
-│   └── ...              # Page components
-├── components/          # Shared React components
-├── features/
-│   ├── analytics/       # Analytics feature
-│   └── timeline/        # Timeline display feature
-├── lib/
-│   └── mongodb.ts       # MongoDB connection helper
-└── utils/
-    ├── apiHelpers.ts    # API response utilities
-    ├── mongoHelpers.ts  # MongoDB utilities
-    └── textProcessing.ts# Text processing utilities
+ ├─ app/            # Next.js routes (app router)
+ │   ├─ home/       # Landing page
+ │   ├─ timeline/   # Timeline feed
+ │   ├─ search/     # Semantic + web search UI
+ │   └─ api/        # Serverless API routes (events, search, analytics)
+ ├─ components/     # Shared, layout & UI components
+ ├─ hooks/          # Client hooks (search, analytics, etc.)
+ ├─ services/       # Server-side helpers (db, pinecone, tavily)
+ ├─ lib/            # Utility functions (e.g. MongoDB connection)
+ └─ types/          # TypeScript type definitions
 ```
 
-### Key Features
+## 🚀 Getting Started
 
-1. **Timeline Display**: Shows entries in chronological order with pagination
-2. **Analytics**: Tracks view counts for the timeline
+### 1. Clone & Install
 
-## API Documentation
+```bash
+# clone
+git clone https://github.com/your-user/timeline.git
+cd timeline
 
-### Timeline API
+# deps
+npm install # or pnpm / yarn
+```
 
-- `GET /api/timeline?page=1&limit=12` – Retrieves paginated timeline entries
+### 2. Configure Environment Variables
 
-### Analytics API
+Create `.env.local` in the project root:
 
-- `GET /api/analytics/views` – Gets the current view count
-- `POST /api/analytics/views` – Increments the view count
+```bash
+# .env.local
+# MongoDB
+MONGODB_URI="mongodb+srv://<user>:<password>@cluster.mongodb.net/?retryWrites=true&w=majority"
 
-## Contributing
+# OpenAI
+OPENAI_API_KEY="sk-..."
 
-### Development Workflow
+# Pinecone
+PINECONE_API_KEY="..."
 
-1. Fork and clone the repository
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Make your changes
-4. Run tests: `npm test`
-5. Push your branch: `git push origin feature/my-feature`
-6. Open a Pull Request
+# Tavily (optional – for web search)
+TAVILY_API_KEY="..."
+```
 
-### Code Style
+> ⚠️  Never commit `.env.local` to version control.
 
-- Follow the existing patterns and naming conventions
-- Use TypeScript for type safety
-- Keep components and functions small and focused
-- Add JSDoc comments to exported functions
+### 3. Development
 
-### Code Organization
+```bash
+npm run dev
+# open http://localhost:3000
+```
 
-- Place new features in the appropriate feature directory
-- Add unit tests for new functionality
-- Update documentation when adding new features
+### 4. Production build
+
+```bash
+npm run build && npm start
+```
+
+## 🛠 Available Scripts
+
+| Command          | Description                           |
+|------------------|---------------------------------------|
+| `npm run dev`    | Start Next.js in development mode      |
+| `npm run build`  | Create an optimized production build   |
+| `npm start`      | Run the production build locally       |
+| `npm run lint`   | ESLint code quality check              |
+| `npm run format` | Format files with Prettier             |
+
+## 🔍 Architecture Highlights
+
+1. **API Routes** – `/api/events` for paginated events, `/api/search/timeline` for vector search, `/api/search/web` for Tavily search, all written as Edge/Serverless functions.
+2. **Vector Workflow**
+   - User question → OpenAI `text-embedding-3-large` → Pinecone `events` index (namespace `research`).
+   - Top-K results are provided to GPT along with the question + short chat history.
+3. **Follow-up Chat** – Client keeps the last 10 Q/A pairs and sends them with each request so GPT can stay in context while keeping token usage low.
+4. **Styling** – Tailwind CSS with `tailwind-merge` and `clsx` utilities to compose class names. Pre-built UI primitives come from shadcn/ui & Radix.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a new branch: `git checkout -b feat/my-feature`
+3. Commit your changes: `git commit -m "feat: add my feature"`
+4. Push the branch: `git push origin feat/my-feature`
+5. Open a Pull Request 🚀
+
+## 📄 License
+
+This project is Open Source under the MIT license.

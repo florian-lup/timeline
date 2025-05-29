@@ -43,7 +43,6 @@ export async function POST(req: NextRequest) {
       includeMetadata: true,
     });
 
-    // Build a context string that contains ONLY the `text` field from each match's metadata
     const PineconeContext = matches
       .map((m) => {
         const md = m.metadata as { text?: string } | undefined;
