@@ -13,7 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { fetchWebSearch } from '@/services/search/api';
+import { fetchWebSearch, fetchTimelineSearch } from '@/services/search/api';
 
 interface Message {
   id: string;
@@ -78,13 +78,30 @@ export function SearchResultsDialog({
           setIsLoading(false);
         }
       } else {
-        // Simulate timeline search results
-        const initialMessage: Message = {
-          id: `msg-${Date.now()}`,
-          role: 'system',
-          content: `Here are the search results for "${searchQuery}". I found several relevant events and articles. What specific aspect would you like to explore further?`,
-        };
-        setMessages([initialMessage]);
+        // Perform timeline search via API route (Pinecone)
+        setIsLoading(true);
+        try {
+          const result = await fetchTimelineSearch(searchQuery);
+
+          const initialMessage: Message = {
+            id: `msg-${Date.now()}`,
+            role: 'system',
+            content: result.answer || `No answer found for "${searchQuery}"`,
+          };
+
+          setMessages([initialMessage]);
+        } catch (error) {
+          console.error('Failed to fetch timeline search results:', error);
+          setMessages([
+            {
+              id: `msg-${Date.now()}`,
+              role: 'system',
+              content: 'Sorry, something went wrong while searching the timeline. Please try again later.',
+            },
+          ]);
+        } finally {
+          setIsLoading(false);
+        }
       }
     }
 
@@ -134,17 +151,27 @@ export function SearchResultsDialog({
         setIsLoading(false);
       }
     } else {
-      // Simulate timeline follow-up response
-      setTimeout(() => {
+      try {
+        const result = await fetchTimelineSearch(followUpQuery);
+
         const assistantMessage: Message = {
           id: `msg-${Date.now()}-assistant`,
           role: 'system',
-          content: `That's an interesting follow-up question about "${followUpQuery}". Let me search for more specific information related to your query.`,
+          content: result.answer || `I couldn't find an answer.`,
         };
 
         setMessages(prev => [...prev, assistantMessage]);
+      } catch (error) {
+        console.error('Follow-up timeline search failed:', error);
+        const assistantMessage: Message = {
+          id: `msg-${Date.now()}-assistant`,
+          role: 'system',
+          content: 'Sorry, something went wrong while searching the timeline. Please try again later.',
+        };
+        setMessages(prev => [...prev, assistantMessage]);
+      } finally {
         setIsLoading(false);
-      }, 1500);
+      }
     }
   };
 
