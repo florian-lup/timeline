@@ -13,7 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { fetchWebSearch, fetchTimelineSearch, type HistoryMessage } from '@/services/search/api';
+import { fetchWebSearch, fetchTimelineSearch, type HistoryMessage } from '@/services/search/searchClient';
 
 interface Message {
   id: string;

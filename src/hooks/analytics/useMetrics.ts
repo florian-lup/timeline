@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAllMetrics, AllMetricsResponse } from '@/services/analytics/api';
+import { getAllMetrics, AllMetricsResponse } from '@/services/analytics/analyticsClient';
 
 /**
  * React hook that retrieves all timeline analytics metrics (views, shares, reactions) in one request.

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ArticlesData } from '@/types/events/articles';
-import { fetchEvents, PaginationMetadata } from '@/services/events/api';
+import { fetchEvents, PaginationMetadata } from '@/services/events/eventsClient';
 
 /**
  * Hook for managing paginated timeline entries

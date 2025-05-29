@@ -2,12 +2,6 @@ export interface TavilySearchResponse {
   answer?: string;
 }
 
-export interface PineconeSearchResponse {
-  id: string;
-  score: number;
-  metadata?: Record<string, unknown>;
-}
-
 export interface TimelineSearchResponse {
   answer: string;
 }
@@ -39,7 +33,6 @@ export async function fetchWebSearch(
     throw new Error(`Web search failed: ${res.status} ${res.statusText}`);
   }
 
-  // We only care about the answer field
   const data = await res.json();
   return { answer: data.answer } as TavilySearchResponse;
 }

@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArticlesData } from '@/types/events/articles';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatEventDate } from '@/utils/dateFormatters';
-import { fetchEvents } from '@/services/events/api';
+import { fetchEvents } from '@/services/events/eventsClient';
 
 /**
  * Loading state for event card
