@@ -2,12 +2,15 @@ import type { NextRequest } from 'next/server';
 import { successResponse, errorResponse } from '@/utils/apiHelpers';
 import OpenAI from 'openai';
 
-export async function GET(req: NextRequest) {
-  const searchParams = req.nextUrl.searchParams;
-  const query = searchParams.get('query');
+export async function POST(req: NextRequest) {
+  const { query, history = [] } = await req.json();
 
-  if (!query) {
+  if (!query || typeof query !== 'string') {
     return errorResponse('Missing query parameter', 400);
+  }
+
+  if (!Array.isArray(history)) {
+    return errorResponse('Invalid history format', 400);
   }
 
   if (!process.env.TAVILY_API_KEY) {
@@ -48,6 +51,9 @@ export async function GET(req: NextRequest) {
     // Use GPT-4o-mini to formulate a conversational answer
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+    // take recent history
+    const recentHistory = (history as { role: 'user' | 'assistant'; content: string }[]).slice(-10);
+
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       temperature: 0.7,
@@ -57,6 +63,7 @@ export async function GET(req: NextRequest) {
           content:
             'You are a helpful assistant that answers user questions based on web search results. Use the provided answer to craft a concise, friendly response.',
         },
+        ...recentHistory,
         {
           role: 'user',
           content: `User question: ${query}\n\nAnswer from web search: ${WebContext}`,

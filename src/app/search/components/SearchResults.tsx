@@ -13,11 +13,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { fetchWebSearch, fetchTimelineSearch } from '@/services/search/api';
+import { fetchWebSearch, fetchTimelineSearch, type HistoryMessage } from '@/services/search/api';
 
 interface Message {
   id: string;
-  role: 'user' | 'system';
+  role: 'user' | 'assistant';
   content: string;
 }
 
@@ -56,11 +56,12 @@ export function SearchResultsDialog({
         // Perform web search via API route
         setIsLoading(true);
         try {
-          const result = await fetchWebSearch(searchQuery);
+          const historyPayload: HistoryMessage[] = [{ role: 'user', content: searchQuery }];
+          const result = await fetchWebSearch(searchQuery, historyPayload);
 
           const initialMessage: Message = {
             id: `msg-${Date.now()}`,
-            role: 'system',
+            role: 'assistant',
             content: result.answer || `No answer found for "${searchQuery}"`,
           };
 
@@ -70,7 +71,7 @@ export function SearchResultsDialog({
           setMessages([
             {
               id: `msg-${Date.now()}`,
-              role: 'system',
+              role: 'assistant',
               content: 'Sorry, something went wrong while searching the web. Please try again later.',
             },
           ]);
@@ -81,11 +82,12 @@ export function SearchResultsDialog({
         // Perform timeline search via API route (Pinecone)
         setIsLoading(true);
         try {
-          const result = await fetchTimelineSearch(searchQuery);
+          const historyPayload: HistoryMessage[] = [{ role: 'user', content: searchQuery }];
+          const result = await fetchTimelineSearch(searchQuery, historyPayload);
 
           const initialMessage: Message = {
             id: `msg-${Date.now()}`,
-            role: 'system',
+            role: 'assistant',
             content: result.answer || `No answer found for "${searchQuery}"`,
           };
 
@@ -95,7 +97,7 @@ export function SearchResultsDialog({
           setMessages([
             {
               id: `msg-${Date.now()}`,
-              role: 'system',
+              role: 'assistant',
               content: 'Sorry, something went wrong while searching the timeline. Please try again later.',
             },
           ]);
@@ -129,12 +131,18 @@ export function SearchResultsDialog({
     setFollowUpQuery('');
     setIsLoading(true);
 
+    // Prepare history to send (convert current messages to HistoryMessage)
+    const historyPayload: HistoryMessage[] = messages.map((m) => ({
+      role: m.role,
+      content: m.content,
+    }));
+
     if (isWeb) {
       try {
-        const result = await fetchWebSearch(followUpQuery);
+        const result = await fetchWebSearch(followUpQuery, historyPayload);
         const assistantMessage: Message = {
           id: `msg-${Date.now()}-assistant`,
-          role: 'system',
+          role: 'assistant',
           content: result.answer || `I couldn't find a direct answer.`,
         };
 
@@ -143,7 +151,7 @@ export function SearchResultsDialog({
         console.error('Follow-up web search failed:', error);
         const assistantMessage: Message = {
           id: `msg-${Date.now()}-assistant`,
-          role: 'system',
+          role: 'assistant',
           content: 'Sorry, something went wrong while searching the web. Please try again later.',
         };
         setMessages(prev => [...prev, assistantMessage]);
@@ -152,11 +160,11 @@ export function SearchResultsDialog({
       }
     } else {
       try {
-        const result = await fetchTimelineSearch(followUpQuery);
+        const result = await fetchTimelineSearch(followUpQuery, historyPayload);
 
         const assistantMessage: Message = {
           id: `msg-${Date.now()}-assistant`,
-          role: 'system',
+          role: 'assistant',
           content: result.answer || `I couldn't find an answer.`,
         };
 
@@ -165,7 +173,7 @@ export function SearchResultsDialog({
         console.error('Follow-up timeline search failed:', error);
         const assistantMessage: Message = {
           id: `msg-${Date.now()}-assistant`,
-          role: 'system',
+          role: 'assistant',
           content: 'Sorry, something went wrong while searching the timeline. Please try again later.',
         };
         setMessages(prev => [...prev, assistantMessage]);

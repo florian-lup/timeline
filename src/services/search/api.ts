@@ -12,14 +12,28 @@ export interface TimelineSearchResponse {
   answer: string;
 }
 
+export interface HistoryMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
 /**
  * Performs a web search via the internal Next.js API route which proxies the
  * request to Tavily. Keeping the API key safe on the server.
  *
  * @param query - The search query string
  */
-export async function fetchWebSearch(query: string): Promise<TavilySearchResponse> {
-  const res = await fetch(`/api/search/web?query=${encodeURIComponent(query)}`);
+export async function fetchWebSearch(
+  query: string,
+  history: HistoryMessage[] = []
+): Promise<TavilySearchResponse> {
+  const res = await fetch('/api/search/web', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query, history }),
+  });
 
   if (!res.ok) {
     throw new Error(`Web search failed: ${res.status} ${res.statusText}`);
@@ -37,8 +51,17 @@ export async function fetchWebSearch(query: string): Promise<TavilySearchRespons
  *
  * @param query - The search query string
  */
-export async function fetchTimelineSearch(query: string): Promise<TimelineSearchResponse> {
-  const res = await fetch(`/api/search/timeline?query=${encodeURIComponent(query)}`);
+export async function fetchTimelineSearch(
+  query: string,
+  history: HistoryMessage[] = []
+): Promise<TimelineSearchResponse> {
+  const res = await fetch('/api/search/timeline', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query, history }),
+  });
 
   if (!res.ok) {
     throw new Error(`Timeline search failed: ${res.status} ${res.statusText}`);
