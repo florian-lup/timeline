@@ -33,4 +33,4 @@ export function ShareButton({ entry }: ShareButtonProps) {
       <TooltipContent side="top">Share</TooltipContent>
     </Tooltip>
   );
-} 
+}

@@ -45,21 +45,17 @@ export function ReportSheet({ entry }: ReportDialogProps) {
             <article className="prose prose-sm md:prose-base dark:prose-invert max-w-none">
               <ReactMarkdown
                 components={{
-                  a: ({ ...props }) => (
-                    <a target="_blank" rel="noopener noreferrer" {...props} />
-                  ),
+                  a: ({ ...props }) => <a target="_blank" rel="noopener noreferrer" {...props} />,
                 }}
               >
-                {(entry.research)}
+                {entry.research}
               </ReactMarkdown>
             </article>
           ) : (
-            <p className="text-muted-foreground text-sm">
-              No additional content available.
-            </p>
+            <p className="text-muted-foreground text-sm">No additional content available.</p>
           )}
         </div>
       </SheetContent>
-    </Sheet >
+    </Sheet>
   );
 }

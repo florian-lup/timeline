@@ -72,7 +72,6 @@ export function Timeline() {
       {/* Main content container with responsive padding and max width */}
       <main className="flex-1 w-full">
         <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto px-3 md:px-4 lg:px-6">
-
           {/* Search Input Section */}
           <div className="mt-6 mb-8">
             <form onSubmit={handleSearchSubmit}>

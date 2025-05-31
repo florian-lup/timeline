@@ -61,9 +61,7 @@ export function useSearchConversation({
       setIsLoading(true);
 
       try {
-        const historyPayload: HistoryMessage[] = [
-          { role: 'user', content: searchQuery },
-        ];
+        const historyPayload: HistoryMessage[] = [{ role: 'user', content: searchQuery }];
 
         const result = isWeb
           ? await fetchWebSearch(searchQuery, historyPayload)
@@ -82,8 +80,7 @@ export function useSearchConversation({
           {
             id: `msg-${Date.now()}`,
             role: 'assistant',
-            content:
-              'Sorry, something went wrong while searching. Please try again later.',
+            content: 'Sorry, something went wrong while searching. Please try again later.',
           },
         ]);
       } finally {
@@ -120,7 +117,7 @@ export function useSearchConversation({
       const historyPayload: HistoryMessage[] = [
         ...messages,
         { role: 'user', content: followUpQuery },
-      ].map((m) => ({ role: m.role, content: m.content } as HistoryMessage));
+      ].map((m) => ({ role: m.role, content: m.content }) as HistoryMessage);
 
       try {
         const result = isWeb
@@ -139,15 +136,14 @@ export function useSearchConversation({
         const assistantMessage: SearchMessage = {
           id: `msg-${Date.now()}-assistant`,
           role: 'assistant',
-          content:
-            'Sorry, something went wrong while searching. Please try again later.',
+          content: 'Sorry, something went wrong while searching. Please try again later.',
         };
         setMessages((prev) => [...prev, assistantMessage]);
       } finally {
         setIsLoading(false);
       }
     },
-    [followUpQuery, isLoading, isWeb, messages]
+    [followUpQuery, isLoading, isWeb, messages],
   );
 
   /* -------------------------------------------------------------------------- */
@@ -169,4 +165,4 @@ export function useSearchConversation({
     isLoading,
     handleFollowUpSubmit,
   };
-} 
+}

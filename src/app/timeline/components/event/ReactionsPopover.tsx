@@ -41,9 +41,7 @@ export function ReactionsPopover({ entryId }: ReactionsPopoverProps) {
               <Smile className="h-3.5 w-3.5 md:h-4 md:w-4" />
 
               {/* Optional overlay tick/label when reacted */}
-              {hasReacted && (
-                <span className="absolute -right-0.5 -top-0.5 text-xs">✓</span>
-              )}
+              {hasReacted && <span className="absolute -right-0.5 -top-0.5 text-xs">✓</span>}
             </Button>
           </PopoverTrigger>
         </TooltipTrigger>
@@ -65,4 +63,4 @@ export function ReactionsPopover({ entryId }: ReactionsPopoverProps) {
       </PopoverContent>
     </Popover>
   );
-} 
+}

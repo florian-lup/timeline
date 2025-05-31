@@ -39,4 +39,4 @@ export function useMetrics() {
     error,
     refreshMetrics: fetchMetrics,
   };
-} 
+}

@@ -19,7 +19,7 @@ export interface HistoryMessage {
  */
 export async function fetchWebSearch(
   query: string,
-  history: HistoryMessage[] = []
+  history: HistoryMessage[] = [],
 ): Promise<TavilySearchResponse> {
   const res = await fetch('/api/search/web', {
     method: 'POST',
@@ -46,9 +46,9 @@ export async function fetchWebSearch(
  */
 export async function fetchTimelineSearch(
   query: string,
-  history: HistoryMessage[] = []
+  history: HistoryMessage[] = [],
 ): Promise<TimelineSearchResponse> {
-  const res = await fetch('/api/search/timeline', {
+  const res = await fetch('/api/search/pinecone', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -62,4 +62,4 @@ export async function fetchTimelineSearch(
 
   const data = await res.json();
   return { answer: data.answer } as TimelineSearchResponse;
-} 
+}

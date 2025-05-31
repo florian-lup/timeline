@@ -12,19 +12,13 @@ export const shareContent = async (
     onSuccess?: () => void;
   } = {},
 ) => {
-  const {
-    title = 'Timeline',
-    url = window.location.href,
-    onSuccess,
-  } = options;
+  const { title = 'Timeline', url = window.location.href, onSuccess } = options;
 
   // Track the share attempt
   await trackShare();
 
   // Simple mobile check based on user agent
-  const isMobile = /Mobi|Android|iPhone|iPad|iPod|Windows Phone/i.test(
-    navigator.userAgent,
-  );
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
 
   if (isMobile && navigator.share) {
     try {

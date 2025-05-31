@@ -62,7 +62,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       ),
                     }}
                   >
-                    {(data.research)}
+                    {data.research}
                   </ReactMarkdown>
                 </article>
               )}
@@ -77,4 +77,4 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <Footer />
     </div>
   );
-} 
+}

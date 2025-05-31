@@ -1,5 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { successResponse, errorResponse } from '@/utils/apiHelpers';
+import { formatEventDate } from '@/utils/dateFormatters';
 import OpenAI from 'openai';
 
 export async function POST(req: NextRequest) {
@@ -22,6 +23,38 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+    // Get current date for context
+    const currentDate = formatEventDate(new Date());
+
+    // 1. Use GPT-4o-mini to generate an optimized query for web search
+    const queryOptimization = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      temperature: 0.3,
+      messages: [
+        {
+          role: 'system',
+          content: `You are a search query optimizer for web news search. 
+Today's date is ${currentDate}.
+Given a user's question or statement, generate an optimized search query that will help find the most relevant recent news and information.
+Focus on extracting key concepts, entities, and current events.
+If the user asks about "recent", "today", "this week", etc., use appropriate current dates.
+The output should be a clear, concise search query optimized for news search.
+Make it specific and actionable for current events search.`,
+        },
+        {
+          role: 'user',
+          content: `User input: ${query}\n\nGenerate an optimized search query:`,
+        },
+      ],
+      max_tokens: 100,
+    });
+
+    const optimizedQuery = queryOptimization.choices[0].message.content?.trim() || query;
+    console.log('Optimized query for Tavily:', optimizedQuery);
+
+    // 2. Search using Tavily with the optimized query
     const tavilyRes = await fetch('https://api.tavily.com/search', {
       method: 'POST',
       headers: {
@@ -29,7 +62,7 @@ export async function POST(req: NextRequest) {
         Authorization: `Bearer ${process.env.TAVILY_API_KEY}`,
       },
       body: JSON.stringify({
-        query,
+        query: optimizedQuery,
         topic: 'news',
         days: 7,
         search_depth: 'basic',
@@ -48,12 +81,7 @@ export async function POST(req: NextRequest) {
 
     const WebContext = data.answer ?? '';
 
-    // Use GPT-4o-mini to formulate a conversational answer
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-    // take recent history
-    const recentHistory = (history as { role: 'user' | 'assistant'; content: string }[]).slice(-10);
-
+    // 3. Use GPT-4o-mini to formulate a conversational answer
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       temperature: 0.7,
@@ -63,7 +91,7 @@ export async function POST(req: NextRequest) {
           content:
             'You are a helpful assistant that answers user questions based on web search results. Use the provided answer to craft a concise, friendly response.',
         },
-        ...recentHistory,
+        ...(history as { role: 'user' | 'assistant'; content: string }[]).slice(-10),
         {
           role: 'user',
           content: `User question: ${query}\n\nAnswer from web search: ${WebContext}`,
@@ -78,4 +106,4 @@ export async function POST(req: NextRequest) {
     console.error('Error fetching tavily search:', error);
     return errorResponse('Internal server error', 500, error);
   }
-} 
+}

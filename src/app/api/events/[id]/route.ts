@@ -5,10 +5,7 @@ import { findEventById } from '@/services/events/articlesDb';
 /**
  * Fetches single timeline event by id
  */
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const event = await findEventById(id);
@@ -21,4 +18,4 @@ export async function GET(
   } catch (error) {
     return errorResponse('Failed to fetch event', 500, error);
   }
-} 
+}

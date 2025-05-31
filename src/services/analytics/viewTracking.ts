@@ -10,7 +10,8 @@ export const trackPageView = async (): Promise<boolean> => {
   const pathname = window.location.pathname;
 
   // Only track views for timeline and article pages (e.g., /article/[id])
-  const isTrackablePage = pathname === '/timeline' || pathname === '/' || pathname.startsWith('/article/');
+  const isTrackablePage =
+    pathname === '/timeline' || pathname === '/' || pathname.startsWith('/article/');
 
   if (!isTrackablePage) {
     return false;

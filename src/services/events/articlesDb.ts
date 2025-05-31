@@ -29,7 +29,10 @@ export async function listEvents({ page, limit, skip }: ListArticlesOptions): Pr
   // Convert MongoDB documents → ArticlesData (ObjectId → string)
   const entries: ArticlesData[] = docs.map((doc) => {
     // The driver returns `Document`, we know the shape matches ArticlesData
-    const { _id, ...rest } = doc as unknown as { _id: { toString(): string } } & Omit<ArticlesData, '_id'>;
+    const { _id, ...rest } = doc as unknown as { _id: { toString(): string } } & Omit<
+      ArticlesData,
+      '_id'
+    >;
 
     return {
       ...rest,

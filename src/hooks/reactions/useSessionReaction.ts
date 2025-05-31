@@ -62,4 +62,4 @@ export function useSessionReaction(eventId: string) {
   };
 
   return { hasReacted, react } as const;
-} 
+}

@@ -24,11 +24,7 @@ function formatCompactNumber(value: number): string {
  * Displays timeline metrics in a horizontal list with tooltips
  * Fetches real-time metrics data from the API
  */
-function TimelineMetrics({
-  className,
-  compact = false,
-  ...props
-}: TimelineMetricsProps) {
+function TimelineMetrics({ className, compact = false, ...props }: TimelineMetricsProps) {
   // Fetch real metrics data
   const { views, shares, reactions, entries, loading } = useMetrics();
 
@@ -40,23 +36,23 @@ function TimelineMetrics({
     {
       icon: <Eye />,
       value: views,
-      tooltip: "Total Timeline Views"
+      tooltip: 'Total Timeline Views',
     },
     {
       icon: <ShareIcon />,
       value: shares,
-      tooltip: "Total Timeline Shares"
+      tooltip: 'Total Timeline Shares',
     },
     {
       icon: <Smile />,
       value: reactions,
-      tooltip: "Total Timeline Reactions"
+      tooltip: 'Total Timeline Reactions',
     },
     {
       icon: <History />,
       value: entries,
-      tooltip: "Total Timeline Entries"
-    }
+      tooltip: 'Total Timeline Entries',
+    },
   ];
 
   // Show skeleton while loading
@@ -67,10 +63,10 @@ function TimelineMetrics({
   return (
     <div
       className={cn(
-        "inline-flex items-center justify-center font-medium whitespace-nowrap",
-        "bg-card/50 backdrop-blur-sm border border-border/50 rounded-full",
-        "px-4 py-3 gap-4",
-        "hover:bg-card/80 hover:border-border/80",
+        'inline-flex items-center justify-center font-medium whitespace-nowrap',
+        'bg-card/50 backdrop-blur-sm border border-border/50 rounded-full',
+        'px-4 py-3 gap-4',
+        'hover:bg-card/80 hover:border-border/80',
         "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0",
         className,
       )}
@@ -78,9 +74,7 @@ function TimelineMetrics({
     >
       {metricsData.map((metric, index) => (
         <React.Fragment key={index}>
-          {index > 0 && (
-            <div className="w-px h-4 bg-border/40" />
-          )}
+          {index > 0 && <div className="w-px h-4 bg-border/40" />}
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="flex items-center gap-2 cursor-default group transition-all">
@@ -107,8 +101,7 @@ function TimelineMetrics({
  */
 function TimelineMetricsSkeleton() {
   return (
-    <div className="inline-flex items-center justify-center rounded-full h-12 w-75 border border-border/50"
-    >
+    <div className="inline-flex items-center justify-center rounded-full h-12 w-75 border border-border/50">
       <Skeleton className="h-4 w-60" />
     </div>
   );

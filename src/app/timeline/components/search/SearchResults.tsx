@@ -13,10 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import {
-  useSearchConversation,
-  type SearchMessage,
-} from '@/hooks/search/useSearchConversation';
+import { useSearchConversation, type SearchMessage } from '@/hooks/search/useSearchConversation';
 
 interface SearchResultsDialogProps {
   isOpen: boolean;
@@ -36,13 +33,8 @@ export function SearchResultsDialog({
   searchQuery,
   isWeb,
 }: SearchResultsDialogProps) {
-  const {
-    messages,
-    followUpQuery,
-    setFollowUpQuery,
-    isLoading,
-    handleFollowUpSubmit,
-  } = useSearchConversation({ isOpen, searchQuery, isWeb });
+  const { messages, followUpQuery, setFollowUpQuery, isLoading, handleFollowUpSubmit } =
+    useSearchConversation({ isOpen, searchQuery, isWeb });
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -59,9 +51,7 @@ export function SearchResultsDialog({
       >
         <SheetHeader className="w-full max-w-2xl mx-auto p-0">
           <SheetTitle className="mt-6">Search Results</SheetTitle>
-          <SheetDescription>
-            Ask follow-up questions to get more information.
-          </SheetDescription>
+          <SheetDescription>Ask follow-up questions to get more information.</SheetDescription>
         </SheetHeader>
 
         {/* Messages Area */}
@@ -71,9 +61,7 @@ export function SearchResultsDialog({
               key={message.id}
               className={cn(
                 'flex w-full flex-col gap-2 rounded-lg px-3 py-2 text-sm',
-                message.role === 'user'
-                  ? 'ml-auto bg-primary text-primary-foreground'
-                  : 'bg-muted'
+                message.role === 'user' ? 'ml-auto bg-primary text-primary-foreground' : 'bg-muted',
               )}
             >
               <p>{message.content}</p>
@@ -96,7 +84,10 @@ export function SearchResultsDialog({
         </div>
 
         {/* Follow-up Input */}
-        <form onSubmit={handleFollowUpSubmit} className="flex gap-2 pt-4 border-t w-full max-w-2xl mx-auto">
+        <form
+          onSubmit={handleFollowUpSubmit}
+          className="flex gap-2 pt-4 border-t w-full max-w-2xl mx-auto"
+        >
           <Input
             value={followUpQuery}
             onChange={(e) => setFollowUpQuery(e.target.value)}
@@ -105,11 +96,16 @@ export function SearchResultsDialog({
             className="flex-1"
             id="follow-up-input"
           />
-          <Button className="rounded-md" type="submit" size="icon" disabled={!followUpQuery.trim() || isLoading}>
+          <Button
+            className="rounded-md"
+            type="submit"
+            size="icon"
+            disabled={!followUpQuery.trim() || isLoading}
+          >
             <Send className="h-4 w-4" />
           </Button>
         </form>
       </SheetContent>
     </Sheet>
   );
-} 
+}

@@ -22,4 +22,4 @@ export async function GET() {
   } catch (e) {
     return errorResponse('Failed to fetch analytics metrics', 500, e);
   }
-} 
+}

@@ -33,4 +33,4 @@ export const getAllMetrics = async (): Promise<AllMetricsResponse> => {
       entries: 0,
     };
   }
-}; 
+};

@@ -70,7 +70,7 @@ PINECONE_API_KEY="..."
 TAVILY_API_KEY="..."
 ```
 
-> ⚠️  Never commit `.env.local` to version control.
+> ⚠️ Never commit `.env.local` to version control.
 
 ### 3. Development
 
@@ -87,13 +87,13 @@ npm run build && npm start
 
 ## 🛠 Available Scripts
 
-| Command          | Description                           |
-|------------------|---------------------------------------|
-| `npm run dev`    | Start Next.js in development mode      |
-| `npm run build`  | Create an optimized production build   |
-| `npm start`      | Run the production build locally       |
-| `npm run lint`   | ESLint code quality check              |
-| `npm run format` | Format files with Prettier             |
+| Command          | Description                          |
+| ---------------- | ------------------------------------ |
+| `npm run dev`    | Start Next.js in development mode    |
+| `npm run build`  | Create an optimized production build |
+| `npm start`      | Run the production build locally     |
+| `npm run lint`   | ESLint code quality check            |
+| `npm run format` | Format files with Prettier           |
 
 ## 🔍 Architecture Highlights
 
