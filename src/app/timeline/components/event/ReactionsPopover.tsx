@@ -56,7 +56,7 @@ export function ReactionsPopover({ entryId }: ReactionsPopoverProps) {
             <button
               key={emoji}
               onClick={handleReactionClick}
-              className="text-xl hover:scale-110 transition-transform cursor-pointer"
+              className="text-xl hover:scale-110 transition-transform "
             >
               {emoji}
             </button>

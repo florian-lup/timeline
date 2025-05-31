@@ -83,7 +83,7 @@ function TimelineMetrics({
           )}
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="flex items-center gap-2 cursor-pointer group transition-all">
+              <div className="flex items-center gap-2 cursor-default group transition-all">
                 <span className="text-muted-foreground group-hover:text-foreground transition-colors duration-200">
                   {metric.icon}
                 </span>

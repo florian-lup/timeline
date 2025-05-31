@@ -139,3 +139,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Apply pointer cursor to interactive elements */
+a,
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select,
+textarea,
+[role="button"],
+[role="link"],
+[role="tab"],
+[role="menuitem"],
+[onclick],
+[tabindex]:not([tabindex="-1"]),
+.cursor-pointer,
+.clickable {
+  cursor: pointer;
+}

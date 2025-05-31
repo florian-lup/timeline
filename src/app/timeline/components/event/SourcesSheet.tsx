@@ -39,7 +39,7 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
           <SheetTrigger asChild>
             <Badge
               variant="outline"
-              className="text-xs md:text-sm font-medium px-2 py-1"
+              className="text-xs md:text-sm font-medium px-2 py-1 cursor-pointer"
             >
               Sources ({sources.length})
             </Badge>
