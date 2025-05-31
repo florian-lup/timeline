@@ -1,4 +1,5 @@
 'use client';
+import { memo } from 'react';
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { ThemeLogo } from '@/components/ThemeLogo';
@@ -8,7 +9,7 @@ import { Button } from '@/components/ui/button';
 /**
  * Main navigation header with logo and theme toggle
  */
-export function Header() {
+export const Header = memo(function Header() {
   const pathname = usePathname();
   const isTimelinePage = pathname === '/timeline';
 
@@ -41,4 +42,4 @@ export function Header() {
       </div>
     </header>
   );
-}
+});

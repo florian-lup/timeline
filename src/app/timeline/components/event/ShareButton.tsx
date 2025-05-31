@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { ArticlesData } from '@/types/events/articles';
 import { Share as ShareIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,7 @@ interface ShareButtonProps {
   entry: ArticlesData;
 }
 
-export function ShareButton({ entry }: ShareButtonProps) {
+export const ShareButton = memo(function ShareButton({ entry }: ShareButtonProps) {
   const handleShare = () => {
     shareContent({
       title: entry.title,
@@ -33,4 +34,4 @@ export function ShareButton({ entry }: ShareButtonProps) {
       <TooltipContent side="top">Share</TooltipContent>
     </Tooltip>
   );
-}
+});

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, memo, lazy, Suspense } from 'react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { EventList } from './TimelineList';
@@ -9,7 +9,41 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import { PageViewTracker } from '@/components/PageViewTracker';
 import { SearchInput } from '@/app/timeline/components/search/SearchInput';
-import { SearchResultsDialog } from '@/app/timeline/components/search/SearchResults';
+
+// Lazy load the search results dialog as it's only needed when search is triggered
+const SearchResultsDialog = lazy(() => import('./search/SearchResults').then(module => ({ default: module.SearchResultsDialog })));
+
+/**
+ * Skeleton card for loading state
+ */
+const SkeletonCard = memo(function SkeletonCard() {
+  return (
+    <Card className="w-full">
+      <CardContent className="p-6">
+        <div className="flex flex-col space-y-3">
+          <Skeleton className="h-[125px] w-full rounded-xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+});
+
+/**
+ * Multiple skeleton cards for timeline loading
+ */
+const SkeletonList = memo(function SkeletonList() {
+  return (
+    <div className="h-full w-full flex flex-col justify-center space-y-4 md:space-y-5 lg:space-y-7 py-8 md:py-12 lg:py-16">
+      {[...Array(3)].map((_, index) => (
+        <SkeletonCard key={index} />
+      ))}
+    </div>
+  );
+});
 
 /**
  * Main timeline page with events feed and analytics
@@ -31,38 +65,6 @@ export function Timeline() {
   };
 
   /* PageViewTracker handles tracking */
-
-  /**
-   * Skeleton card for loading state
-   */
-  function SkeletonCard() {
-    return (
-      <Card className="w-full">
-        <CardContent className="p-6">
-          <div className="flex flex-col space-y-3">
-            <Skeleton className="h-[125px] w-full rounded-xl" />
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-3/4" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  /**
-   * Multiple skeleton cards for timeline loading
-   */
-  function SkeletonList() {
-    return (
-      <div className="h-full w-full flex flex-col justify-center space-y-4 md:space-y-5 lg:space-y-7 py-8 md:py-12 lg:py-16">
-        {[...Array(3)].map((_, index) => (
-          <SkeletonCard key={index} />
-        ))}
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex flex-col pb-8 md:pb-12 lg:pb-16">
@@ -110,13 +112,17 @@ export function Timeline() {
         </div>
       </main>
 
-      {/* Search Results Dialog */}
-      <SearchResultsDialog
-        isOpen={isSearchOpen}
-        onOpenChange={setIsSearchOpen}
-        searchQuery={searchQuery}
-        isWeb={isWeb}
-      />
+      {/* Search Results Dialog - Lazy loaded */}
+      {isSearchOpen && (
+        <Suspense fallback={<div />}>
+          <SearchResultsDialog
+            isOpen={isSearchOpen}
+            onOpenChange={setIsSearchOpen}
+            searchQuery={searchQuery}
+            isWeb={isWeb}
+          />
+        </Suspense>
+      )}
 
       <Footer />
     </div>

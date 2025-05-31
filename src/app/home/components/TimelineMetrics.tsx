@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { memo } from 'react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -21,10 +22,21 @@ function formatCompactNumber(value: number): string {
 }
 
 /**
+ * Loading skeleton for timeline metrics
+ */
+const TimelineMetricsSkeleton = memo(function TimelineMetricsSkeleton() {
+  return (
+    <div className="inline-flex items-center justify-center rounded-full h-12 w-75 border border-border/50">
+      <Skeleton className="h-4 w-60" />
+    </div>
+  );
+});
+
+/**
  * Displays timeline metrics in a horizontal list with tooltips
  * Fetches real-time metrics data from the API
  */
-function TimelineMetrics({ className, compact = false, ...props }: TimelineMetricsProps) {
+const TimelineMetrics = memo(function TimelineMetrics({ className, compact = false, ...props }: TimelineMetricsProps) {
   // Fetch real metrics data
   const { views, shares, reactions, entries, loading } = useMetrics();
 
@@ -94,17 +106,6 @@ function TimelineMetrics({ className, compact = false, ...props }: TimelineMetri
       ))}
     </div>
   );
-}
-
-/**
- * Loading skeleton for timeline metrics
- */
-function TimelineMetricsSkeleton() {
-  return (
-    <div className="inline-flex items-center justify-center rounded-full h-12 w-75 border border-border/50">
-      <Skeleton className="h-4 w-60" />
-    </div>
-  );
-}
+});
 
 export { TimelineMetrics };

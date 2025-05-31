@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { ArticlesData } from '@/types/events/articles';
 import { EventListItem } from './ListItem';
 import { Button } from '@/components/ui/button';
@@ -12,7 +13,7 @@ interface EventListProps {
 /**
  * Displays timeline events in reverse chronological order with load more functionality
  */
-export function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventListProps) {
+export const EventList = memo(function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventListProps) {
   return (
     <ol className="relative list-none ml-4 md:ml-6 ">
       {/* Display events in chronological order (already sorted from the API) */}
@@ -30,4 +31,4 @@ export function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventL
       )}
     </ol>
   );
-}
+});

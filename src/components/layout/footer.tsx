@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 /**
  * Site footer with copyright information
  */
-export function Footer() {
+export const Footer = memo(function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -11,4 +11,4 @@ export function Footer() {
       <p>© {currentYear} Timeline. All rights reserved.</p>
     </footer>
   );
-}
+});

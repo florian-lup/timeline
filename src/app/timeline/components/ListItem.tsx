@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { ArticlesData } from '@/types/events/articles';
 import { Check, MessageSquareMore } from 'lucide-react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
@@ -18,7 +19,7 @@ interface EventListItemProps {
 /**
  * Component for event interaction buttons
  */
-function EventActions({ entry }: { entry: ArticlesData }) {
+const EventActions = memo(function EventActions({ entry }: { entry: ArticlesData }) {
   return (
     <div className="flex items-center gap-2">
       <ReportSheet entry={entry} />
@@ -37,12 +38,12 @@ function EventActions({ entry }: { entry: ArticlesData }) {
       <ReactionsPopover entryId={entry._id} />
     </div>
   );
-}
+});
 
 /**
  * Single timeline entry with metadata, content and interactive elements
  */
-export function EventListItem({ entry }: EventListItemProps) {
+export const EventListItem = memo(function EventListItem({ entry }: EventListItemProps) {
   return (
     // Each timeline entry is a list item. The parent <ol> owns the vertical rule (border-l).
     <li
@@ -89,4 +90,4 @@ export function EventListItem({ entry }: EventListItemProps) {
       </Card>
     </li>
   );
-}
+});

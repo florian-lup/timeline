@@ -1,8 +1,9 @@
 'use client';
 
+import { memo } from 'react';
 import { TimelineMetrics } from '@/app/home/components/TimelineMetrics';
 
-export function HeroSection() {
+export const HeroSection = memo(function HeroSection() {
   return (
     <main className="flex flex-col flex-grow items-center justify-center w-full p-4 md:p-6 lg:p-8">
       <div className="relative z-10 flex flex-col items-center max-w-5xl mx-auto w-full">
@@ -20,4 +21,4 @@ export function HeroSection() {
       </div>
     </main>
   );
-}
+});

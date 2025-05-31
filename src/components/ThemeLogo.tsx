@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import Image from 'next/image';
 
 type ThemeLogoProps = {
@@ -13,7 +14,7 @@ type ThemeLogoProps = {
  * We render both variants (light & dark) and let CSS decide which one is visible,
  * eliminating the need to wait for client-side hydration.
  */
-export function ThemeLogo({ width = 24, height = 24, className = '' }: ThemeLogoProps) {
+export const ThemeLogo = memo(function ThemeLogo({ width = 24, height = 24, className = '' }: ThemeLogoProps) {
   return (
     <div
       className={className}
@@ -40,4 +41,4 @@ export function ThemeLogo({ width = 24, height = 24, className = '' }: ThemeLogo
       />
     </div>
   );
-}
+});

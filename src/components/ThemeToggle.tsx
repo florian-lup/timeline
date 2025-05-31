@@ -1,12 +1,13 @@
 'use client';
 
+import { memo } from 'react';
 import { useTheme } from 'next-themes';
 import { Toggle } from '@/components/ui/toggle';
 
 /**
  * Button that toggles between light and dark themes
  */
-export function ThemeToggle() {
+export const ThemeToggle = memo(function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
 
   const isDark = resolvedTheme === 'dark';
@@ -60,4 +61,4 @@ export function ThemeToggle() {
       </svg>
     </Toggle>
   );
-}
+});
