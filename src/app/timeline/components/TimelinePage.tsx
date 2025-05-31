@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { EventList } from './TimelineList';
@@ -7,12 +8,27 @@ import { useArticles } from '@/hooks/events/useArticles';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import { PageViewTracker } from '@/components/PageViewTracker';
+import { SearchInput } from '@/app/timeline/components/search/SearchInput';
+import { SearchResultsDialog } from '@/app/timeline/components/search/SearchResults';
 
 /**
  * Main timeline page with events feed and analytics
  */
 export function Timeline() {
   const { entries, isLoading, isLoadingMore, error, loadMore, hasMore } = useArticles();
+
+  // Search state management
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isWeb, setIsWeb] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // Handle search form submission
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      setIsSearchOpen(true);
+    }
+  };
 
   /* PageViewTracker handles tracking */
 
@@ -57,6 +73,18 @@ export function Timeline() {
       <main className="flex-1 w-full">
         <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto px-3 md:px-4 lg:px-6">
 
+          {/* Search Input Section */}
+          <div className="mt-6 mb-8">
+            <form onSubmit={handleSearchSubmit}>
+              <SearchInput
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                isWeb={isWeb}
+                onModeChange={setIsWeb}
+              />
+            </form>
+          </div>
+
           {isLoading ? (
             <SkeletonList />
           ) : error ? (
@@ -82,6 +110,15 @@ export function Timeline() {
           )}
         </div>
       </main>
+
+      {/* Search Results Dialog */}
+      <SearchResultsDialog
+        isOpen={isSearchOpen}
+        onOpenChange={setIsSearchOpen}
+        searchQuery={searchQuery}
+        isWeb={isWeb}
+      />
+
       <Footer />
     </div>
   );
