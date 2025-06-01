@@ -7,7 +7,6 @@ import { EventList } from './TimelineList';
 import { useArticles } from '@/hooks/events/useArticles';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
-import { PageViewTracker } from '@/components/PageViewTracker';
 import { SearchInput } from '@/app/timeline/components/search/SearchInput';
 
 // Lazy load the search results dialog as it's only needed when search is triggered
@@ -72,12 +71,9 @@ export function Timeline() {
     }
   };
 
-  /* PageViewTracker handles tracking */
-
   return (
     <div className="min-h-screen flex flex-col pb-8 md:pb-12 lg:pb-16">
       <Header />
-      <PageViewTracker />
 
       {/* Main content container with responsive padding and max width */}
       <main className="flex-1 w-full">

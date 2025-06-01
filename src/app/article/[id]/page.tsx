@@ -8,7 +8,6 @@ import { formatEventDate } from '@/utils/dateFormatters';
 import { SourcesSheet } from '@/app/timeline/components/event/SourcesSheet';
 import ReactMarkdown from 'react-markdown';
 import type { ArticlesData } from '@/types/events/articles';
-import { PageViewTracker } from '@/components/PageViewTracker';
 import { headers } from 'next/headers';
 
 interface ArticlePageProps {
@@ -39,7 +38,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   return (
     <div className="min-h-screen flex flex-col pb-8 md:pb-12 lg:pb-16">
       <Header />
-      <PageViewTracker />
 
       <main className="flex-1 w-full">
         <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto p-2 md:p-4 lg:p-6 space-y-6 md:space-y-8">

@@ -48,7 +48,7 @@ export function ReactionsPopover({ entryId }: ReactionsPopoverProps) {
         <TooltipContent side="top">React</TooltipContent>
       </Tooltip>
 
-      <PopoverContent className="p-2 max-w-[95vw] w-fit" align="start">
+      <PopoverContent className="p-2 max-w-[95vw] w-fit" align="center" side="top">
         <div className="grid grid-cols-6 gap-2">
           {emojis.map((emoji) => (
             <button
