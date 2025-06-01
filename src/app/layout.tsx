@@ -13,8 +13,14 @@ const inter = Inter({
   display: 'swap',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com';
+
 export const metadata: Metadata = {
-  title: 'Timeline',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Timeline - AI-Powered Global Events Platform',
+    template: '%s | Timeline',
+  },
   description:
     'Timeline is an AI-powered platform that captures and curates global events in real time, providing a seamless, interactive, and continuously evolving narrative of what is happening around the world.',
   keywords: [
@@ -29,6 +35,41 @@ export const metadata: Metadata = {
     'event tracking',
     'interactive timeline',
   ],
+  authors: [{ name: 'Timeline Team' }],
+  creator: 'Timeline',
+  publisher: 'Timeline',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    title: 'Timeline - AI-Powered Global Events Platform',
+    description:
+      'Timeline captures and curates global events in real time with AI, providing an interactive narrative of world events.',
+    url: siteUrl,
+    siteName: 'Timeline',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Timeline - AI-Powered Global Events Platform',
+    description:
+      'Timeline captures and curates global events in real time with AI, providing an interactive narrative of world events.',
+    creator: '@timeline',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({

@@ -46,3 +46,5 @@ build/
 .next/
 
 .vercel
+
+PROJECT_STRUCTURE.md

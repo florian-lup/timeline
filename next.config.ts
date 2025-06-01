@@ -7,8 +7,32 @@ const nextConfig: NextConfig = {
   // Optimize CSS loading
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['@/components/ui'],
+    optimizePackageImports: ['@/components/ui', 'lucide-react', '@radix-ui/react-*'],
   },
+
+  // Image optimization
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      // Add your external image domains here
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
+
+  // Enable SWC minification
+  swcMinify: true,
+
+  // Compression
+  compress: true,
+
+  // Powered by header
+  poweredByHeader: false,
+
+  // Trailing slash
+  trailingSlash: false,
 };
 
 export default nextConfig;
