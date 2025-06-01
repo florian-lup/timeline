@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from 'react';
 import { Send } from 'lucide-react';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 
 import {
   Sheet,
@@ -51,7 +52,9 @@ export function SearchResultsDialog({
       >
         <SheetHeader className="w-full max-w-2xl mx-auto p-0">
           <SheetTitle className="mt-6">Search Results</SheetTitle>
-          <SheetDescription>Ask follow-up questions to get more information.</SheetDescription>
+          <VisuallyHidden.Root>
+            <SheetDescription>Ask follow-up questions to get more information.</SheetDescription>
+          </VisuallyHidden.Root>
         </SheetHeader>
 
         {/* Messages Area */}

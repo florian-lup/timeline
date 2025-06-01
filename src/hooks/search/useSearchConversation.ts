@@ -60,6 +60,14 @@ export function useSearchConversation({
       setMessages([]);
       setIsLoading(true);
 
+      // Add the initial user query as the first message
+      const userMessage: SearchMessage = {
+        id: `msg-${Date.now()}-user`,
+        role: 'user',
+        content: searchQuery,
+      };
+      setMessages([userMessage]);
+
       try {
         const historyPayload: HistoryMessage[] = [{ role: 'user', content: searchQuery }];
 
@@ -67,18 +75,19 @@ export function useSearchConversation({
           ? await fetchWebSearch(searchQuery, historyPayload)
           : await fetchTimelineSearch(searchQuery, historyPayload);
 
-        const initialMessage: SearchMessage = {
-          id: `msg-${Date.now()}`,
+        const assistantMessage: SearchMessage = {
+          id: `msg-${Date.now()}-assistant`,
           role: 'assistant',
           content: result.answer || `No answer found for "${searchQuery}"`,
         };
 
-        setMessages([initialMessage]);
+        setMessages([userMessage, assistantMessage]);
       } catch (error) {
         console.error('Search initialization failed:', error);
         setMessages([
+          userMessage,
           {
-            id: `msg-${Date.now()}`,
+            id: `msg-${Date.now()}-assistant`,
             role: 'assistant',
             content: 'Sorry, something went wrong while searching. Please try again later.',
           },
