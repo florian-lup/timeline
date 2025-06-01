@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { formatEventDate } from '@/utils/dateFormatters';
 import { SourcesSheet } from './event/SourcesSheet';
-import { ReportSheet } from './event/ReportSheet';
+import { ArticleSheet } from './event/ArticleSheet';
 import { ReactionsPopover } from './event/ReactionsPopover';
 import { ShareButton } from './event/ShareButton';
 
@@ -23,7 +23,7 @@ interface EventListItemProps {
 const EventActions = memo(function EventActions({ entry }: { entry: ArticlesData }) {
   return (
     <div className="flex items-center gap-2">
-      <ReportSheet entry={entry} />
+      <ArticleSheet entry={entry} />
 
       <ReactionsPopover entryId={entry._id} />
 

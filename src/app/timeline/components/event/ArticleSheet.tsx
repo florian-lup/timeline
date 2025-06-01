@@ -4,17 +4,14 @@ import { ArticlesData } from '@/types/events/articles';
 import { FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-import { useRouter } from 'next/navigation';
 
 interface ReportDialogProps {
   entry: ArticlesData;
 }
 
-export function ReportSheet({ entry }: ReportDialogProps) {
-  const router = useRouter();
-
+export function ArticleSheet({ entry }: ReportDialogProps) {
   const handleReadClick = () => {
-    router.push(`/article/${entry._id}`);
+    window.open(`/article/${entry._id}`, '_blank');
   };
 
   return (
