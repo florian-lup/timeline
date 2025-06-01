@@ -5,6 +5,7 @@ import { ArticlesData } from '@/types/events/articles';
 import { Check, MessageSquareMore } from 'lucide-react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { formatEventDate } from '@/utils/dateFormatters';
 import { SourcesSheet } from './event/SourcesSheet';
@@ -57,9 +58,9 @@ export const EventListItem = memo(function EventListItem({ entry }: EventListIte
             {/* Timeline bullet with checkmark */}
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="h-6 w-6 rounded-full bg-accent-blue flex items-center justify-center cursor-default">
+                <Badge className="h-6 w-6 rounded-full bg-accent-blue hover:bg-accent-blue flex items-center justify-center cursor-default p-0">
                   <Check className="h-3 w-3 text-white" />
-                </span>
+                </Badge>
               </TooltipTrigger>
               <TooltipContent side="top">Verified</TooltipContent>
             </Tooltip>

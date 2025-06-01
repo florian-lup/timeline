@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Link as LinkIcon } from 'lucide-react';
 import {
   Sheet,
@@ -37,12 +37,13 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
         <TooltipTrigger asChild>
           {/* Use the sheet trigger to open the panel */}
           <SheetTrigger asChild>
-            <Badge
+            <Button
               variant="outline"
-              className="text-xs md:text-sm font-medium px-2 py-1 cursor-pointer"
+              size="xs"
+              className="text-xs md:text-sm font-medium"
             >
               Sources ({sources.length})
-            </Badge>
+            </Button>
           </SheetTrigger>
         </TooltipTrigger>
         <TooltipContent side="top">View sources</TooltipContent>
