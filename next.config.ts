@@ -22,9 +22,6 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // Enable SWC minification
-  swcMinify: true,
-
   // Compression
   compress: true,
 
