@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { History, Globe } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -34,20 +33,13 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(functio
   return (
     <div className="flex w-full">
       <div className="relative flex-1">
-        {/* Icons */}
-        {isWeb ? (
-          <Globe className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-        ) : (
-          <History className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-        )}
-
         {/* Switch toggle */}
         <Switch
           id="search-mode-toggle"
           name="search-mode"
           checked={isWeb}
           onCheckedChange={onModeChange}
-          className="absolute left-8 top-1/2 -translate-y-1/2 scale-75"
+          className="absolute left-3 top-1/2 -translate-y-1/2"
         />
 
         {/* Text input */}
@@ -56,7 +48,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(functio
           id="search-input"
           name="search-query"
           className={cn(
-            'pl-[4.5rem] pr-4 rounded-r-none rounded-l-full focus-visible:ring-0',
+            'pl-16 pr-4 rounded-r-none rounded-l-full focus-visible:ring-0',
             className,
           )}
           type="search"

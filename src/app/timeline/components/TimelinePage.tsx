@@ -64,6 +64,14 @@ export function Timeline() {
     }
   };
 
+  // Handle search dialog close - clear the input
+  const handleSearchDialogClose = (open: boolean) => {
+    setIsSearchOpen(open);
+    if (!open) {
+      setSearchQuery(''); // Clear the search input when dialog closes
+    }
+  };
+
   /* PageViewTracker handles tracking */
 
   return (
@@ -117,7 +125,7 @@ export function Timeline() {
         <Suspense fallback={<div />}>
           <SearchResultsDialog
             isOpen={isSearchOpen}
-            onOpenChange={setIsSearchOpen}
+            onOpenChange={handleSearchDialogClose}
             searchQuery={searchQuery}
             isWeb={isWeb}
           />
