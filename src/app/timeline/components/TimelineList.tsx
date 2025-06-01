@@ -15,7 +15,7 @@ interface EventListProps {
  */
 export const EventList = memo(function EventList({ events, isLoadingMore, hasMore, onLoadMore }: EventListProps) {
   return (
-    <ol className="relative list-none ml-4 md:ml-6 ">
+    <div>
       {/* Display events in chronological order (already sorted from the API) */}
       {events.map((entry) => (
         <EventListItem key={entry._id} entry={entry} />
@@ -23,12 +23,12 @@ export const EventList = memo(function EventList({ events, isLoadingMore, hasMor
 
       {/* Load more button */}
       {hasMore && (
-        <li className="pt-2 md:pt-3 lg:pt-4 pb-4 md:pb-6 lg:pb-8 flex justify-center">
+        <div className="pt-2 md:pt-3 lg:pt-4 pb-4 md:pb-6 lg:pb-8 flex justify-center">
           <Button onClick={onLoadMore} disabled={isLoadingMore} variant="outline">
             {isLoadingMore ? 'Loading...' : 'Load More'}
           </Button>
-        </li>
+        </div>
       )}
-    </ol>
+    </div>
   );
 });

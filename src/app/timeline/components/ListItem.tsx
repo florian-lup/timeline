@@ -45,33 +45,24 @@ const EventActions = memo(function EventActions({ entry }: { entry: ArticlesData
  */
 export const EventListItem = memo(function EventListItem({ entry }: EventListItemProps) {
   return (
-    // Each timeline entry is a list item. The parent <ol> owns the vertical rule (border-l).
-    <li
-      className="
-        relative pl-8 my-16
-        before:absolute before:left-0 before:top-1
-        before:bottom-0 before:w-px
-        before:bg-muted-foreground/20
-        before:content-['']
-      "
-    >
-      {/* Timeline bullet with checkmark */}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <span className="absolute -left-3 top-1 h-6 w-6 rounded-full bg-accent-blue flex items-center justify-center cursor-default">
-            <Check className="h-3 w-3 text-white" />
-          </span>
-        </TooltipTrigger>
-        <TooltipContent side="top">Verified</TooltipContent>
-      </Tooltip>
-
+    // Each timeline entry is now a simple div container
+    <div className="my-10">
       {/* Event card */}
-      <Card className="group bg-background shadow-none border-none gap-3 py-0">
+      <Card className="group bg-background/50 shadow-sm border border-border/50 hover:border-border hover:shadow-md transition-all duration-200 gap-3 p-4 md:p-6">
         <CardHeader className="px-2">
-          {/* Event metadata: creation date */}
+          {/* Event metadata: creation date with checkmark */}
           <div className="flex items-center gap-4">
             <span className="text-sm">{formatEventDate(entry.date)}</span>
             <SourcesSheet title={entry.title} sources={entry.sources} />
+            {/* Timeline bullet with checkmark */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="h-6 w-6 rounded-full bg-accent-blue flex items-center justify-center cursor-default">
+                  <Check className="h-3 w-3 text-white" />
+                </span>
+              </TooltipTrigger>
+              <TooltipContent side="top">Verified</TooltipContent>
+            </Tooltip>
           </div>
         </CardHeader>
 
@@ -88,6 +79,6 @@ export const EventListItem = memo(function EventListItem({ entry }: EventListIte
           <EventActions entry={entry} />
         </CardFooter>
       </Card>
-    </li>
+    </div>
   );
 });
