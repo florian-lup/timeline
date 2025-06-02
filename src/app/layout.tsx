@@ -7,14 +7,13 @@ import { PageViewTracker } from '@/components/PageViewTracker';
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
-// Load Inter font with optimization
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
   display: 'swap',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com';
+const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.timeline.supply';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
