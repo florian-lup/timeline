@@ -34,7 +34,7 @@ export function ArticleSheet({ entry }: ReportDialogProps) {
 
       <SheetContent
         side="bottom"
-        className="bg-background top-0 focus-visible:outline-none focus-visible:ring-0 ring-0 border-0"
+        className="bg-background top-0"
       >
         <SheetHeader>
           <VisuallyHidden.Root>

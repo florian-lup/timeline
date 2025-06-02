@@ -48,7 +48,7 @@ export function SearchResultsDialog({
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="top-0 flex flex-col gap-6 p-4 focus-visible:outline-none focus-visible:ring-0 ring-0 border-0"
+        className="top-0 flex flex-col gap-6 p-4"
       >
         <SheetHeader className="w-full max-w-2xl mx-auto p-0">
           <SheetTitle className="mt-6">Search Results</SheetTitle>

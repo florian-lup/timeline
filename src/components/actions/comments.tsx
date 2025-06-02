@@ -108,7 +108,7 @@ export const CommentsButton = memo(function CommentsButton({ entry }: CommentsBu
         </div>
       </SheetTrigger>
 
-      <SheetContent className="w-full sm:max-w-md bg-card focus-visible:outline-none focus-visible:ring-0 ring-0 border-0">
+      <SheetContent className="w-full sm:max-w-md bg-card">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2 mt-6">
             Comments

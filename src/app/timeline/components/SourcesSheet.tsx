@@ -51,7 +51,7 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
 
       <SheetContent
         side="right"
-        className="sm:max-w-[90%] md:max-w-[80%] lg:max-w-xl bg-card focus-visible:outline-none focus-visible:ring-0 ring-0 border-0"
+        className="w-full sm:max-w-md bg-card"
       >
         <SheetHeader className="text-left">
           <SheetTitle className="mt-6">{title}</SheetTitle>
