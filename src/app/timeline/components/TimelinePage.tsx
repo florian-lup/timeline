@@ -36,7 +36,7 @@ const SkeletonCard = memo(function SkeletonCard() {
  */
 const SkeletonList = memo(function SkeletonList() {
   return (
-    <div className="h-full w-full flex flex-col justify-center space-y-4 md:space-y-5 lg:space-y-7 py-8 md:py-12 lg:py-16">
+    <div className="h-full w-full flex flex-col justify-center space-y-4 md:space-y-5 lg:space-y-7 ">
       {[...Array(3)].map((_, index) => (
         <SkeletonCard key={index} />
       ))}

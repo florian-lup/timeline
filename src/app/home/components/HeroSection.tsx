@@ -12,7 +12,7 @@ export const HeroSection = memo(function HeroSection() {
         </h1>
 
         <p className="text-sm md:text-lg lg:text-xl xl:text-2xl mb-6 md:mb-8 lg:mb-10 leading-relaxed md:max-w-xl lg:max-2xl xl:max-w-3xl text-center">
-          Timeline curates noteworthy events around the world and stitches them into a smooth,
+          Timeline curates noteworthy events from around the world and stitches them into a smooth,
           ever-growing thread
         </p>
 
