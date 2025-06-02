@@ -1,7 +1,7 @@
 'use client';
 
 import { ArticlesData } from '@/types/events/articles';
-import { FileText } from 'lucide-react';
+import { Newspaper } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetDescription } from '@/components/ui/sheet';
@@ -25,7 +25,7 @@ export function ArticleSheet({ entry }: ReportDialogProps) {
               size="icon"
               className="p-1.5 md:p-2 h-auto w-auto"
             >
-              <FileText className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              <Newspaper className="h-3.5 w-3.5 md:h-4 md:w-4" />
             </Button>
           </SheetTrigger>
         </TooltipTrigger>

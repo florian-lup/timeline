@@ -4,8 +4,10 @@ import { redirect, notFound } from 'next/navigation';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Card, CardContent } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { formatEventDate } from '@/utils/dateFormatters';
-import { SourcesSheet } from '@/app/timeline/components/event/SourcesSheet';
+import { SourcesSheet } from '@/app/timeline/components/SourcesSheet';
+import { ArticleActions } from './components/ArticleActions';
 import ReactMarkdown from 'react-markdown';
 import type { ArticlesData } from '@/types/events/articles';
 import { headers } from 'next/headers';
@@ -48,6 +50,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-snug">
                 {data.title}
               </h1>
+
+              {/* Top divider */}
+              <Separator />
+
+              {/* Action buttons */}
+              <ArticleActions entry={data} />
+
+              {/* Bottom divider */}
+              <Separator />
 
               <p className="text-base md:text-lg/relaxed">{data.summary}</p>
 

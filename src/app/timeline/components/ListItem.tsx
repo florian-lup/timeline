@@ -2,16 +2,17 @@
 
 import { memo } from 'react';
 import { ArticlesData } from '@/types/events/articles';
-import { Check, MessageSquareMore } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { formatEventDate } from '@/utils/dateFormatters';
-import { SourcesSheet } from './event/SourcesSheet';
-import { ArticleSheet } from './event/ArticleSheet';
-import { ReactionsPopover } from './event/ReactionsPopover';
-import { ShareButton } from './event/ShareButton';
+import { SourcesSheet } from './SourcesSheet';
+import { ArticleSheet } from './ArticleSheet';
+import { ReactionsPopover } from '@/components/actions/reactions';
+import { ShareButton } from '@/components/actions/share';
+import { CopyButton } from '@/components/actions/copy';
+import { CommentsButton } from '@/components/actions/comments';
 
 interface EventListItemProps {
   entry: ArticlesData;
@@ -29,14 +30,9 @@ const EventActions = memo(function EventActions({ entry }: { entry: ArticlesData
 
       <ShareButton entry={entry} />
 
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className="p-1.5 md:p-2 h-auto w-auto">
-            <MessageSquareMore className="h-3.5 w-3.5 md:h-4 md:w-4" />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent side="top">Coming soon</TooltipContent>
-      </Tooltip>
+      <CopyButton entry={entry} contentType="summary" />
+
+      <CommentsButton entry={entry} />
     </div>
   );
 });
