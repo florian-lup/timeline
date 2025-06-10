@@ -1,6 +1,7 @@
 # Next.js Starter Template
 
-A modern, production-ready Next.js starter template with TypeScript, Tailwind CSS, and comprehensive tooling.
+A modern, production-ready Next.js starter template with TypeScript, Tailwind
+CSS, and comprehensive tooling.
 
 ## ✨ Features
 
@@ -11,11 +12,13 @@ A modern, production-ready Next.js starter template with TypeScript, Tailwind CS
 - **Playwright** E2E testing
 - **ESLint + Prettier** code formatting
 - **SEO optimized** with metadata and Open Graph support
-- **Security hardened** with strict CSP and security headers
+- **Security hardened** with strict dynamic CSP and static security headers
 
 ## 📏 Code Quality Standards
 
-Comprehensive ESLint rules with TypeScript strict mode, SonarJS integration, absolute imports (`@/` prefix), kebab-case filenames, import ordering, complexity limits, and naming conventions. Configured in `eslint.config.mjs`.
+Comprehensive ESLint rules with TypeScript strict mode, SonarJS integration,
+absolute imports (`@/` prefix), kebab-case filenames, import ordering,
+complexity limits, and naming conventions. Configured in `eslint.config.mjs`.
 
 ## 🚀 Quick Start
 
