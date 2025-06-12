@@ -1,16 +1,23 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
+/**
+ * Middleware to apply Content Security Policy (CSP) headers
+ * Runs in all environments including development mode
+ */
 export function middleware(request: NextRequest) {
+  // Generate a unique nonce for each request to enhance CSP security
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
 
   const isDev = process.env.NODE_ENV === 'development';
 
+  // Different CSP directives for development vs production
   const styleDev = `'self' 'unsafe-inline'`;
   const styleProd = `'self' 'nonce-${nonce}'`;
 
   const scriptDev = `'self' 'unsafe-inline' 'unsafe-eval'`;
   const scriptProd = `'self' 'nonce-${nonce}' 'strict-dynamic'`;
 
+  // Comprehensive CSP header with environment-specific settings
   const cspHeader = `
       default-src 'self';
       connect-src 'self' blob:;
@@ -33,6 +40,7 @@ export function middleware(request: NextRequest) {
     .replace(/\s{2,}/g, ' ')
     .trim();
 
+  // Pass nonce to the application for use in script/style tags
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
 
@@ -54,6 +62,11 @@ export function middleware(request: NextRequest) {
   return response;
 }
 
+/**
+ * Apply middleware only to non-static paths
+ * Exclude API routes, static files, images, and favicon
+ * Also exclude prefetch requests
+ */
 export const config = {
   matcher: [
     {

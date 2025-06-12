@@ -1,3 +1,20 @@
 # API Routes
-# Next.js API routes go here (e.g., /api/users/route.ts)
-# Each folder represents a route segment with route.ts files handling HTTP methods
+# Next.js App Router API routes go here
+# 
+# Example structure:
+# /api/users/route.ts
+# ```
+# import { NextResponse } from 'next/server';
+# 
+# export async function GET() {
+#   // Fetch data
+#   return NextResponse.json({ users: [] });
+# }
+# 
+# export async function POST(request: Request) {
+#   const data = await request.json();
+#   // Process data
+#   return NextResponse.json({ success: true });
+# }
+# ```
+# Access at: /api/users

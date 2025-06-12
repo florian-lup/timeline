@@ -1,2 +1,29 @@
 # UI Components
-# Reusable UI components like buttons, inputs, modals, etc.
+# Store reusable UI components in this directory
+# Works with shadcn/ui - use the command:
+# pnpm dlx shadcn-ui@latest add button
+# 
+# Or create custom components:
+# button.tsx, card.tsx, dialog.tsx, etc.
+# 
+# Example custom component:
+# ```
+# 'use client';
+# 
+# import { cn } from '@/lib/utils';
+# 
+# export function CustomButton({ 
+#   className, 
+#   children, 
+#   ...props 
+# }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+#   return (
+#     <button
+#       className={cn("px-4 py-2 rounded-md", className)}
+#       {...props}
+#     >
+#       {children}
+#     </button>
+#   );
+# }
+# ```

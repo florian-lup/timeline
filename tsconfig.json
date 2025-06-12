@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
+    // Target the latest ECMAScript version supported by modern browsers
     "target": "ES2022",
     "lib": ["dom", "dom.iterable", "esnext"],
+    // Disallow JavaScript files in the project
     "allowJs": false,
     "skipLibCheck": true,
+    // Enable strict type checking for better code quality
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -13,6 +16,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    // Enhanced type checking options for better safety
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -23,6 +27,7 @@
         "name": "next"
       }
     ],
+    // Path aliases for cleaner imports
     "paths": {
       "@/*": ["./*"]
     }

@@ -11,14 +11,9 @@ CSS, and comprehensive tooling.
 - **Dark/Light mode** support
 - **Playwright** E2E testing
 - **ESLint + Prettier** code formatting
-- **SEO optimized** with metadata and Open Graph support
-- **Security hardened** with strict dynamic CSP and static security headers
-
-## 📏 Code Quality Standards
-
-Comprehensive ESLint rules with TypeScript strict mode, SonarJS integration,
-absolute imports (`@/` prefix), kebab-case filenames, import ordering,
-complexity limits, and naming conventions. Configured in `eslint.config.mjs`.
+- **Husky Git hooks** with commit linting and pre-commit/pre-push checks
+- **GitHub workflows** for automated CI/CD testing and linting
+- **Security hardened** with strict CSP and headers
 
 ## 🚀 Quick Start
 
@@ -51,25 +46,17 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ```
 nextjs-template/
-├── app/                 # Next.js App Router
-│   ├── actions/        # Server actions
+├── app/                # Next.js App Router
 │   ├── api/            # API routes
 │   └── ...             # Pages and layouts
 ├── components/
 │   └── ui/             # Shadcn/UI components
+│   └── ...             # Custom components
 ├── hooks/              # Custom React hooks
 ├── lib/                # Utilities and configurations
 ├── public/             # Static assets
-└── tests/              # Playwright tests
-```
-
-## 🎨 Adding Components
-
-Add Shadcn/UI components:
-
-```bash
-pnpm dlx shadcn@latest add button
-pnpm dlx shadcn@latest add card
+├── tests/              # Playwright tests
+├── ...                 # Configuration files and folders
 ```
 
 ## 📝 License
