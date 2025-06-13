@@ -11,7 +11,6 @@ CSS, and comprehensive tooling.
 - **Dark/Light mode** support
 - **Playwright** E2E testing
 - **ESLint + Prettier** code formatting
-- **Husky Git hooks** with commit linting and pre-commit/pre-push checks
 - **GitHub workflows** for automated CI/CD testing and linting
 - **Security hardened** with strict CSP and headers
 
