@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { headers } from 'next/headers';
@@ -24,20 +25,16 @@ export const viewport = {
 
 // SEO metadata configuration with relevant keywords
 export const metadata: Metadata = {
-  title: 'Next.js Starter Kit',
-  description: 'A starter template for your Next.js project',
+  title: 'Timeline',
+  description: 'AI-Powered News Tracking',
   keywords: [
-    'template',
-    'scaffolding',
-    'next.js',
-    'react',
-    'tailwind',
-    'shadcn',
-    'ui',
-    'components',
-    'design',
-    'system',
-    'framework',
+    'timeline',
+    'news',
+    'global events',
+    'global news',
+    'world news',
+    'breaking news',
+    'global news tracking',
   ],
 };
 
@@ -47,12 +44,10 @@ export const metadata: Metadata = {
  */
 export default async function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
-  // Get CSP nonce from middleware headers for secure script/style loading
+}>) {
   const nonce = (await headers()).get('x-nonce') ?? '';
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -66,6 +61,7 @@ export default async function RootLayout({
           nonce={nonce}
         >
           {children}
+          {process.env['VERCEL_ENV'] === 'production' && <Analytics />}
         </ThemeProvider>
       </body>
     </html>
