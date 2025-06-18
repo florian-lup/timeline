@@ -13,11 +13,6 @@ import {
   SheetTitle,
   SheetDescription,
 } from '@/components/ui/sheet';
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from '@/components/ui/tooltip';
 
 interface SourcesSheetProps {
   /**
@@ -40,23 +35,14 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
 
   return (
     <Sheet>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          {/* Use the sheet trigger to open the panel */}
-          <SheetTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              className="leading-none font-medium"
-            >
-              {sources.length} Sources
-            </Button>
-          </SheetTrigger>
-        </TooltipTrigger>
-        <TooltipContent side="top">View sources</TooltipContent>
-      </Tooltip>
+      {/* Use the sheet trigger to open the panel */}
+      <SheetTrigger asChild>
+        <Button variant="outline" size="sm" className="leading-none">
+          {sources.length} Sources
+        </Button>
+      </SheetTrigger>
 
-      <SheetContent side="right">
+      <SheetContent side="left" className="overflow-y-auto">
         <SheetHeader>
           <VisuallyHidden.Root>
             <SheetTitle>{title}</SheetTitle>
@@ -64,14 +50,14 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
 
           <SheetDescription>Sources</SheetDescription>
         </SheetHeader>
-        <div className="no-scrollbar overflow-y-auto p-2">
-          <ul className="space-y-2">
+        <div className="p-2">
+          <ul>
             {sources.map((source, index) => (
               <li
                 key={index}
-                className="hover:bg-muted flex items-start gap-2 rounded p-2"
+                className="hover:bg-muted flex items-center gap-2 rounded p-2"
               >
-                <LinkIcon className="text-muted-foreground mt-1 h-4 w-4 shrink-0" />
+                <LinkIcon className="text-muted-foreground size-3" />
                 <a
                   href={source}
                   target="_blank"
