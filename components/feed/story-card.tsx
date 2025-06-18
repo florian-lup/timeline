@@ -24,7 +24,7 @@ export const StoryCard = memo(function StoryCard({ entry }: StoryCardProps) {
             <span className="text-muted-foreground text-sm">
               {formatDate(entry.date)}
             </span>
-            <SourcesSheet title={entry.title} sources={entry.sources ?? []} />
+            <SourcesSheet title={entry.title} sources={entry.sources} />
             <FullStory entry={entry} />
           </div>
         </CardHeader>

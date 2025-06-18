@@ -1,4 +1,4 @@
-import { NewsfeedPage } from '@/components/newsfeed/feed-page';
+import { NewsfeedPage } from '@/components/feed/newsfeed';
 
 export default function HomePage() {
   return <NewsfeedPage />;

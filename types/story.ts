@@ -3,6 +3,6 @@ export interface StoryData {
   title: string;
   summary: string;
   date: string | Date;
-  sources?: string[];
-  research?: string;
+  sources: string[];
+  research: string;
 }

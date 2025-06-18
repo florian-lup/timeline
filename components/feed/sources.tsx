@@ -1,18 +1,23 @@
 'use client';
 
-import { Link as LinkIcon } from 'lucide-react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { LinkIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { extractDomain } from '@/utils/url-formatter';
 import {
   Sheet,
-  SheetTrigger,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetDescription,
+  SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '@/components/ui/tooltip';
+import { extractDomain } from '@/utils/url-formatter';
 
 interface SourcesSheetProps {
   /**
@@ -22,7 +27,7 @@ interface SourcesSheetProps {
   /**
    * An array of source URLs
    */
-  sources?: string[];
+  sources: string[];
 }
 
 /**
@@ -31,16 +36,21 @@ interface SourcesSheetProps {
  */
 export function SourcesSheet({ title, sources }: SourcesSheetProps) {
   // If we have no sources, render nothing.
-  if (!sources || sources.length === 0) return null;
+  if (!sources.length) return null;
 
   return (
     <Sheet>
-      {/* Use the sheet trigger to open the panel */}
-      <SheetTrigger asChild>
-        <Button variant="outline" size="sm" className="leading-none">
-          {sources.length} Sources
-        </Button>
-      </SheetTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="sm">
+              <LinkIcon className="size-3.5" />
+              {sources.length}
+            </Button>
+          </SheetTrigger>
+        </TooltipTrigger>
+        <TooltipContent sideOffset={4}>Sources</TooltipContent>
+      </Tooltip>
 
       <SheetContent side="left" className="overflow-y-auto">
         <SheetHeader>

@@ -1,7 +1,7 @@
 'use client';
 
-import { Newspaper } from 'lucide-react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { Newspaper } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '@/components/ui/tooltip';
 import type { StoryData } from '@/types/story';
 import { formatDate } from '@/utils/date-formatter';
 
@@ -23,12 +28,16 @@ interface FullStoryProps {
 export function FullStory({ entry }: FullStoryProps) {
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="default" size="sm" className="leading-none">
-          <Newspaper />
-          Read More
-        </Button>
-      </SheetTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <SheetTrigger asChild>
+            <Button variant="default" size="sm">
+              <Newspaper className="size-3.5" />
+            </Button>
+          </SheetTrigger>
+        </TooltipTrigger>
+        <TooltipContent sideOffset={4}>Read More</TooltipContent>
+      </Tooltip>
 
       <SheetContent className="w-full max-w-2xl overflow-y-auto md:max-w-3xl">
         <SheetHeader>
@@ -39,11 +48,9 @@ export function FullStory({ entry }: FullStoryProps) {
         </SheetHeader>
 
         <div className="p-4">
-          {entry.research && (
-            <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted max-w-none">
-              <ReactMarkdown>{entry.research}</ReactMarkdown>
-            </div>
-          )}
+          <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted max-w-none">
+            <ReactMarkdown>{entry.research}</ReactMarkdown>
+          </div>
         </div>
       </SheetContent>
     </Sheet>

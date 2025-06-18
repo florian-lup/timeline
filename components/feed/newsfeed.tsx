@@ -1,8 +1,8 @@
 'use client';
 
-import { SkeletonList } from '@/components/newsfeed/feed-skeleton';
-import { Header } from '@/components/newsfeed/header';
-import { StoryList } from '@/components/newsfeed/story-list';
+import { SkeletonList } from '@/components/feed/feed-skeleton';
+import { Header } from '@/components/feed/header';
+import { StoryList } from '@/components/feed/story-list';
 import { Card } from '@/components/ui/card';
 import { usePagination } from '@/hooks/usePagination';
 
@@ -13,7 +13,6 @@ export function NewsfeedPage() {
   const { entries, isLoading, isLoadingMore, error, hasMore, loadMore } =
     usePagination();
 
-  // Helper function to determine main content
   const renderMainContent = () => {
     if (isLoading) {
       return <SkeletonList />;
@@ -45,7 +44,7 @@ export function NewsfeedPage() {
       <Header />
 
       {/* Error display */}
-      {error !== null && (
+      {error !== null && error !== '' && (
         <div className="mx-auto w-full max-w-xl px-3 md:max-w-2xl md:px-4 lg:max-w-3xl lg:px-6 xl:max-w-4xl">
           <Card className="my-4 p-4">
             <div className="text-amber-500">{error}</div>

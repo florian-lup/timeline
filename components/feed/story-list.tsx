@@ -70,7 +70,7 @@ export function StoryList({
     itemContent,
     components: { Footer },
     style: { height: '100%' },
-    className: 'no-scrollbar w-full',
+    className: 'no-scrollbar',
     overscan: 5,
     increaseViewportBy: { top: 600, bottom: 600 },
   };
