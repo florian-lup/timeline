@@ -3,6 +3,7 @@
 import { memo } from 'react';
 
 import { CopyButton } from '@/components/copy-to-clipbaord';
+import { ReactionsPopover } from '@/components/emoji-reactions';
 import {
   Card,
   CardHeader,
@@ -44,7 +45,8 @@ export const StoryCard = memo(function StoryCard({ entry }: StoryCardProps) {
             </p>
           </div>
         </CardContent>
-        <CardFooter className="justify-end p-0">
+        <CardFooter className="items-center justify-end p-0">
+          <ReactionsPopover entryId={entry._id} />
           <CopyButton entry={entry} />
         </CardFooter>
       </Card>
