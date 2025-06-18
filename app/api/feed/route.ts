@@ -8,7 +8,7 @@ import { successResponse, errorResponse } from '@/utils/api-helper';
  * Uses _id as cursor since it encodes creation time and provides unique ordering
  */
 interface CursorPaginationParams {
-  before?: string; // lastId from previous page
+  before?: string;
   limit: number;
 }
 

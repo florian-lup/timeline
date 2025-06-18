@@ -35,7 +35,6 @@ interface SourcesSheetProps {
  * all the sources for a given story.
  */
 export function SourcesSheet({ title, sources }: SourcesSheetProps) {
-  // If we have no sources, render nothing.
   if (!sources.length) return null;
 
   return (

@@ -19,7 +19,6 @@ export const StoryCard = memo(function StoryCard({ entry }: StoryCardProps) {
       {/* Event card */}
       <Card className="border-border/50 gap-3 border p-4 shadow-sm md:p-6">
         <CardHeader className="p-0">
-          {/* Event metadata: creation date with checkmark */}
           <div className="flex items-center gap-4">
             <span className="text-muted-foreground text-sm">
               {formatDate(entry.date)}
@@ -30,7 +29,6 @@ export const StoryCard = memo(function StoryCard({ entry }: StoryCardProps) {
         </CardHeader>
 
         <CardContent className="p-0">
-          {/* Event content */}
           <div>
             <h3 className="mb-4 text-lg leading-tight font-semibold md:text-xl lg:text-2xl">
               {entry.title}

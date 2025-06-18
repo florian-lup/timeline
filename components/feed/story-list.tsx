@@ -34,7 +34,6 @@ export function StoryList({
     );
   };
 
-  // End reached handler with proper typing
   const handleEndReached = hasMore
     ? () => {
         onLoadMore();
@@ -78,7 +77,6 @@ export function StoryList({
   return (
     <div className="h-full">
       {' '}
-      {/* Use full available height from parent */}
       <Virtuoso {...virtuosoProps} />
     </div>
   );

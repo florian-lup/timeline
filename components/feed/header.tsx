@@ -16,7 +16,6 @@ import {
  */
 export function Header() {
   const handleSearchClick = () => {
-    // Search functionality will be implemented in a future update
     console.log('Search clicked');
   };
 
