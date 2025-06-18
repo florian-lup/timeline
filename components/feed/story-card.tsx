@@ -2,7 +2,13 @@
 
 import { memo } from 'react';
 
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import { CopyButton } from '@/components/copy-to-clipbaord';
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
 import type { StoryData } from '@/types/story';
 import { formatDate } from '@/utils/date-formatter';
 
@@ -38,6 +44,9 @@ export const StoryCard = memo(function StoryCard({ entry }: StoryCardProps) {
             </p>
           </div>
         </CardContent>
+        <CardFooter className="justify-end p-0">
+          <CopyButton entry={entry} />
+        </CardFooter>
       </Card>
     </div>
   );

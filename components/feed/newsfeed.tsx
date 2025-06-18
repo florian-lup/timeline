@@ -1,7 +1,7 @@
 'use client';
 
-import { SkeletonList } from '@/components/feed/feed-skeleton';
 import { Header } from '@/components/feed/header';
+import { SkeletonList } from '@/components/feed/loading-skeleton';
 import { StoryList } from '@/components/feed/story-list';
 import { Card } from '@/components/ui/card';
 import { usePagination } from '@/hooks/usePagination';
