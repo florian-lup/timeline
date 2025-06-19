@@ -31,7 +31,7 @@ export function FullStory({ entry }: FullStoryProps) {
       <Tooltip>
         <TooltipTrigger asChild>
           <SheetTrigger asChild>
-            <Button variant="default" size="sm">
+            <Button variant="outline" size="sm">
               <Newspaper className="size-3.5" />
             </Button>
           </SheetTrigger>

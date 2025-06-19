@@ -25,23 +25,21 @@ export function Header() {
         <div className="flex h-14 w-full items-center justify-between">
           {/* Logo on the left */}
           <div className="flex items-center gap-2">
-            <ThemeLogo width={24} height={24} />
+            <ThemeLogo width={30} height={30} />
             Timeline
           </div>
 
           {/* Action buttons on the right */}
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center gap-3">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
-                    variant="ghost"
-                    size="icon"
+                    variant="default"
                     onClick={handleSearchClick}
-                    className="h-9 w-9"
                     aria-label="Search"
                   >
-                    <Search className="h-4 w-4" />
+                    <Search />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -51,15 +49,13 @@ export function Header() {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
-                    variant="ghost"
-                    size="icon"
+                    variant="default"
                     onClick={() => {
                       // coming soon
                     }}
-                    className="h-9 w-9"
                     aria-label="Audio Lines"
                   >
-                    <AudioLines className="h-4 w-4" />
+                    <AudioLines />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>

@@ -42,7 +42,7 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
       <Tooltip>
         <TooltipTrigger asChild>
           <SheetTrigger asChild>
-            <Button variant="outline" size="sm">
+            <Button variant="secondary" size="sm">
               <LinkIcon className="size-3.5" />
               {sources.length}
             </Button>
