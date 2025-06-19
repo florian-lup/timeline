@@ -13,17 +13,24 @@ import type { StoryData } from '@/types/story';
 
 interface CopyButtonProps {
   entry: StoryData;
+  mode?: 'summary' | 'full';
 }
 
 /**
  * Button component for copying event information to clipboard
  */
-export const CopyButton = memo(function CopyButton({ entry }: CopyButtonProps) {
+export const CopyButton = memo(function CopyButton({
+  entry,
+  mode = 'summary',
+}: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
-      const textToCopy = `${entry.title}\n\n${entry.summary}`;
+      const textToCopy =
+        mode === 'full'
+          ? `${entry.title}\n\n${entry.summary}\n\nResearch:\n${entry.research}`
+          : `${entry.title}\n\n${entry.summary}`;
       await navigator.clipboard.writeText(textToCopy);
 
       setCopied(true);

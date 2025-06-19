@@ -78,3 +78,36 @@ export async function getStories({ before, limit }: StoryPagination): Promise<{
     hasMore,
   };
 }
+
+/**
+ * Fetches a single story by its ID
+ */
+export async function getStoryById(id: string): Promise<StoryData | null> {
+  try {
+    const client = await mongodb;
+    const db = client.db('events');
+
+    const doc = await db
+      .collection('articles')
+      .findOne({ _id: new ObjectId(id) });
+
+    if (!doc) {
+      return null;
+    }
+
+    // Convert MongoDB document → StoryData (ObjectId → string)
+    const typedDoc = doc as unknown as { _id: { toString(): string } } & Omit<
+      StoryData,
+      '_id'
+    >;
+    const { _id: documentId, ...rest } = typedDoc;
+
+    return {
+      ...rest,
+      _id: documentId.toString(),
+    } satisfies StoryData;
+  } catch (error) {
+    console.error('Error fetching story by ID:', error);
+    return null;
+  }
+}

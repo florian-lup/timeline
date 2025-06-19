@@ -4,6 +4,7 @@ import { memo } from 'react';
 
 import { CopyButton } from '@/components/copy-to-clipbaord';
 import { ReactionsPopover } from '@/components/emoji-reactions';
+import { ShareButton } from '@/components/share-story';
 import {
   Card,
   CardHeader,
@@ -47,6 +48,7 @@ export const StoryCard = memo(function StoryCard({ entry }: StoryCardProps) {
         </CardContent>
         <CardFooter className="items-center justify-end p-0">
           <ReactionsPopover entryId={entry._id} />
+          <ShareButton entry={entry} />
           <CopyButton entry={entry} />
         </CardFooter>
       </Card>
