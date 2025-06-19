@@ -1,7 +1,8 @@
 'use client';
 
-import { AudioLines, Search } from 'lucide-react';
+import { AudioLines } from 'lucide-react';
 
+import { ChatWidget } from '@/components/search/search-widget';
 import { ThemeLogo } from '@/components/theme-logo';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,8 +16,12 @@ import {
  * Sticky header for the newsfeed page
  */
 export function Header() {
-  const handleSearchClick = () => {
-    console.log('Search clicked');
+  const handleSearchSubmit = (text: string, searchType: string) => {
+    console.log('Search submitted:', text, 'Type:', searchType);
+  };
+
+  const handleSearchTypeChange = (type: string) => {
+    console.log('Search type changed:', type);
   };
 
   return (
@@ -34,13 +39,10 @@ export function Header() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    variant="default"
-                    onClick={handleSearchClick}
-                    aria-label="Search"
-                  >
-                    <Search />
-                  </Button>
+                  <ChatWidget
+                    onSubmit={handleSearchSubmit}
+                    onSearchTypeChange={handleSearchTypeChange}
+                  />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Search stories</p>
