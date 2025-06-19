@@ -1,6 +1,6 @@
 'use client';
 
-import { Share2 } from 'lucide-react';
+import { Share } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -70,7 +70,7 @@ export function ShareButton({ entry }: ShareButtonProps) {
             }}
             disabled={isSharing}
           >
-            <Share2 />
+            <Share />
           </Button>
         </TooltipTrigger>
         <TooltipContent>Share</TooltipContent>

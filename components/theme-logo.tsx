@@ -26,8 +26,8 @@ function omitStyle<T extends Record<string, unknown>>(
  * eliminating the need to wait for client-side hydration.
  */
 export const ThemeLogo = memo(function ThemeLogo({
-  width = 20,
-  height = 20,
+  width = 24,
+  height = 24,
   className = '',
 }: ThemeLogoProps) {
   const lightLogoProps = getImageProps({
