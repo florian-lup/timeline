@@ -27,7 +27,6 @@ export function ShareButton({ entry }: ShareButtonProps) {
 
     const shareData = {
       title: entry.title,
-      text: entry.summary,
       url: shareUrl,
     };
 
