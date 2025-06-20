@@ -58,6 +58,8 @@ export function useSearchTextarea({
     const isInputValid = inputValue.trim() !== '';
     if (isInputValid && !disabled) {
       onSubmit?.(inputValue.trim(), currentSearchType);
+      setInputValue('');
+      onChange?.('');
     }
   };
 

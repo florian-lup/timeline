@@ -31,13 +31,20 @@ export const SearchDialog = memo(function SearchDialog({
   searchType = 'web',
   disabled = false,
 }: SearchDialogProps) {
-  const { open, setOpen, query, hasSearched, loading, handleSubmit } =
+  const { open, setOpen, query, hasSearched, loading, handleSubmit, reset } =
     useSearchDialog({
       onSubmit,
     });
 
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+    if (!newOpen) {
+      reset();
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="default" aria-label="Search" disabled={disabled}>
           <Search />
