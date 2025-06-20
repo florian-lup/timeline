@@ -1,6 +1,7 @@
 'use client';
 
 import { AudioLines } from 'lucide-react';
+import { memo } from 'react';
 
 import { SearchDialog } from '@/components/search/search-dialog';
 import { ThemeLogo } from '@/components/theme-logo';
@@ -15,7 +16,7 @@ import {
 /**
  * Sticky header for the newsfeed page
  */
-export function Header() {
+export const Header = memo(function Header() {
   const handleSearchSubmit = (text: string, searchType: string) => {
     console.log('Search submitted:', text, 'Type:', searchType);
   };
@@ -70,4 +71,4 @@ export function Header() {
       </div>
     </header>
   );
-}
+});

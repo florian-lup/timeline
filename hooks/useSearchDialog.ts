@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 interface UseSearchDialogProps {
   onSubmit?: ((text: string, searchType: string) => void) | undefined;
@@ -21,59 +21,50 @@ export function useSearchDialog({
   const [loading, setLoading] = useState(false);
 
   // Handle search submission
-  const handleSubmit = useCallback(
-    (text: string, searchType: string) => {
-      setQuery(text);
-      setLoading(true);
-      setHasSearched(true);
+  const handleSubmit = (text: string, searchType: string) => {
+    setQuery(text);
+    setLoading(true);
+    setHasSearched(true);
 
-      // Simulate search delay
-      const timeoutId = setTimeout(() => {
-        setLoading(false);
-      }, searchDelay);
+    // Simulate search delay
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, searchDelay);
 
-      // Call external submit handler
-      onSubmit?.(text, searchType);
+    // Call external submit handler
+    onSubmit?.(text, searchType);
 
-      // Optionally close dialog after submission
-      if (closeOnSubmit) {
-        setOpen(false);
-      }
+    // Optionally close dialog after submission
+    if (closeOnSubmit) {
+      setOpen(false);
+    }
 
-      // Return cleanup function
-      return () => clearTimeout(timeoutId);
-    },
-    [onSubmit, searchDelay, closeOnSubmit],
-  );
+    // Return cleanup function
+    return () => clearTimeout(timeoutId);
+  };
 
   // Reset search state (useful for clearing results)
-  const reset = useCallback(() => {
+  const reset = () => {
     setQuery('');
     setHasSearched(false);
     setLoading(false);
-  }, []);
+  };
 
   // Open dialog with optional reset
-  const openDialog = useCallback(
-    (shouldReset = false) => {
-      setOpen(true);
-      if (shouldReset) {
-        reset();
-      }
-    },
-    [reset],
-  );
+  const openDialog = (shouldReset = false) => {
+    setOpen(true);
+    if (shouldReset) {
+      reset();
+    }
+  };
 
   // Close dialog with optional reset
-  const closeDialog = useCallback(
-    (shouldReset = false) => {
-      setOpen(false);
-      if (shouldReset) {
-        reset();
-      }
-    },
-    [reset],
-  );
+  const closeDialog = (shouldReset = false) => {
+    setOpen(false);
+    if (shouldReset) {
+      reset();
+    }
+  };
 
   return {
     // Dialog state

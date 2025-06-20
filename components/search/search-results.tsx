@@ -2,6 +2,7 @@
 
 import { Link } from 'lucide-react';
 import * as React from 'react';
+import { memo } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import { Button } from '@/components/ui/button';
@@ -21,15 +22,15 @@ interface SearchResultsProps {
   result?: SearchResult;
 }
 
+// Mock data for development
 const mockResult: SearchResult = {
   id: '1',
-  title: 'Breaking: Tech Giant Announces Revolutionary AI Framework',
-  summary:
-    'A major technology company has unveiled a groundbreaking artificial intelligence framework that promises to transform how developers build intelligent applications. The new system offers unprecedented performance improvements and simplified deployment processes. This breakthrough is expected to accelerate AI adoption across various industries and make advanced machine learning capabilities more accessible to developers worldwide.A major technology company has unveiled a groundbreaking artificial intelligence framework that promises to transform how developers build intelligent applications.The new system offers unprecedented performance improvements and simplified deployment processes.This breakthrough is expected to accelerate AI adoption across various industries and make advanced machine learning capabilities more accessible to developers worldwide.',
-  url: 'https://example.com/tech-news-1',
+  title: 'Mock Search Result',
+  summary: 'This is a placeholder result for development purposes.',
+  url: 'https://example.com',
 };
 
-export function SearchResults({
+export const SearchResults = memo(function SearchResults({
   query,
   loading = false,
   result = mockResult,
@@ -83,4 +84,4 @@ export function SearchResults({
       </Card>
     </div>
   );
-}
+});

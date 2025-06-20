@@ -1,5 +1,7 @@
 'use client';
 
+import { memo } from 'react';
+
 import { Header } from '@/components/feed/header';
 import { SkeletonList } from '@/components/feed/loading-skeleton';
 import { StoryList } from '@/components/feed/story-list';
@@ -9,7 +11,7 @@ import { usePagination } from '@/hooks/usePagination';
 /**
  * Main Newsfeed page with virtualized infinite scroll
  */
-export function NewsfeedPage() {
+export const NewsfeedPage = memo(function NewsfeedPage() {
   const { entries, isLoading, isLoadingMore, error, hasMore, loadMore } =
     usePagination();
 
@@ -58,4 +60,4 @@ export function NewsfeedPage() {
       </main>
     </div>
   );
-}
+});

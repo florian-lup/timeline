@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
 import type { StoryData } from '@/types/story';
@@ -15,7 +16,7 @@ interface StoryListProps {
  * Virtualized list component using React Virtuoso
  * Efficiently renders large lists by only rendering visible items
  */
-export function StoryList({
+export const StoryList = memo(function StoryList({
   events,
   isLoadingMore,
   hasMore,
@@ -80,4 +81,4 @@ export function StoryList({
       <Virtuoso {...virtuosoProps} />
     </div>
   );
-}
+});

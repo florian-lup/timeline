@@ -3,6 +3,7 @@
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Search } from 'lucide-react';
 import * as React from 'react';
+import { memo } from 'react';
 
 import { SearchResults } from '@/components/search/search-results';
 import { SearchTextarea } from '@/components/search/search-textarea';
@@ -24,7 +25,7 @@ interface SearchDialogProps {
   disabled?: boolean;
 }
 
-export function SearchDialog({
+export const SearchDialog = memo(function SearchDialog({
   onSubmit,
   onSearchTypeChange,
   searchType = 'web',
@@ -67,4 +68,4 @@ export function SearchDialog({
       </DialogContent>
     </Dialog>
   );
-}
+});

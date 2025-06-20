@@ -2,6 +2,7 @@
 
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { LinkIcon } from 'lucide-react';
+import { memo } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -34,7 +35,10 @@ interface SourcesSheetProps {
  * Renders a small badge that, when clicked, opens a dialog containing
  * all the sources for a given story.
  */
-export function SourcesSheet({ title, sources }: SourcesSheetProps) {
+export const SourcesSheet = memo(function SourcesSheet({
+  title,
+  sources,
+}: SourcesSheetProps) {
   if (!sources.length) return null;
 
   return (
@@ -82,4 +86,4 @@ export function SourcesSheet({ title, sources }: SourcesSheetProps) {
       </SheetContent>
     </Sheet>
   );
-}
+});
