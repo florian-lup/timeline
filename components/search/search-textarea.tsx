@@ -2,7 +2,6 @@
 
 import { History, Globe, Send } from 'lucide-react';
 import * as React from 'react';
-import { memo } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -19,7 +18,7 @@ interface SearchTextareaProps {
   onSearchTypeChange?: (type: string) => void;
 }
 
-export const SearchTextarea = memo(function SearchTextarea({
+export function SearchTextarea({
   value = '',
   onChange,
   onSubmit,
@@ -55,6 +54,7 @@ export const SearchTextarea = memo(function SearchTextarea({
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder={dynamicPlaceholder}
+        disabled={disabled}
         className="no-scrollbar max-h-30 resize-none rounded-t-md rounded-b-none border-none shadow-none focus:outline-none focus-visible:ring-0"
         rows={2}
         id="search-input"
@@ -87,4 +87,4 @@ export const SearchTextarea = memo(function SearchTextarea({
       </div>
     </div>
   );
-});
+}

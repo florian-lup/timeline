@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
 import type { StoryData } from '@/types/story';
@@ -16,7 +15,7 @@ interface StoryListProps {
  * Virtualized list component using React Virtuoso
  * Efficiently renders large lists by only rendering visible items
  */
-export const StoryList = memo(function StoryList({
+export function StoryList({
   events,
   isLoadingMore,
   hasMore,
@@ -69,15 +68,14 @@ export const StoryList = memo(function StoryList({
     ...(handleEndReached !== undefined && { endReached: handleEndReached }),
     itemContent,
     components: { Footer },
-    className: 'h-full no-scrollbar',
+    className: 'no-scrollbar',
     overscan: 5,
     increaseViewportBy: { top: 600, bottom: 600 },
   };
 
   return (
     <div className="h-full">
-      {' '}
       <Virtuoso {...virtuosoProps} />
     </div>
   );
-});
+}

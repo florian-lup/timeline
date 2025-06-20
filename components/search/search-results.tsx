@@ -2,7 +2,6 @@
 
 import { Link } from 'lucide-react';
 import * as React from 'react';
-import { memo } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import { Button } from '@/components/ui/button';
@@ -30,7 +29,7 @@ const mockResult: SearchResult = {
   url: 'https://example.com',
 };
 
-export const SearchResults = memo(function SearchResults({
+export function SearchResults({
   query,
   loading = false,
   result = mockResult,
@@ -84,4 +83,4 @@ export const SearchResults = memo(function SearchResults({
       </Card>
     </div>
   );
-});
+}

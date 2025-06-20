@@ -1,7 +1,6 @@
 'use client';
 
 import { AudioLines } from 'lucide-react';
-import { memo } from 'react';
 
 import { SearchDialog } from '@/components/search/search-dialog';
 import { ThemeLogo } from '@/components/theme-logo';
@@ -16,9 +15,17 @@ import {
 /**
  * Sticky header for the newsfeed page
  */
-export const Header = memo(function Header() {
+export function Header() {
+  const handleSearchSubmit = (text: string, searchType: string) => {
+    console.log('Search submitted:', text, 'Type:', searchType);
+  };
+
+  const handleSearchTypeChange = (type: string) => {
+    console.log('Search type changed:', type);
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur">
+    <header className="fixed top-0 z-50 w-full backdrop-blur">
       <div className="mx-auto w-full max-w-xl px-3 md:max-w-2xl md:px-4 lg:max-w-3xl lg:px-6 xl:max-w-4xl">
         <div className="flex h-14 w-full items-center justify-between">
           {/* Logo on the left */}
@@ -32,7 +39,10 @@ export const Header = memo(function Header() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <SearchDialog />
+                  <SearchDialog
+                    onSubmit={handleSearchSubmit}
+                    onSearchTypeChange={handleSearchTypeChange}
+                  />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Search stories</p>
@@ -60,4 +70,4 @@ export const Header = memo(function Header() {
       </div>
     </header>
   );
-});
+}

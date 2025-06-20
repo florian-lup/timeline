@@ -1,7 +1,5 @@
 'use client';
 
-import { memo } from 'react';
-
 import { Header } from '@/components/feed/header';
 import { SkeletonList } from '@/components/feed/loading-skeleton';
 import { StoryList } from '@/components/feed/story-list';
@@ -11,10 +9,11 @@ import { usePagination } from '@/hooks/usePagination';
 /**
  * Main Newsfeed page with virtualized infinite scroll
  */
-export const NewsfeedPage = memo(function NewsfeedPage() {
+export function NewsfeedPage() {
   const { entries, isLoading, isLoadingMore, error, hasMore, loadMore } =
     usePagination();
 
+  // React 19 will automatically memoize this function
   const renderMainContent = () => {
     if (isLoading) {
       return <SkeletonList />;
@@ -55,9 +54,9 @@ export const NewsfeedPage = memo(function NewsfeedPage() {
       )}
 
       {/* Main virtualized content container */}
-      <main className="mx-auto min-h-0 w-full max-w-xl flex-1 px-3 md:max-w-2xl md:px-4 lg:max-w-3xl lg:px-6 xl:max-w-4xl">
+      <main className="mx-auto w-full max-w-xl flex-1 px-3 pt-14 md:max-w-2xl md:px-4 lg:max-w-3xl lg:px-6 xl:max-w-4xl">
         {renderMainContent()}
       </main>
     </div>
   );
-});
+}
