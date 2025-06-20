@@ -69,8 +69,7 @@ export const StoryList = memo(function StoryList({
     ...(handleEndReached !== undefined && { endReached: handleEndReached }),
     itemContent,
     components: { Footer },
-    style: { height: '100%' },
-    className: 'no-scrollbar',
+    className: 'h-full no-scrollbar',
     overscan: 5,
     increaseViewportBy: { top: 600, bottom: 600 },
   };

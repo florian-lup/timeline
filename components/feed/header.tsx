@@ -17,13 +17,9 @@ import {
  * Sticky header for the newsfeed page
  */
 export const Header = memo(function Header() {
-  const handleSearchSubmit = (text: string, searchType: string) => {
-    console.log('Search submitted:', text, 'Type:', searchType);
-  };
+  const handleSearchSubmit = (text: string, searchType: string) => {};
 
-  const handleSearchTypeChange = (type: string) => {
-    console.log('Search type changed:', type);
-  };
+  const handleSearchTypeChange = (type: string) => {};
 
   return (
     <header className="sticky top-0 z-50 w-full backdrop-blur">
