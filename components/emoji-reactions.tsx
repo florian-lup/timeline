@@ -1,7 +1,7 @@
 'use client';
 
 import { Smile } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -20,7 +20,9 @@ interface ReactionsPopoverProps {
   entryId: string;
 }
 
-export function ReactionsPopover({ entryId }: ReactionsPopoverProps) {
+export const ReactionsPopover = memo(function ReactionsPopover({
+  entryId,
+}: ReactionsPopoverProps) {
   // State for reactions popover
   const [reactionsOpen, setReactionsOpen] = useState(false);
 
@@ -88,4 +90,4 @@ export function ReactionsPopover({ entryId }: ReactionsPopoverProps) {
       </PopoverContent>
     </Popover>
   );
-}
+});

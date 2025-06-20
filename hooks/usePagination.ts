@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import type { StoryData } from '@/types/story';
 import { fetchStories } from '@/lib/api/story-feed';
 
@@ -15,7 +15,7 @@ export function usePagination(limit: number = 20) {
   const [hasMore, setHasMore] = useState(true);
 
   // Load initial data
-  const loadInitialData = useCallback(async () => {
+  const loadInitialData = async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -31,10 +31,10 @@ export function usePagination(limit: number = 20) {
     } finally {
       setIsLoading(false);
     }
-  }, [limit]);
+  };
 
   // Load more data (called by React Virtuoso when reaching end)
-  const loadMoreData = useCallback(async () => {
+  const loadMoreData = async () => {
     if (!nextPage || isLoadingMore || !hasMore) {
       return;
     }
@@ -54,7 +54,7 @@ export function usePagination(limit: number = 20) {
     } finally {
       setIsLoadingMore(false);
     }
-  }, [nextPage, isLoadingMore, hasMore, limit]);
+  };
 
   // Load initial data on mount
   useEffect(() => {
@@ -62,12 +62,12 @@ export function usePagination(limit: number = 20) {
   }, [loadInitialData]);
 
   // Function to refresh data (reset to beginning)
-  const refresh = useCallback(() => {
+  const refresh = () => {
     setEntries([]);
     setnextPage(undefined);
     setHasMore(true);
     loadInitialData();
-  }, [loadInitialData]);
+  };
 
   return {
     entries,

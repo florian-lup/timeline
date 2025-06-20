@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 interface UseSearchTextareaProps {
   value?: string;
@@ -36,52 +36,43 @@ export function useSearchTextarea({
   }, [searchType]);
 
   // Handle text input changes
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const newValue = e.target.value;
-      setInputValue(newValue);
-      onChange?.(newValue);
-    },
-    [onChange],
-  );
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    onChange?.(newValue);
+  };
 
   // Handle search type toggle changes
-  const handleSearchTypeChange = useCallback(
-    (type: string) => {
-      if (type !== '') {
-        setCurrentSearchType(type);
-        onSearchTypeChange?.(type);
-      }
-    },
-    [onSearchTypeChange],
-  );
+  const handleSearchTypeChange = (type: string) => {
+    if (type !== '') {
+      setCurrentSearchType(type);
+      onSearchTypeChange?.(type);
+    }
+  };
 
   // Handle form submission
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     const isInputValid = inputValue.trim() !== '';
     if (isInputValid && !disabled) {
       onSubmit?.(inputValue.trim(), currentSearchType);
     }
-  }, [inputValue, currentSearchType, disabled, onSubmit]);
+  };
 
   // Handle keyboard shortcuts
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        handleSubmit();
-      }
-    },
-    [handleSubmit],
-  );
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
 
   // Generate dynamic placeholder based on search type
-  const getDynamicPlaceholder = useCallback(() => {
+  const getDynamicPlaceholder = () => {
     if (placeholder != null) return placeholder;
     return currentSearchType === 'history'
       ? 'search timeline for past events'
       : 'search web for latest news';
-  }, [placeholder, currentSearchType]);
+  };
 
   return {
     inputValue,

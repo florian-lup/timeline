@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 /**
  * Configuration for session tracking behavior
@@ -57,7 +57,7 @@ export function useSessionTracking(
   });
 
   // Persist the identifier in sessionStorage
-  const persistTracking = useCallback(() => {
+  const persistTracking = () => {
     try {
       if (type === 'list') {
         const raw = window.sessionStorage.getItem(storageKey);
@@ -75,19 +75,19 @@ export function useSessionTracking(
     } catch {
       /* ignore storage errors */
     }
-  }, [identifier, storageKey, type]);
+  };
 
   /**
    * Marks the item as tracked in session storage. If already tracked, this is a no-op.
    * Only handles session storage - caller is responsible for analytics calls.
    */
-  const track = useCallback(() => {
+  const track = () => {
     if (hasTracked) return;
 
     // Optimistic UI update
     setHasTracked(true);
     persistTracking();
-  }, [hasTracked, persistTracking]);
+  };
 
   return { hasTracked, track } as const;
 }

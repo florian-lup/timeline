@@ -1,7 +1,7 @@
 'use client';
 
 import { Share } from 'lucide-react';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -16,7 +16,9 @@ interface ShareButtonProps {
   entry: StoryData;
 }
 
-export function ShareButton({ entry }: ShareButtonProps) {
+export const ShareButton = memo(function ShareButton({
+  entry,
+}: ShareButtonProps) {
   const [isSharing, setIsSharing] = useState(false);
 
   const handleShare = async () => {
@@ -77,4 +79,4 @@ export function ShareButton({ entry }: ShareButtonProps) {
       </Tooltip>
     </TooltipProvider>
   );
-}
+});

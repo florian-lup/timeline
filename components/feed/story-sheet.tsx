@@ -2,6 +2,7 @@
 
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Newspaper } from 'lucide-react';
+import { memo } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import { Button } from '@/components/ui/button';
@@ -25,7 +26,7 @@ interface StorySheetProps {
   entry: StoryData;
 }
 
-export function StorySheet({ entry }: StorySheetProps) {
+export const StorySheet = memo(function StorySheet({ entry }: StorySheetProps) {
   return (
     <Sheet>
       <Tooltip>
@@ -55,4 +56,4 @@ export function StorySheet({ entry }: StorySheetProps) {
       </SheetContent>
     </Sheet>
   );
-}
+});
