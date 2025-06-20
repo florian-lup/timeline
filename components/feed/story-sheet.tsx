@@ -21,11 +21,11 @@ import {
 import type { StoryData } from '@/types/story';
 import { formatDate } from '@/utils/date-formatter';
 
-interface FullStoryProps {
+interface StorySheetProps {
   entry: StoryData;
 }
 
-export function FullStory({ entry }: FullStoryProps) {
+export function StorySheet({ entry }: StorySheetProps) {
   return (
     <Sheet>
       <Tooltip>

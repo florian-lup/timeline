@@ -14,8 +14,8 @@ import {
 import type { StoryData } from '@/types/story';
 import { formatDate } from '@/utils/date-formatter';
 
-import { FullStory } from './full-story';
 import { SourcesSheet } from './sources';
+import { StorySheet } from './story-sheet';
 
 interface StoryCardProps {
   entry: StoryData;
@@ -32,7 +32,7 @@ export const StoryCard = memo(function StoryCard({ entry }: StoryCardProps) {
               {formatDate(entry.date)}
             </span>
             <SourcesSheet title={entry.title} sources={entry.sources} />
-            <FullStory entry={entry} />
+            <StorySheet entry={entry} />
           </div>
         </CardHeader>
 

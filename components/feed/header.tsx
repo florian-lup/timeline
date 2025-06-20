@@ -2,7 +2,7 @@
 
 import { AudioLines } from 'lucide-react';
 
-import { ChatWidget } from '@/components/search/search-widget';
+import { SearchDialog } from '@/components/search/search-dialog';
 import { ThemeLogo } from '@/components/theme-logo';
 import { Button } from '@/components/ui/button';
 import {
@@ -39,7 +39,7 @@ export function Header() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <ChatWidget
+                  <SearchDialog
                     onSubmit={handleSearchSubmit}
                     onSearchTypeChange={handleSearchTypeChange}
                   />

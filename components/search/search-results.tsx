@@ -2,9 +2,11 @@
 
 import { Link } from 'lucide-react';
 import * as React from 'react';
+import ReactMarkdown from 'react-markdown';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface SearchResult {
   id: string;
@@ -36,17 +38,15 @@ export function SearchResults({
     return (
       <div className="space-y-4">
         <div className="text-muted-foreground text-sm">Searching...</div>
-        <Card className="animate-pulse">
+        <Card>
           <CardHeader>
-            <div className="bg-muted h-4 w-3/4 rounded"></div>
-            <div className="bg-muted h-3 w-1/2 rounded"></div>
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-3 w-1/2" />
           </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="bg-muted h-3 rounded"></div>
-              <div className="bg-muted h-3 rounded"></div>
-              <div className="bg-muted h-3 w-2/3 rounded"></div>
-            </div>
+          <CardContent className="space-y-2">
+            <Skeleton className="h-3 w-full" />
+            <Skeleton className="h-3 w-full" />
+            <Skeleton className="h-3 w-2/3" />
           </CardContent>
         </Card>
       </div>
@@ -61,21 +61,21 @@ export function SearchResults({
         </div>
       )}
 
-      <Card className="transition-shadow hover:shadow-md">
-        <CardHeader className="pb-3">
+      <Card>
+        <CardHeader>
           <CardTitle className="text-lg leading-tight">
             {result.title}
           </CardTitle>
         </CardHeader>
-        <CardContent className="pt-0">
-          <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-            {result.summary}
-          </p>
+        <CardContent>
+          <div className="prose prose-sm prose-headings:text-foreground prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted text-muted-foreground mb-4 max-w-none">
+            <ReactMarkdown>{result.summary}</ReactMarkdown>
+          </div>
           {result.url != null && result.url !== '' && (
             <Button variant="outline" size="sm" className="gap-2" asChild>
               <a href={result.url} target="_blank" rel="noopener noreferrer">
                 Sources
-                <Link className="h-3 w-3" />
+                <Link />
               </a>
             </Button>
           )}

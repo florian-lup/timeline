@@ -5,7 +5,7 @@ import { Search } from 'lucide-react';
 import * as React from 'react';
 
 import { SearchResults } from '@/components/search/search-results';
-import { TextareaInput } from '@/components/search/textarea-input';
+import { SearchTextarea } from '@/components/search/search-textarea';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -15,39 +15,25 @@ import {
   DialogDescription,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useSearchDialog } from '@/hooks/useSearchDialog';
 
-interface ChatWidgetProps {
+interface SearchDialogProps {
   onSubmit?: (text: string, searchType: string) => void;
   onSearchTypeChange?: (type: string) => void;
   searchType?: string;
   disabled?: boolean;
 }
 
-export function ChatWidget({
+export function SearchDialog({
   onSubmit,
   onSearchTypeChange,
   searchType = 'web',
   disabled = false,
-}: ChatWidgetProps) {
-  const [open, setOpen] = React.useState(false);
-  const [query, setQuery] = React.useState('');
-  const [hasSearched, setHasSearched] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-
-  const handleSubmit = (text: string, type: string) => {
-    setQuery(text);
-    setLoading(true);
-    setHasSearched(true);
-
-    // Simulate search delay
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-
-    onSubmit?.(text, type);
-    // Optionally close dialog after submission
-    // setOpen(false)
-  };
+}: SearchDialogProps) {
+  const { open, setOpen, query, hasSearched, loading, handleSubmit } =
+    useSearchDialog({
+      onSubmit,
+    });
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -56,10 +42,10 @@ export function ChatWidget({
           <Search />
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex max-h-[80vh] flex-col overflow-hidden sm:max-w-[800px]">
+      <DialogContent className="flex max-h-[80vh] flex-col overflow-hidden focus:outline-none focus-visible:ring-0">
         <DialogHeader>
-          <DialogTitle>Search news</DialogTitle>
           <VisuallyHidden.Root>
+            <DialogTitle>Search news</DialogTitle>
             <DialogDescription>
               Search for stories by asking a question or searching for a topic.
             </DialogDescription>
@@ -71,7 +57,7 @@ export function ChatWidget({
           </div>
         )}
         <div className={hasSearched ? 'mt-4' : 'mt-4 flex-1'}>
-          <TextareaInput
+          <SearchTextarea
             onSubmit={handleSubmit}
             {...(onSearchTypeChange && { onSearchTypeChange })}
             searchType={searchType}

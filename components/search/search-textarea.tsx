@@ -6,8 +6,9 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { useSearchTextarea } from '@/hooks/useSearchTextarea';
 
-interface TextareaInputProps {
+interface SearchTextareaProps {
   value?: string;
   onChange?: (value: string) => void;
   onSubmit?: (value: string, searchType: string) => void;
@@ -17,7 +18,7 @@ interface TextareaInputProps {
   onSearchTypeChange?: (type: string) => void;
 }
 
-export function TextareaInput({
+export function SearchTextarea({
   value = '',
   onChange,
   onSubmit,
@@ -25,51 +26,25 @@ export function TextareaInput({
   disabled = false,
   searchType = 'web',
   onSearchTypeChange,
-}: TextareaInputProps) {
-  const [inputValue, setInputValue] = React.useState(value);
-  const [currentSearchType, setCurrentSearchType] = React.useState(searchType);
-
-  React.useEffect(() => {
-    setInputValue(value);
-  }, [value]);
-
-  React.useEffect(() => {
-    setCurrentSearchType(searchType);
-  }, [searchType]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
-    onChange?.(newValue);
-  };
-
-  const handleSearchTypeChange = (type: string) => {
-    if (type !== '') {
-      setCurrentSearchType(type);
-      onSearchTypeChange?.(type);
-    }
-  };
-
-  const handleSubmit = () => {
-    const isInputValid = inputValue.trim() !== '';
-    if (isInputValid && !disabled) {
-      onSubmit?.(inputValue.trim(), currentSearchType);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit();
-    }
-  };
-
-  const getDynamicPlaceholder = () => {
-    if (placeholder != null) return placeholder;
-    return currentSearchType === 'history'
-      ? 'Search history...'
-      : 'Search web...';
-  };
+}: SearchTextareaProps) {
+  const {
+    inputValue,
+    currentSearchType,
+    handleInputChange,
+    handleSearchTypeChange,
+    handleSubmit,
+    handleKeyDown,
+    getDynamicPlaceholder,
+    canSubmit,
+  } = useSearchTextarea({
+    value,
+    searchType,
+    placeholder,
+    onChange,
+    onSearchTypeChange,
+    onSubmit,
+    disabled,
+  });
 
   return (
     <div className="rounded-md border shadow-xs">
@@ -79,7 +54,7 @@ export function TextareaInput({
         onKeyDown={handleKeyDown}
         placeholder={getDynamicPlaceholder()}
         disabled={disabled}
-        className="no-scrollbar max-h-30 resize-none rounded-t-md rounded-b-none border-none shadow-none focus-visible:ring-0"
+        className="no-scrollbar max-h-30 resize-none rounded-t-md rounded-b-none border-none shadow-none focus:outline-none focus-visible:ring-0"
         rows={2}
         id="search-input"
       />
@@ -90,7 +65,7 @@ export function TextareaInput({
           value={currentSearchType}
           onValueChange={handleSearchTypeChange}
           variant="outline"
-          size="sm"
+          size="lg"
         >
           <ToggleGroupItem value="history">
             <History />
@@ -102,8 +77,8 @@ export function TextareaInput({
 
         <Button
           onClick={handleSubmit}
-          disabled={disabled || inputValue.trim() === ''}
-          size="sm"
+          disabled={!canSubmit}
+          size="lg"
           variant="ghost"
         >
           <Send />
