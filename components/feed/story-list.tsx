@@ -34,12 +34,6 @@ export function StoryList({
     );
   };
 
-  const handleEndReached = hasMore
-    ? () => {
-        onLoadMore();
-      }
-    : undefined;
-
   // Footer component for loading state
   const Footer = () => {
     if (isLoadingMore) {
@@ -65,7 +59,7 @@ export function StoryList({
 
   const virtuosoProps = {
     data: events,
-    ...(handleEndReached !== undefined && { endReached: handleEndReached }),
+    ...(hasMore && { endReached: onLoadMore }),
     itemContent,
     components: { Footer },
     className: 'no-scrollbar',

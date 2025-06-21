@@ -54,7 +54,6 @@ export function SearchTextarea({
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder={dynamicPlaceholder}
-        disabled={disabled}
         className="no-scrollbar max-h-30 resize-none rounded-t-md rounded-b-none border-none shadow-none focus:outline-none focus-visible:ring-0"
         rows={2}
         id="search-input"
