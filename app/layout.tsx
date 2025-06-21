@@ -21,6 +21,8 @@ const geistMono = Geist_Mono({
 // Viewport configuration for better mobile experience
 export const viewport = {
   maximumScale: 1, // Disable auto-zoom on mobile Safari
+  viewportFit: 'cover', // Handle notch/safe areas
+  interactiveWidget: 'resizes-content', // Handle virtual keyboard properly
 };
 
 // SEO metadata configuration with relevant keywords

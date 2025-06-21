@@ -40,7 +40,7 @@ export function NewsfeedPage() {
   };
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden">
+    <div className="flex h-dvh flex-col overflow-hidden">
       {/* Sticky Header */}
       <Header />
 
