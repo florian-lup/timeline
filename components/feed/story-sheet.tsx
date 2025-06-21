@@ -49,7 +49,7 @@ export const StorySheet = memo(function StorySheet({ entry }: StorySheetProps) {
         </SheetHeader>
 
         <div className="p-4">
-          <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted max-w-none">
+          <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-pre:bg-muted max-w-none">
             <ReactMarkdown>{entry.research}</ReactMarkdown>
           </div>
         </div>

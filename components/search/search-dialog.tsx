@@ -31,10 +31,18 @@ export const SearchDialog = memo(function SearchDialog({
   searchType = 'web',
   disabled = false,
 }: SearchDialogProps) {
-  const { open, setOpen, query, hasSearched, loading, handleSubmit, reset } =
-    useSearchDialog({
-      onSubmit,
-    });
+  const {
+    open,
+    setOpen,
+    query,
+    hasSearched,
+    loading,
+    result,
+    handleSubmit,
+    reset,
+  } = useSearchDialog({
+    onSubmit,
+  });
 
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -61,12 +69,14 @@ export const SearchDialog = memo(function SearchDialog({
         </DialogHeader>
         {hasSearched && (
           <div className="no-scrollbar mt-4 flex-1 overflow-auto">
-            <SearchResults query={query} loading={loading} />
+            <SearchResults query={query} loading={loading} result={result} />
           </div>
         )}
         <div className={hasSearched ? 'mt-4' : 'mt-4 flex-1'}>
           <SearchTextarea
-            onSubmit={handleSubmit}
+            onSubmit={(text: string, searchType: string) => {
+              void handleSubmit(text, searchType);
+            }}
             {...(onSearchTypeChange && { onSearchTypeChange })}
             searchType={searchType}
             disabled={disabled || loading}

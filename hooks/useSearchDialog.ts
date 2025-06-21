@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { performSearch } from '@/lib/api/search-api';
+import type { SearchResponse } from '@/lib/services/search-service';
 
 interface UseSearchDialogProps {
   onSubmit?: ((text: string, searchType: string) => void) | undefined;
@@ -19,17 +21,26 @@ export function useSearchDialog({
   const [query, setQuery] = useState('');
   const [hasSearched, setHasSearched] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<SearchResponse | null>(null);
 
   // Handle search submission
-  const handleSubmit = (text: string, searchType: string) => {
+  const handleSubmit = async (text: string, searchType: string) => {
     setQuery(text);
     setLoading(true);
     setHasSearched(true);
 
-    // Simulate search delay
-    const timeoutId = setTimeout(() => {
+    try {
+      // Call the search API using the helper
+      const data = await performSearch({
+        query: text,
+        searchType: searchType as 'web' | 'history',
+      });
+      setResult(data);
+    } catch (error) {
+      console.error('Search error:', error);
+    } finally {
       setLoading(false);
-    }, searchDelay);
+    }
 
     // Call external submit handler
     onSubmit?.(text, searchType);
@@ -38,9 +49,6 @@ export function useSearchDialog({
     if (closeOnSubmit) {
       setOpen(false);
     }
-
-    // Return cleanup function
-    return () => clearTimeout(timeoutId);
   };
 
   // Reset search state (useful for clearing results)
@@ -48,6 +56,7 @@ export function useSearchDialog({
     setQuery('');
     setHasSearched(false);
     setLoading(false);
+    setResult(null);
   };
 
   // Open dialog with optional reset
@@ -77,6 +86,7 @@ export function useSearchDialog({
     query,
     hasSearched,
     loading,
+    result,
 
     // Actions
     handleSubmit,

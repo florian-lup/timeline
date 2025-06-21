@@ -16,14 +16,6 @@ import {
  * Sticky header for the newsfeed page
  */
 export function Header() {
-  const handleSearchSubmit = (text: string, searchType: string) => {
-    console.log('Search submitted:', text, 'Type:', searchType);
-  };
-
-  const handleSearchTypeChange = (type: string) => {
-    console.log('Search type changed:', type);
-  };
-
   return (
     <header className="fixed top-0 z-50 w-full backdrop-blur">
       <div className="mx-auto w-full max-w-xl px-3 md:max-w-2xl md:px-4 lg:max-w-3xl lg:px-6 xl:max-w-4xl">
@@ -39,10 +31,7 @@ export function Header() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <SearchDialog
-                    onSubmit={handleSearchSubmit}
-                    onSearchTypeChange={handleSearchTypeChange}
-                  />
+                  <SearchDialog />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Search stories</p>
