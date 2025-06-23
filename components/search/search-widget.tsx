@@ -9,28 +9,29 @@ import { SearchResults } from '@/components/search/search-results';
 import { SearchTextarea } from '@/components/search/search-textarea';
 import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { useSearchDialog } from '@/hooks/useSearchDialog';
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { useSearchWidget } from '@/hooks/useSearchWidget';
 
-interface SearchDialogProps {
+interface SearchWidgetProps {
   onSubmit?: (text: string, searchType: string) => void;
   onSearchTypeChange?: (type: string) => void;
   searchType?: string;
   disabled?: boolean;
 }
 
-export const SearchDialog = memo(function SearchDialog({
+export const SearchWidget = memo(function SearchWidget({
   onSubmit,
   onSearchTypeChange,
   searchType = 'web',
   disabled = false,
-}: SearchDialogProps) {
+}: SearchWidgetProps) {
   const {
     open,
     setOpen,
@@ -40,7 +41,7 @@ export const SearchDialog = memo(function SearchDialog({
     result,
     handleSubmit,
     reset,
-  } = useSearchDialog({
+  } = useSearchWidget({
     onSubmit,
   });
 
@@ -52,27 +53,40 @@ export const SearchDialog = memo(function SearchDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
+    <Sheet open={open} onOpenChange={handleOpenChange}>
+      <SheetTrigger asChild>
         <Button variant="default" aria-label="Search" disabled={disabled}>
           <Search />
         </Button>
-      </DialogTrigger>
-      <DialogContent className="border-border flex max-h-[70vh] flex-col overflow-hidden border-2 focus:outline-none focus-visible:ring-0">
-        <DialogHeader>
+      </SheetTrigger>
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col sm:max-w-md lg:max-w-lg"
+        onOpenAutoFocus={e => {
+          e.preventDefault();
+        }}
+      >
+        <SheetHeader>
           <VisuallyHidden.Root>
-            <DialogTitle>Search news</DialogTitle>
-            <DialogDescription>
+            <SheetTitle>Search news</SheetTitle>
+            <SheetDescription>
               Search for stories by asking a question or searching for a topic.
-            </DialogDescription>
+            </SheetDescription>
           </VisuallyHidden.Root>
-        </DialogHeader>
-        {hasSearched && (
-          <div className="no-scrollbar mt-4 flex-1 overflow-auto">
+        </SheetHeader>
+
+        <div className="flex-1 overflow-auto">
+          {hasSearched && (
             <SearchResults query={query} loading={loading} result={result} />
-          </div>
-        )}
-        <div className={hasSearched ? 'mt-4' : 'mt-4 flex-1'}>
+          )}
+          {!hasSearched && (
+            <div className="text-muted-foreground flex h-full items-center justify-center text-sm">
+              Enter a search query to get started
+            </div>
+          )}
+        </div>
+
+        <SheetFooter>
           <SearchTextarea
             onSubmit={(text: string, searchType: string) => {
               void handleSubmit(text, searchType);
@@ -81,8 +95,8 @@ export const SearchDialog = memo(function SearchDialog({
             searchType={searchType}
             disabled={disabled || loading}
           />
-        </div>
-      </DialogContent>
-    </Dialog>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 });

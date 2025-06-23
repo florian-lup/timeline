@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { performSearch } from '@/lib/api/search-api';
 import type { SearchResponse } from '@/lib/services/search-service';
 
-interface UseSearchDialogProps {
+interface UseSearchWidgetProps {
   onSubmit?: ((text: string, searchType: string) => void) | undefined;
   searchDelay?: number;
   closeOnSubmit?: boolean;
@@ -12,11 +12,11 @@ interface UseSearchDialogProps {
  * Hook for managing search dialog state and interactions
  * Handles dialog visibility, search state, loading, and submission logic
  */
-export function useSearchDialog({
+export function useSearchWidget({
   onSubmit,
   searchDelay = 1500,
   closeOnSubmit = false,
-}: UseSearchDialogProps = {}) {
+}: UseSearchWidgetProps = {}) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [hasSearched, setHasSearched] = useState(false);

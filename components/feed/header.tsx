@@ -2,7 +2,7 @@
 
 import { AudioLines } from 'lucide-react';
 
-import { SearchDialog } from '@/components/search/search-dialog';
+import { SearchWidget } from '@/components/search/search-widget';
 import { ThemeLogo } from '@/components/theme-logo';
 import { Button } from '@/components/ui/button';
 import {
@@ -31,7 +31,7 @@ export function Header() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <SearchDialog />
+                  <SearchWidget />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Search stories</p>

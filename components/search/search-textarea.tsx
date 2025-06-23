@@ -57,6 +57,7 @@ export function SearchTextarea({
         className="no-scrollbar max-h-30 resize-none rounded-t-md rounded-b-none border-none shadow-none focus:outline-none focus-visible:ring-0"
         rows={2}
         id="search-input"
+        autoFocus={false}
       />
 
       <div className="dark:bg-input/30 flex items-center justify-between rounded-b-md px-3 py-2">

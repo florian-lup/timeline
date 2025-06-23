@@ -40,7 +40,10 @@ export const StorySheet = memo(function StorySheet({ entry }: StorySheetProps) {
         <TooltipContent sideOffset={4}>Read More</TooltipContent>
       </Tooltip>
 
-      <SheetContent className="w-full overflow-y-auto md:max-w-2xl lg:max-w-3xl">
+      <SheetContent
+        side="left"
+        className="w-full overflow-y-auto md:max-w-2xl lg:max-w-3xl"
+      >
         <SheetHeader>
           <VisuallyHidden.Root>
             <SheetTitle>Read More</SheetTitle>
