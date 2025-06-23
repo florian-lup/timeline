@@ -13,7 +13,6 @@ export function NewsfeedPage() {
   const { entries, isLoading, isLoadingMore, error, hasMore, loadMore } =
     usePagination();
 
-  // React 19 will automatically memoize this function
   const renderMainContent = () => {
     if (isLoading) {
       return <SkeletonList />;

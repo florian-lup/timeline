@@ -58,7 +58,7 @@ export const SearchDialog = memo(function SearchDialog({
           <Search />
         </Button>
       </DialogTrigger>
-      <DialogContent className="border-border flex max-h-[70vh] flex-col overflow-hidden border-3 focus:outline-none focus-visible:ring-0">
+      <DialogContent className="border-border flex max-h-[70vh] flex-col overflow-hidden border-2 focus:outline-none focus-visible:ring-0">
         <DialogHeader>
           <VisuallyHidden.Root>
             <DialogTitle>Search news</DialogTitle>

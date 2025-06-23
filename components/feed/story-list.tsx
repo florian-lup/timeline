@@ -28,7 +28,7 @@ export function StoryList({
       return null;
     }
     return (
-      <div className="mb-4 md:mb-5 lg:mb-7">
+      <div className="py-4">
         <StoryCard entry={entry} />
       </div>
     );
@@ -62,14 +62,10 @@ export function StoryList({
     ...(hasMore && { endReached: onLoadMore }),
     itemContent,
     components: { Footer },
-    className: 'no-scrollbar',
-    overscan: 5,
+    className: 'h-full no-scrollbar',
+    overscan: 10,
     increaseViewportBy: { top: 600, bottom: 600 },
   };
 
-  return (
-    <div className="h-full">
-      <Virtuoso {...virtuosoProps} />
-    </div>
-  );
+  return <Virtuoso {...virtuosoProps} />;
 }

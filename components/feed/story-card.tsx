@@ -23,7 +23,7 @@ interface StoryCardProps {
 
 export const StoryCard = memo(function StoryCard({ entry }: StoryCardProps) {
   return (
-    <div className="my-10">
+    <div>
       {/* Event card */}
       <Card className="border-border/50 gap-3 border p-4 shadow-sm md:p-6">
         <CardHeader className="p-0">
