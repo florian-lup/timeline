@@ -2,9 +2,9 @@ import { Virtuoso } from 'react-virtuoso';
 
 import type { StoryData } from '@/types/story';
 
-import { StoryCard } from './story-card';
+import { ListItem } from './list-item';
 
-interface StoryListProps {
+interface FeedListProps {
   events: StoryData[];
   isLoadingMore: boolean;
   hasMore: boolean;
@@ -15,12 +15,12 @@ interface StoryListProps {
  * Virtualized list component using React Virtuoso
  * Efficiently renders large lists by only rendering visible items
  */
-export function StoryList({
+export function FeedList({
   events,
   isLoadingMore,
   hasMore,
   onLoadMore,
-}: StoryListProps) {
+}: FeedListProps) {
   // Virtuoso item renderer
   const itemContent = (index: number) => {
     const entry = events[index];
@@ -29,7 +29,7 @@ export function StoryList({
     }
     return (
       <div className="py-4">
-        <StoryCard entry={entry} />
+        <ListItem entry={entry} />
       </div>
     );
   };

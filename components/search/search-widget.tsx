@@ -55,7 +55,7 @@ export const SearchWidget = memo(function SearchWidget({
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetTrigger asChild>
-        <Button variant="default" aria-label="Search" disabled={disabled}>
+        <Button variant="outline" aria-label="Search" disabled={disabled}>
           <Search />
         </Button>
       </SheetTrigger>

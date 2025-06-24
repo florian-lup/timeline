@@ -22,11 +22,11 @@ import {
 import type { StoryData } from '@/types/story';
 import { formatDate } from '@/utils/date-formatter';
 
-interface StorySheetProps {
+interface ReadMoreProps {
   entry: StoryData;
 }
 
-export const StorySheet = memo(function StorySheet({ entry }: StorySheetProps) {
+export const ReadMore = memo(function ReadMore({ entry }: ReadMoreProps) {
   return (
     <Sheet>
       <Tooltip>
@@ -42,7 +42,7 @@ export const StorySheet = memo(function StorySheet({ entry }: StorySheetProps) {
 
       <SheetContent
         side="left"
-        className="w-full overflow-y-auto md:max-w-2xl lg:max-w-3xl"
+        className="flex w-full flex-col overflow-y-auto sm:max-w-md lg:max-w-lg"
       >
         <SheetHeader>
           <VisuallyHidden.Root>

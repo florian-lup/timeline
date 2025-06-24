@@ -14,14 +14,14 @@ import {
 import type { StoryData } from '@/types/story';
 import { formatDate } from '@/utils/date-formatter';
 
+import { ReadMore } from './read-more';
 import { SourcesSheet } from './sources';
-import { StorySheet } from './story-sheet';
 
-interface StoryCardProps {
+interface ListItemProps {
   entry: StoryData;
 }
 
-export const StoryCard = memo(function StoryCard({ entry }: StoryCardProps) {
+export const ListItem = memo(function ListItem({ entry }: ListItemProps) {
   return (
     <div>
       {/* Event card */}
@@ -32,7 +32,7 @@ export const StoryCard = memo(function StoryCard({ entry }: StoryCardProps) {
               {formatDate(entry.date)}
             </span>
             <SourcesSheet title={entry.title} sources={entry.sources} />
-            <StorySheet entry={entry} />
+            <ReadMore entry={entry} />
           </div>
         </CardHeader>
 

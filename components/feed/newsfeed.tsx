@@ -1,8 +1,8 @@
 'use client';
 
+import { FeedList } from '@/components/feed/feed-list';
 import { Header } from '@/components/feed/header';
 import { SkeletonList } from '@/components/feed/loading-skeleton';
-import { StoryList } from '@/components/feed/story-list';
 import { Card } from '@/components/ui/card';
 import { usePagination } from '@/hooks/usePagination';
 
@@ -20,7 +20,7 @@ export function NewsfeedPage() {
 
     if (entries.length > 0) {
       return (
-        <StoryList
+        <FeedList
           events={entries}
           isLoadingMore={isLoadingMore}
           hasMore={hasMore}
