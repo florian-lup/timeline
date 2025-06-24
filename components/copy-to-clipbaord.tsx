@@ -9,10 +9,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import type { StoryData } from '@/types/story';
+import type { ArticleData } from '@/types/article-data';
 
 interface CopyButtonProps {
-  entry: StoryData;
+  entry: ArticleData;
   mode?: 'summary' | 'full';
 }
 
@@ -29,7 +29,7 @@ export const CopyButton = memo(function CopyButton({
     try {
       const textToCopy =
         mode === 'full'
-          ? `${entry.title}\n\n${entry.summary}\n\nResearch:\n${entry.research}`
+          ? `${entry.title}\n\n${entry.summary}\n\nStory:\n${entry.story}`
           : `${entry.title}\n\n${entry.summary}`;
       await navigator.clipboard.writeText(textToCopy);
 

@@ -19,11 +19,11 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip';
-import type { StoryData } from '@/types/story';
+import type { ArticleData } from '@/types/article-data';
 import { formatDate } from '@/utils/date-formatter';
 
 interface ReadMoreProps {
-  entry: StoryData;
+  entry: ArticleData;
 }
 
 export const ReadMore = memo(function ReadMore({ entry }: ReadMoreProps) {
@@ -53,7 +53,7 @@ export const ReadMore = memo(function ReadMore({ entry }: ReadMoreProps) {
 
         <div className="p-4">
           <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-pre:bg-muted max-w-none">
-            <ReactMarkdown>{entry.research}</ReactMarkdown>
+            <ReactMarkdown>{entry.story}</ReactMarkdown>
           </div>
         </div>
       </SheetContent>

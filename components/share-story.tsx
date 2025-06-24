@@ -10,10 +10,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import type { StoryData } from '@/types/story';
+import type { ArticleData } from '@/types/article-data';
 
 interface ShareButtonProps {
-  entry: StoryData;
+  entry: ArticleData;
 }
 
 export function ShareButton({ entry }: ShareButtonProps) {

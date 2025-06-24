@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { StoryPage } from '@/components/story-page';
 import { getStoryById } from '@/lib/services/story-repository';
-import type { StoryData } from '@/types/story';
+import type { ArticleData } from '@/types/article-data';
 
 interface StoryPageProps {
   params: Promise<{
@@ -10,7 +10,7 @@ interface StoryPageProps {
   }>;
 }
 
-async function fetchStory(id: string): Promise<StoryData | null> {
+async function fetchStory(id: string): Promise<ArticleData | null> {
   try {
     return await getStoryById(id);
   } catch (error) {

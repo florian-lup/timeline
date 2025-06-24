@@ -1,11 +1,11 @@
 import { Virtuoso } from 'react-virtuoso';
 
-import type { StoryData } from '@/types/story';
+import type { ArticleData } from '@/types/article-data';
 
 import { ListItem } from './list-item';
 
 interface FeedListProps {
-  events: StoryData[];
+  events: ArticleData[];
   isLoadingMore: boolean;
   hasMore: boolean;
   onLoadMore: () => void;

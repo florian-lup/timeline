@@ -11,14 +11,14 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import type { StoryData } from '@/types/story';
+import type { ArticleData } from '@/types/article-data';
 import { formatDate } from '@/utils/date-formatter';
 
 import { ReadMore } from './read-more';
 import { SourcesSheet } from './sources';
 
 interface ListItemProps {
-  entry: StoryData;
+  entry: ArticleData;
 }
 
 export const ListItem = memo(function ListItem({ entry }: ListItemProps) {

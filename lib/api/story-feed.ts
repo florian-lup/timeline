@@ -1,7 +1,7 @@
-import type { StoryData } from '@/types/story';
+import type { ArticleData } from '@/types/article-data';
 
 export interface PaginatedStories {
-  entries: StoryData[];
+  entries: ArticleData[];
   nextPage?: string;
   hasMore: boolean;
 }

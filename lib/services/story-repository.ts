@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 import mongodb from '@/lib/clients/mongodb';
-import type { StoryData } from '@/types/story';
+import type { ArticleData } from '@/types/article-data';
 
 /**
  * Cursor-based pagination interfaces
@@ -16,7 +16,7 @@ interface StoryPagination {
  * Uses _id as cursor since it encodes creation time and provides unique ordering
  */
 export async function getStories({ before, limit }: StoryPagination): Promise<{
-  entries: StoryData[];
+  entries: ArticleData[];
   nextPage?: string;
   hasMore: boolean;
 }> {
@@ -49,10 +49,10 @@ export async function getStories({ before, limit }: StoryPagination): Promise<{
   const hasMore = docs.length > limit;
   const itemsToReturn = hasMore ? docs.slice(0, limit) : docs;
 
-  // Convert MongoDB documents → StoryData (ObjectId → string)
-  const entries: StoryData[] = itemsToReturn.map(doc => {
+  // Convert MongoDB documents → ArticleData (ObjectId → string)
+  const entries: ArticleData[] = itemsToReturn.map(doc => {
     const typedDoc = doc as unknown as { _id: { toString(): string } } & Omit<
-      StoryData,
+      ArticleData,
       '_id'
     >;
     const { _id: documentId, ...rest } = typedDoc;
@@ -60,7 +60,7 @@ export async function getStories({ before, limit }: StoryPagination): Promise<{
     return {
       ...rest,
       _id: documentId.toString(),
-    } satisfies StoryData;
+    } satisfies ArticleData;
   });
 
   // Generate next cursor if there are more items
@@ -82,7 +82,7 @@ export async function getStories({ before, limit }: StoryPagination): Promise<{
 /**
  * Fetches a single story by its ID
  */
-export async function getStoryById(id: string): Promise<StoryData | null> {
+export async function getStoryById(id: string): Promise<ArticleData | null> {
   try {
     const client = await mongodb;
     const db = client.db('events');
@@ -95,9 +95,9 @@ export async function getStoryById(id: string): Promise<StoryData | null> {
       return null;
     }
 
-    // Convert MongoDB document → StoryData (ObjectId → string)
+    // Convert MongoDB document → ArticleData (ObjectId → string)
     const typedDoc = doc as unknown as { _id: { toString(): string } } & Omit<
-      StoryData,
+      ArticleData,
       '_id'
     >;
     const { _id: documentId, ...rest } = typedDoc;
@@ -105,7 +105,7 @@ export async function getStoryById(id: string): Promise<StoryData | null> {
     return {
       ...rest,
       _id: documentId.toString(),
-    } satisfies StoryData;
+    } satisfies ArticleData;
   } catch (error) {
     console.error('Error fetching story by ID:', error);
     return null;

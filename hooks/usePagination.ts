@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { StoryData } from '@/types/story';
+import type { ArticleData } from '@/types/article-data';
 import { fetchStories } from '@/lib/api/story-feed';
 
 /**
@@ -7,7 +7,7 @@ import { fetchStories } from '@/lib/api/story-feed';
  * Optimized for React Virtuoso integration
  */
 export function usePagination(limit: number = 20) {
-  const [entries, setEntries] = useState<StoryData[]>([]);
+  const [entries, setEntries] = useState<ArticleData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);

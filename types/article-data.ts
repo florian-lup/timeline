@@ -1,8 +1,8 @@
-export interface StoryData {
+export interface ArticleData {
   _id: string;
   title: string;
   summary: string;
   date: string | Date;
   sources: string[];
-  research: string;
+  story: string;
 }

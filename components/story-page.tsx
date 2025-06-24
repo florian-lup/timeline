@@ -14,13 +14,13 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import type { StoryData } from '@/types/story';
+import type { ArticleData } from '@/types/article-data';
 import { formatDate } from '@/utils/date-formatter';
 
 import { SourcesSheet } from './feed/sources';
 
 interface StoryPageProps {
-  story: StoryData;
+  story: ArticleData;
 }
 
 export function StoryPage({ story }: StoryPageProps) {
@@ -62,10 +62,10 @@ export function StoryPage({ story }: StoryPageProps) {
           </CardHeader>
 
           <CardContent className="space-y-6">
-            {/* Full research content */}
+            {/* Full story content */}
             <div className="border-t pt-6">
               <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted md:prose-base max-w-none">
-                <ReactMarkdown>{story.research}</ReactMarkdown>
+                <ReactMarkdown>{story.story}</ReactMarkdown>
               </div>
             </div>
           </CardContent>
