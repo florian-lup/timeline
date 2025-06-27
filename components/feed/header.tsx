@@ -1,7 +1,6 @@
 'use client';
 
 import { AnchorBroadcast } from '@/components/feed/anchor-broadcast';
-import { SearchWidget } from '@/components/search/search-widget';
 import { ThemeLogo } from '@/components/theme-logo';
 
 /**
@@ -20,7 +19,6 @@ export function Header() {
 
           {/* Action buttons on the right */}
           <div className="flex items-center gap-3">
-            <SearchWidget />
             <AnchorBroadcast />
           </div>
         </div>
