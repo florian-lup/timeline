@@ -17,6 +17,12 @@ import {
   SheetDescription,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useSearchWidget } from '@/hooks/useSearchWidget';
 
 interface SearchWidgetProps {
@@ -54,11 +60,20 @@ export const SearchWidget = memo(function SearchWidget({
 
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
-      <SheetTrigger asChild>
-        <Button variant="outline" aria-label="Search" disabled={disabled}>
-          <Search />
-        </Button>
-      </SheetTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <SheetTrigger asChild>
+              <Button variant="outline" aria-label="Search" disabled={disabled}>
+                <Search />
+              </Button>
+            </SheetTrigger>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Search stories</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <SheetContent
         side="right"
         className="flex w-full flex-col sm:max-w-md lg:max-w-lg"

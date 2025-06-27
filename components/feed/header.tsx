@@ -1,16 +1,8 @@
 'use client';
 
-import { AudioLines } from 'lucide-react';
-
+import { AnchorBroadcast } from '@/components/feed/anchor-broadcast';
 import { SearchWidget } from '@/components/search/search-widget';
 import { ThemeLogo } from '@/components/theme-logo';
-import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 /**
  * Sticky header for the newsfeed page
@@ -28,32 +20,8 @@ export function Header() {
 
           {/* Action buttons on the right */}
           <div className="flex items-center gap-3">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <SearchWidget />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Search stories</p>
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="default"
-                    onClick={() => {
-                      // coming soon
-                    }}
-                    aria-label="Audio Lines"
-                  >
-                    <AudioLines />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Coming soon</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <SearchWidget />
+            <AnchorBroadcast />
           </div>
         </div>
       </div>

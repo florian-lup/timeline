@@ -8,8 +8,10 @@ language models to create an evolving, searchable narrative.
 
 - **Virtualized timeline** – Efficiently renders large event lists with smooth
   infinite scrolling using React Virtuoso.
+- **AI News Anchor** – Generate streaming audio broadcasts from recent news
+  using AI text-to-speech.
 
-  ## 🏗 Tech Stack
+## 🏗 Tech Stack
 
 - [Next.js 15](https://nextjs.org/) App Router
 - TypeScript, React 19
