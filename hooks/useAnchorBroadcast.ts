@@ -73,9 +73,12 @@ export function useAnchorBroadcast(): UseAnchorBroadcastReturn {
       const audio = new Audio();
       audioRef.current = audio;
 
-      // Enable auto-play and preload for faster start
+      // Preload the audio metadata but let our explicit play() call start
+      // playback once the browser reports it is ready. Removing the
+      // automatic playback avoids a race condition where the first few
+      // PCM frames can be dropped on the initial render, which led to the
+      // "first word is cut" symptom users reported.
       audio.preload = 'auto';
-      audio.autoplay = true;
 
       // Set up audio event listeners for this instance
       const handleLoadStart = () => {
@@ -143,9 +146,6 @@ export function useAnchorBroadcast(): UseAnchorBroadcastReturn {
         });
 
       audio.src = freshUrl;
-
-      // Start loading the fresh stream
-      audio.load();
 
       // Handle abort signal for this instance
       abortController.signal.addEventListener('abort', () => {
