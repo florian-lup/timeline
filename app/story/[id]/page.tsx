@@ -41,15 +41,15 @@ export async function generateMetadata({ params }: StoryPageProps) {
   }
 
   return {
-    title: story.title,
+    title: story.headline,
     openGraph: {
-      title: story.title,
+      title: story.headline,
       type: 'article',
       publishedTime: story.date.toString(),
     },
     twitter: {
       card: 'summary_large_image',
-      title: story.title,
+      title: story.headline,
     },
   };
 }

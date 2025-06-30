@@ -31,7 +31,7 @@ export const ListItem = memo(function ListItem({ entry }: ListItemProps) {
             <span className="text-muted-foreground text-sm">
               {formatDate(entry.date)}
             </span>
-            <SourcesSheet title={entry.title} sources={entry.sources} />
+            <SourcesSheet title={entry.headline} sources={entry.sources} />
             <ReadMore entry={entry} />
           </div>
         </CardHeader>
@@ -39,7 +39,7 @@ export const ListItem = memo(function ListItem({ entry }: ListItemProps) {
         <CardContent className="p-0">
           <div>
             <h3 className="mb-4 text-lg leading-tight font-semibold md:text-xl lg:text-2xl">
-              {entry.title}
+              {entry.headline}
             </h3>
             <p className="text-muted-foreground text-sm leading-relaxed md:text-base">
               {entry.summary}

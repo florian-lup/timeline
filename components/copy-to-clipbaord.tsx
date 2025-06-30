@@ -29,8 +29,8 @@ export const CopyButton = memo(function CopyButton({
     try {
       const textToCopy =
         mode === 'full'
-          ? `${entry.title}\n\n${entry.summary}\n\nStory:\n${entry.story}`
-          : `${entry.title}\n\n${entry.summary}`;
+          ? `${entry.headline}\n\n${entry.summary}\n\nStory:\n${entry.story}`
+          : `${entry.headline}\n\n${entry.summary}`;
       await navigator.clipboard.writeText(textToCopy);
 
       setCopied(true);

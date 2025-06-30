@@ -26,7 +26,7 @@ export function ShareButton({ entry }: ShareButtonProps) {
     const shareUrl = `${window.location.origin}/story/${entry._id}`;
 
     const shareData = {
-      title: entry.title,
+      title: entry.headline,
       url: shareUrl,
     };
 

@@ -1,6 +1,6 @@
 export interface ArticleData {
   _id: string;
-  title: string;
+  headline: string;
   summary: string;
   date: string | Date;
   sources: string[];

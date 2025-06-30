@@ -47,13 +47,13 @@ export function StoryPage({ story }: StoryPageProps) {
               <span className="text-muted-foreground text-sm">
                 {formatDate(story.date)}
               </span>
-              <SourcesSheet title={story.title} sources={story.sources} />
+              <SourcesSheet title={story.headline} sources={story.sources} />
             </div>
 
             {/* Title and summary */}
             <div className="space-y-4">
               <h1 className="text-2xl leading-tight font-bold md:text-3xl lg:text-4xl">
-                {story.title}
+                {story.headline}
               </h1>
               <p className="text-muted-foreground text-lg leading-relaxed">
                 {story.summary}
