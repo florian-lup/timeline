@@ -12,6 +12,20 @@ interface StoryPagination {
 }
 
 /**
+ * Field projection for ArticleData to optimize MongoDB queries
+ * Only fetch the fields we need for the timeline/feed
+ */
+const ARTICLE_PROJECTION = {
+  _id: 1,
+  headline: 1,
+  summary: 1,
+  date: 1,
+  sources: 1,
+  story: 1,
+  // This will automatically exclude all other fields (reporter, broadcast, etc.)
+};
+
+/**
  * Fetches cursor-based paginated stories from MongoDB
  * Uses _id as cursor since it encodes creation time and provides unique ordering
  */
@@ -40,7 +54,9 @@ export async function getStories({ before, limit }: StoryPagination): Promise<{
   // Fetch one extra item to determine if there are more
   const docs = await db
     .collection('articles')
-    .find(query)
+    .find(query, {
+      projection: ARTICLE_PROJECTION,
+    })
     .sort({ _id: -1 }) // newest first - _id already encodes creation time
     .limit(limit + 1)
     .toArray();
@@ -87,9 +103,12 @@ export async function getStoryById(id: string): Promise<ArticleData | null> {
     const client = await mongodb;
     const db = client.db('events');
 
-    const doc = await db
-      .collection('articles')
-      .findOne({ _id: new ObjectId(id) });
+    const doc = await db.collection('articles').findOne(
+      { _id: new ObjectId(id) },
+      {
+        projection: ARTICLE_PROJECTION,
+      },
+    );
 
     if (!doc) {
       return null;
