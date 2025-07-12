@@ -1,19 +1,58 @@
 # Timeline
 
-Timeline is an AI-powered news tracker that collects and organizes significant
-global events in real time, using large language models to create an evolving
-narrative.
+An AI-powered news tracking platform that provides a clean, performant timeline
+view of global events and stories. Built with Next.js 15 and React 19, featuring
+virtualized infinite scrolling, AI-generated audio broadcasts, and a modern,
+responsive design.
 
-## Features
+## ✨ Core Features
 
-- **Virtualized timeline** – Efficiently renders large event lists with smooth
-  infinite scrolling using React Virtuoso.
-- **AI News Anchor** – Generate streaming audio broadcasts from recent news
-  using AI text-to-speech.
+### 📰 News Timeline
 
-## 🏗 Tech Stack
+- **Virtualized Feed**: High-performance infinite scrolling using React Virtuoso
+- **Cursor-based Pagination**: Efficient data loading with MongoDB ObjectId
+  cursors
+- **Responsive Design**: Mobile-first approach with adaptive layouts
+- **Dark/Light Theme**: System-aware theme switching with smooth transitions
 
-- [Next.js 15](https://nextjs.org/) App Router
-- TypeScript, React 19
-- Tailwind CSS 4 & [shadcn/ui](https://ui.shadcn.com/) (Radix UI primitives)
-- MongoDB Atlas – event storage
+### 🎙️ AI News Broadcasting
+
+- **Audio Generation**: AI-powered anchor broadcasts for story summaries
+- **Streaming Support**: Real-time audio stream processing
+- **Playback Controls**: Play, pause, and stop functionality
+
+### 🔍 SEO & Performance
+
+- **Full SEO Optimization**: Meta tags, sitemaps, and robots.txt
+- **Security Headers**: Comprehensive CSP, HSTS, and security policies
+- **Performance Monitoring**: Vercel Analytics integration
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- **Framework**: Next.js 15 (App Router)
+- **React**: React 19 with Server Components
+- **TypeScript**: Strict mode with enhanced type checking
+- **Styling**: Tailwind CSS with custom design tokens
+- **UI Components**: shadcn/ui with Radix UI primitives
+- **Icons**: Lucide React icons
+
+### Backend & Database
+
+- **Runtime**: Node.js with Edge Runtime support
+- **Database**: MongoDB with native driver
+- **API**: Next.js API routes with type-safe endpoints
+
+### Development & Testing
+
+- **Package Manager**: pnpm with strict dependency management
+- **Linting**: ESLint with strict TypeScript rules
+- **Formatting**: Prettier with Tailwind CSS plugin
+- **Testing**: Vitest for unit tests, Playwright for E2E
+
+### Performance & Security
+
+- **Virtualization**: React Virtuoso for large lists
+- **Security**: CSP, HSTS, and comprehensive security headers
+- **Monitoring**: Vercel Analytics and performance tracking
