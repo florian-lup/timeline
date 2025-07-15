@@ -18,7 +18,6 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip';
-import { extractDomain } from '@/utils/url-formatter';
 
 interface SourcesSheetProps {
   /**
@@ -68,16 +67,15 @@ export const SourcesSheet = memo(function SourcesSheet({
             {sources.map((source, index) => (
               <li
                 key={index}
-                className="hover:bg-muted flex items-center gap-2 rounded p-2"
+                className="hover:bg-muted flex items-start gap-2 rounded p-2"
               >
-                <LinkIcon className="text-muted-foreground size-3" />
                 <a
                   href={source}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm break-all hover:underline"
                 >
-                  {extractDomain(source)}
+                  {source}
                 </a>
               </li>
             ))}
