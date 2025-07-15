@@ -55,7 +55,7 @@ export const SourcesSheet = memo(function SourcesSheet({
         <TooltipContent sideOffset={4}>Sources</TooltipContent>
       </Tooltip>
 
-      <SheetContent side="left" className="overflow-y-auto">
+      <SheetContent side="right" className="overflow-y-auto">
         <SheetHeader>
           <VisuallyHidden.Root>
             <SheetTitle>{title}</SheetTitle>

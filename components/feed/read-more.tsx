@@ -41,8 +41,8 @@ export const ReadMore = memo(function ReadMore({ entry }: ReadMoreProps) {
       </Tooltip>
 
       <SheetContent
-        side="left"
-        className="flex w-full flex-col overflow-y-auto sm:max-w-md lg:max-w-lg"
+        side="bottom"
+        className="flex h-full w-full flex-col overflow-y-auto"
       >
         <SheetHeader>
           <VisuallyHidden.Root>
@@ -52,7 +52,7 @@ export const ReadMore = memo(function ReadMore({ entry }: ReadMoreProps) {
         </SheetHeader>
 
         <div className="p-4">
-          <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-pre:bg-muted max-w-none">
+          <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800 prose-pre:bg-muted max-w-none">
             <ReactMarkdown>{entry.story}</ReactMarkdown>
           </div>
         </div>
