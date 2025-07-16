@@ -65,7 +65,7 @@ export function StoryPage({ story }: StoryPageProps) {
             {/* Full story content */}
             <div className="border-t pt-6">
               <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted md:prose-base max-w-none">
-                <ReactMarkdown>{story.story}</ReactMarkdown>
+                <ReactMarkdown>{story.body}</ReactMarkdown>
               </div>
             </div>
           </CardContent>

@@ -4,5 +4,5 @@ export interface ArticleData {
   summary: string;
   date: string | Date;
   sources: string[];
-  story: string;
+  body: string;
 }

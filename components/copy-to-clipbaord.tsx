@@ -29,7 +29,7 @@ export const CopyButton = memo(function CopyButton({
     try {
       const textToCopy =
         mode === 'full'
-          ? `${entry.headline}\n\n${entry.summary}\n\nStory:\n${entry.story}`
+          ? `${entry.headline}\n\n${entry.summary}\n\nStory:\n${entry.body}`
           : `${entry.headline}\n\n${entry.summary}`;
       await navigator.clipboard.writeText(textToCopy);
 

@@ -21,7 +21,7 @@ const ARTICLE_PROJECTION = {
   summary: 1,
   date: 1,
   sources: 1,
-  story: 1,
+  body: 1,
   // This will automatically exclude all other fields (reporter, broadcast, etc.)
 };
 
@@ -35,7 +35,7 @@ export async function getStories({ before, limit }: StoryPagination): Promise<{
   hasMore: boolean;
 }> {
   const client = await mongodb;
-  const db = client.db('events');
+  const db = client.db('breaking-news');
 
   let query = {};
 
@@ -53,7 +53,7 @@ export async function getStories({ before, limit }: StoryPagination): Promise<{
 
   // Fetch one extra item to determine if there are more
   const docs = await db
-    .collection('articles')
+    .collection('stories')
     .find(query, {
       projection: ARTICLE_PROJECTION,
     })
@@ -101,9 +101,9 @@ export async function getStories({ before, limit }: StoryPagination): Promise<{
 export async function getStoryById(id: string): Promise<ArticleData | null> {
   try {
     const client = await mongodb;
-    const db = client.db('events');
+    const db = client.db('breaking-news');
 
-    const doc = await db.collection('articles').findOne(
+    const doc = await db.collection('stories').findOne(
       { _id: new ObjectId(id) },
       {
         projection: ARTICLE_PROJECTION,

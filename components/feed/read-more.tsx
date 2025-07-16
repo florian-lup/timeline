@@ -53,7 +53,7 @@ export const ReadMore = memo(function ReadMore({ entry }: ReadMoreProps) {
 
         <div className="p-4">
           <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800 prose-pre:bg-muted max-w-none">
-            <ReactMarkdown>{entry.story}</ReactMarkdown>
+            <ReactMarkdown>{entry.body}</ReactMarkdown>
           </div>
         </div>
       </SheetContent>
