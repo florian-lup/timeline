@@ -1,9 +1,8 @@
 # Timeline
 
-An AI-powered news tracking platform that provides a clean, performant timeline
-view of global events and stories. Built with Next.js 15 and React 19, featuring
-virtualized infinite scrolling, AI-generated audio broadcasts, and a modern,
-responsive design.
+A news tracking platform that provides a clean, performant timeline view of
+global events and stories. Built with Next.js 15 and React 19, featuring
+virtualized infinite scrolling and a modern, responsive design.
 
 ## ✨ Core Features
 
@@ -14,12 +13,6 @@ responsive design.
   cursors
 - **Responsive Design**: Mobile-first approach with adaptive layouts
 - **Dark/Light Theme**: System-aware theme switching with smooth transitions
-
-### 🎙️ AI News Broadcasting
-
-- **Audio Generation**: AI-powered anchor broadcasts for story summaries
-- **Streaming Support**: Real-time audio stream processing
-- **Playback Controls**: Play, pause, and stop functionality
 
 ### 🔍 SEO & Performance
 

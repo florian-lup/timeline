@@ -1,6 +1,6 @@
 'use client';
 
-import { AnchorBroadcast } from '@/components/feed/anchor-broadcast';
+import { NewsBriefing } from '@/components/feed/news-briefing';
 import { ThemeLogo } from '@/components/theme-logo';
 
 /**
@@ -19,7 +19,7 @@ export function Header() {
 
           {/* Action buttons on the right */}
           <div className="flex items-center gap-3">
-            <AnchorBroadcast />
+            <NewsBriefing />
           </div>
         </div>
       </div>

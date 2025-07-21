@@ -1,0 +1,241 @@
+'use client';
+
+import { AudioLines, Pause, Play, Square, Loader2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { fetchLatestPodcast } from '@/lib/api/podcast-feed';
+import type { PodcastData } from '@/types/podcast-data';
+
+interface NewsBriefingProps {
+  disabled?: boolean;
+}
+
+type PlaybackState =
+  | 'idle'
+  | 'loading'
+  | 'playing'
+  | 'paused'
+  | 'stopped'
+  | 'error';
+
+/**
+ * News briefing component with audio playback functionality
+ * Fetches and plays the latest podcast when the audio button is clicked
+ */
+export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
+  const [playbackState, setPlaybackState] = useState<PlaybackState>('idle');
+  const [podcast, setPodcast] = useState<PodcastData | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const shouldAutoPlayRef = useRef<boolean>(false);
+
+  // Initialize audio element when podcast is loaded
+  useEffect(() => {
+    if (
+      podcast?.audio_url != null &&
+      podcast.audio_url.length > 0 &&
+      !audioRef.current
+    ) {
+      try {
+        // Use CDN URL directly - much simpler and better performance!
+        const audio = new Audio();
+
+        // Set audio properties for optimal CDN streaming
+        audio.preload = 'auto'; // Preload the audio
+        audio.volume = 1.0; // Full volume
+
+        // Set the CDN URL directly
+        audio.src = podcast.audio_url;
+
+        audioRef.current = audio;
+
+        // Add event listeners
+        audio.addEventListener('ended', () => {
+          setPlaybackState('stopped');
+        });
+
+        audio.addEventListener('error', e => {
+          console.error('Audio loading error:', e);
+          setError('Failed to load audio from CDN');
+          setPlaybackState('error');
+        });
+
+        audio.addEventListener('canplay', () => {
+          // CDN streaming - no need to calculate bitrate anymore
+
+          // Check audio context for actual sample rate
+          if ('AudioContext' in window || 'webkitAudioContext' in window) {
+            const AudioContextClass =
+              (window as unknown as { AudioContext?: new () => AudioContext })
+                .AudioContext ||
+              (
+                window as unknown as {
+                  webkitAudioContext?: new () => AudioContext;
+                }
+              ).webkitAudioContext;
+            if (AudioContextClass) {
+              const audioContext = new AudioContextClass();
+              void audioContext.close();
+            }
+          }
+
+          // Only auto-play when initially loading (not when resetting currentTime)
+          if (shouldAutoPlayRef.current) {
+            shouldAutoPlayRef.current = false;
+            audio
+              .play()
+              .then(() => {
+                setPlaybackState('playing');
+              })
+              .catch((err: unknown) => {
+                console.error('Failed to auto-play audio:', err);
+                setError('Failed to play audio');
+                setPlaybackState('error');
+              });
+          }
+        });
+
+        // No blob URL cleanup needed with CDN
+      } catch (err) {
+        console.error('Failed to initialize audio:', err);
+        setError('Failed to initialize audio player');
+        setPlaybackState('error');
+      }
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, [podcast?.audio_url]); // CDN URL dependency
+
+  const handlePlay = async () => {
+    // If we already have audio loaded, just play it
+    if (audioRef.current) {
+      try {
+        await audioRef.current.play();
+        setPlaybackState('playing');
+      } catch (err) {
+        console.error('Failed to play audio:', err);
+        setError('Failed to play audio');
+        setPlaybackState('error');
+      }
+      return;
+    }
+
+    // Otherwise, fetch and play the podcast
+    if (!podcast) {
+      try {
+        setPlaybackState('loading');
+        setError(null);
+
+        // Set flag to enable auto-play when audio is ready
+        shouldAutoPlayRef.current = true;
+
+        // Fetch the latest podcast
+        const latestPodcast = await fetchLatestPodcast();
+        setPodcast(latestPodcast);
+
+        // The useEffect will handle creating the audio element and auto-playing it
+      } catch (err) {
+        console.error('Failed to load podcast:', err);
+        setError('Failed to load podcast');
+        setPlaybackState('error');
+      }
+    }
+  };
+
+  const handlePause = () => {
+    if (!audioRef.current) return;
+
+    audioRef.current.pause();
+    setPlaybackState('paused');
+  };
+
+  const handleStop = () => {
+    if (!audioRef.current) return;
+
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+    setPlaybackState('stopped');
+  };
+
+  const isDisabled =
+    disabled || playbackState === 'loading' || playbackState === 'error';
+  const isPlaying = playbackState === 'playing';
+  const isPaused = playbackState === 'paused';
+  const isLoading = playbackState === 'loading';
+  const hasStartedPlayback = podcast !== null && (isPlaying || isPaused);
+
+  return (
+    <div className="flex items-center gap-2">
+      {/* Show Play/Pause button only after playback has started */}
+      {hasStartedPlayback && (
+        <Button
+          variant="outline"
+          size="icon"
+          aria-label={isPlaying ? 'Pause' : 'Play'}
+          disabled={isDisabled}
+          onClick={isPlaying ? handlePause : handlePlay}
+        >
+          {(() => {
+            if (isLoading) {
+              return <Loader2 className="h-4 w-4 animate-spin" />;
+            }
+            if (isPlaying) {
+              return <Pause className="h-4 w-4" />;
+            }
+            return <Play className="h-4 w-4" />;
+          })()}
+        </Button>
+      )}
+
+      {/* Show Stop button only after playback has started */}
+      {hasStartedPlayback && (
+        <Button
+          variant="outline"
+          size="icon"
+          aria-label="Stop"
+          disabled={isDisabled || (!isPlaying && !isPaused)}
+          onClick={handleStop}
+        >
+          <Square className="h-4 w-4" />
+        </Button>
+      )}
+
+      {/* Main News Briefing Button */}
+      <Button
+        variant="default"
+        size="icon"
+        aria-label="AI News Broadcast"
+        disabled={isDisabled}
+        onClick={!hasStartedPlayback ? () => void handlePlay() : undefined}
+        className="relative"
+      >
+        {isLoading && !hasStartedPlayback ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <AudioLines
+            className={`h-4 w-4 ${
+              isPlaying ? 'animate-pulse text-red-500' : ''
+            }`}
+          />
+        )}
+      </Button>
+
+      {/* Error Display (hidden by default, only visible when there's an error) */}
+      {error !== null && error.length > 0 && (
+        <span
+          className="max-w-[100px] truncate text-xs text-red-500"
+          title={error}
+        >
+          {error}
+        </span>
+      )}
+    </div>
+  );
+}

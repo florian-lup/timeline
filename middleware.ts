@@ -32,7 +32,7 @@ export function middleware(request: NextRequest) {
       upgrade-insecure-requests;
       worker-src 'self' blob:;
       manifest-src 'self';
-      media-src 'self' blob:;
+      media-src *;
       frame-src 'self';
   `;
   // Replace newline characters and spaces
