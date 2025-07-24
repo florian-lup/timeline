@@ -1,7 +1,17 @@
 'use client';
 
+import { Search } from 'lucide-react';
+import Link from 'next/link';
+
 import { NewsBriefing } from '@/components/feed/news-briefing';
 import { ThemeLogo } from '@/components/theme-logo';
+import { Button } from '@/components/ui/button';
+import { 
+  Tooltip,
+  TooltipContent, 
+  TooltipTrigger,
+  TooltipProvider 
+} from '@/components/ui/tooltip';
 
 /**
  * Sticky header for the newsfeed page
@@ -20,6 +30,18 @@ export function Header() {
           {/* Action buttons on the right */}
           <div className="flex items-center gap-3">
             <NewsBriefing />
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon" asChild>
+                    <Link href="/search">
+                      <Search className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>News Search AI</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </div>

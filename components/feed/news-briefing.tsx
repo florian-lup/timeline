@@ -101,7 +101,7 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
 
         audio.addEventListener('error', e => {
           console.error('Audio loading error:', e);
-          setError('Failed to load audio from CDN');
+          setError('Failed');
           setPlaybackState('error');
         });
 
@@ -222,6 +222,16 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
 
   return (
     <div className="flex items-center gap-2">
+      {/* Error Display (hidden by default, only visible when there's an error) */}
+      {error !== null && error.length > 0 && (
+        <span
+          className="max-w-[100px] truncate text-xs text-red-500"
+          title={error}
+        >
+          {error}
+        </span>
+      )}
+
       {/* Show Play/Pause button only after playback has started */}
       {hasStartedPlayback && (
         <Button
@@ -275,16 +285,6 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
           />
         )}
       </Button>
-
-      {/* Error Display (hidden by default, only visible when there's an error) */}
-      {error !== null && error.length > 0 && (
-        <span
-          className="max-w-[100px] truncate text-xs text-red-500"
-          title={error}
-        >
-          {error}
-        </span>
-      )}
     </div>
   );
 }
