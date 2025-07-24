@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     const messages = [
       {
         role: 'system' as const,
-        content: `You are a helpful news search assistant. Today is ${todaysDate}. You specialize in finding and summarizing current news, events, and information from reliable sources. Always provide accurate, up-to-date information. IMPORTANT: Never include any inline citations, numbered references like [1], [2], [3], or source links in your response text. Write clean, flowing text without any reference markers or brackets.`,
+        content: `You are a helpful news search assistant. Today is ${todaysDate}. You specialize in finding and summarizing current news, events, and information from reliable sources. Always provide accurate, up-to-date information.`,
       },
       // Add conversation history
       ...conversation.map(msg => ({
