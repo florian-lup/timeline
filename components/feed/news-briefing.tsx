@@ -41,14 +41,14 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
       !audioRef.current
     ) {
       try {
-        // Use CDN URL directly - much simpler and better performance!
+        // Use proxy API route to avoid CORS issues during development
         const audio = new Audio();
 
         // Set audio properties for optimal quality
         audio.preload = 'auto'; // Preload the audio
         audio.volume = 1.0; // Full volume
         
-        // Enable CORS for CDN audio to allow Web Audio API processing
+        // Enable CORS for proxy API (no longer needed but keeping for compatibility)
         audio.crossOrigin = 'anonymous';
         
         // Disable browser audio normalization and compression
@@ -56,8 +56,10 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
         if ('preservesPitch' in audio) audio.preservesPitch = true;
         if ('disableNormalization' in audio) audio.disableNormalization = true;
 
-        // Set the CDN URL directly
-        audio.src = podcast.audio_url;
+        // Extract filename from CDN URL and use proxy route
+        const urlParts = podcast.audio_url.split('/');
+        const filename = urlParts[urlParts.length - 1];
+        audio.src = `/api/podcast/audio/${filename}`;
 
         audioRef.current = audio;
 
@@ -128,7 +130,7 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
           }
         });
 
-        // No blob URL cleanup needed with CDN
+        // No blob URL cleanup needed with proxy API
       } catch (err) {
         console.error('Failed to initialize audio:', err);
         setError('Failed to initialize audio player');
@@ -155,7 +157,7 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
         audioContextRef.current = null;
       }
     };
-  }, [podcast?.audio_url]); // CDN URL dependency
+  }, [podcast?.audio_url]); // Audio URL dependency for proxy route
 
   const handlePlay = async () => {
     // If we already have audio loaded, just play it

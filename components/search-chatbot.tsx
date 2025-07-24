@@ -122,7 +122,7 @@ export function SearchChatbot() {
                       <strong>Example:</strong> "What's the latest news in UK sports?"
                     </div>
                     <div className="p-3 bg-muted rounded-lg">
-                      <strong>Example:</strong> "Tell me about today's technology news"
+                      <strong>Example:</strong> "Summarize today's technology news"
                     </div>
                   </div>
                 </CardContent>
