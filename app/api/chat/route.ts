@@ -33,11 +33,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Get current date for prompt and filtering
+    const currentDate = new Date();
+    const searchAfterDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+    const todaysDate = currentDate.toLocaleDateString('en-US', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+
     // Prepare conversation history for Perplexity
     const messages = [
       {
         role: 'system' as const,
-        content: 'You are a helpful news search assistant. You specialize in finding and summarizing current news, events, and information from reliable sources. Always provide accurate, up-to-date information. IMPORTANT: Never include any inline citations, numbered references like [1], [2], [3], or source links in your response text. Write clean, flowing text without any reference markers or brackets.'
+        content: `You are a helpful news search assistant. Today is ${todaysDate}. You specialize in finding and summarizing current news, events, and information from reliable sources. Always provide accurate, up-to-date information. IMPORTANT: Never include any inline citations, numbered references like [1], [2], [3], or source links in your response text. Write clean, flowing text without any reference markers or brackets.`
       },
       // Add conversation history
       ...conversation.map(msg => ({
@@ -51,20 +61,12 @@ export async function POST(request: NextRequest) {
       }
     ];
 
-    // Get current date in %m/%d/%Y format for filtering recent news
-    const currentDate = new Date();
-    const searchAfterDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
-
     const perplexityRequest: PerplexityRequest = {
       model: 'sonar',
       messages,
       max_tokens: 2048,
-      temperature: 0.2,
-      stream: false,
       search_after_date_filter: searchAfterDate,
-      return_citations: true,
-      return_images: false,
-      return_related_questions: false
+      return_citations: true
     };
 
     // Call Perplexity API
@@ -87,6 +89,8 @@ export async function POST(request: NextRequest) {
     }
 
     const perplexityResponse = await response.json() as PerplexityResponse;
+    
+    console.log('Full Perplexity response:', JSON.stringify(perplexityResponse, null, 2));
     
     let assistantMessage = perplexityResponse.choices[0]?.message?.content;
     if (!assistantMessage) {
