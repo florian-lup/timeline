@@ -76,4 +76,4 @@ export interface ChatApiRequest {
 export interface ChatApiResponse {
   message: ChatMessage;
   error?: string;
-} 
+}

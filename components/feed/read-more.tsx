@@ -1,7 +1,7 @@
 'use client';
 
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import { Newspaper } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { memo } from 'react';
 import ReactMarkdown from 'react-markdown';
 
@@ -33,7 +33,7 @@ export const ReadMore = memo(function ReadMore({ entry }: ReadMoreProps) {
         <TooltipTrigger asChild>
           <SheetTrigger asChild>
             <Button variant="outline" size="sm">
-              <Newspaper className="size-3.5" />
+              <FileText className="size-3.5" />
             </Button>
           </SheetTrigger>
         </TooltipTrigger>

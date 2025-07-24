@@ -22,6 +22,10 @@ type PlaybackState =
 /**
  * News briefing component with audio playback functionality
  * Fetches and plays the latest podcast when the audio button is clicked
+ *
+ * Manages audio playback lifecycle including loading, playing, pausing
+ * and handling audio errors. Uses Web Audio API for high-quality playback
+ * when available.
  */
 export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
   const [playbackState, setPlaybackState] = useState<PlaybackState>('idle');
@@ -33,131 +37,132 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
 
   const shouldAutoPlayRef = useRef<boolean>(false);
 
-  // Initialize audio element when podcast is loaded
+  /**
+   * Handle audio element creation and setup event listeners
+   */
   useEffect(() => {
+    // Initialize audio element
     if (
-      podcast?.audio_url != null &&
-      podcast.audio_url.length > 0 &&
-      !audioRef.current
+      typeof podcast?.audio_url !== 'string' ||
+      podcast.audio_url.length === 0 ||
+      audioRef.current !== null
     ) {
-      try {
-        // Use proxy API route to avoid CORS issues during development
-        const audio = new Audio();
-
-        // Set audio properties for optimal quality
-        audio.preload = 'auto'; // Preload the audio
-        audio.volume = 1.0; // Full volume
-        
-        // Enable CORS for proxy API (no longer needed but keeping for compatibility)
-        audio.crossOrigin = 'anonymous';
-        
-        // Disable browser audio normalization and compression
-        if ('mozPreservesPitch' in audio) audio.mozPreservesPitch = true;
-        if ('preservesPitch' in audio) audio.preservesPitch = true;
-        if ('disableNormalization' in audio) audio.disableNormalization = true;
-
-        // Extract filename from CDN URL and use proxy route
-        const urlParts = podcast.audio_url.split('/');
-        const filename = urlParts[urlParts.length - 1];
-        audio.src = `/api/podcast/audio/${filename}`;
-
-        audioRef.current = audio;
-
-        // Initialize Web Audio API for high-quality playback
-        if ('AudioContext' in window || 'webkitAudioContext' in window) {
-          const AudioContextClass =
-            (window as unknown as { AudioContext?: new () => AudioContext })
-              .AudioContext ||
-            (
-              window as unknown as {
-                webkitAudioContext?: new () => AudioContext;
-              }
-            ).webkitAudioContext;
-          
-          if (AudioContextClass && !audioContextRef.current) {
-            try {
-              // Create audio context for high-quality playback
-              const audioContext = new AudioContextClass();
-              
-              audioContextRef.current = audioContext;
-              
-              // Create source node from audio element
-              const source = audioContext.createMediaElementSource(audio);
-              sourceNodeRef.current = source;
-              
-              // Connect directly to destination without any processing
-              // This preserves the original audio quality
-              source.connect(audioContext.destination);
-              
-            } catch (err) {
-              console.warn('Failed to initialize Web Audio API, falling back to standard audio:', err);
-              // Continue without Web Audio API
-            }
-          }
-        }
-
-        // Add event listeners
-        audio.addEventListener('ended', () => {
-          setPlaybackState('stopped');
-        });
-
-        audio.addEventListener('error', e => {
-          console.error('Audio loading error:', e);
-          setError('Failed');
-          setPlaybackState('error');
-        });
-
-        audio.addEventListener('canplay', () => {
-          // Only auto-play when initially loading (not when resetting currentTime)
-          if (shouldAutoPlayRef.current) {
-            shouldAutoPlayRef.current = false;
-            
-            // Resume audio context if needed (required for some browsers)
-            if (audioContextRef.current?.state === 'suspended') {
-              void audioContextRef.current.resume();
-            }
-            
-            audio
-              .play()
-              .then(() => {
-                setPlaybackState('playing');
-              })
-              .catch((err: unknown) => {
-                console.error('Failed to auto-play audio:', err);
-                setError('Failed to play audio');
-                setPlaybackState('error');
-              });
-          }
-        });
-
-        // No blob URL cleanup needed with proxy API
-      } catch (err) {
-        console.error('Failed to initialize audio:', err);
-        setError('Failed to initialize audio player');
-        setPlaybackState('error');
-      }
+      return;
     }
 
+    try {
+      // Create audio element
+      const audio = new Audio();
+      audio.preload = 'auto';
+      audio.volume = 1.0;
+      audio.crossOrigin = 'anonymous';
+
+      // Set audio properties
+      if ('mozPreservesPitch' in audio) audio.mozPreservesPitch = true;
+      if ('preservesPitch' in audio) audio.preservesPitch = true;
+      if ('disableNormalization' in audio) audio.disableNormalization = true;
+
+      // Set audio source
+      const urlParts = podcast.audio_url.split('/');
+      const filename = urlParts[urlParts.length - 1];
+      audio.src = `/api/podcast/audio/${String(filename)}`;
+
+      audioRef.current = audio;
+
+      // Configure Web Audio API
+      setupWebAudio(audio);
+
+      // Add event listeners
+      addEventListeners(audio);
+    } catch (err) {
+      console.error('Failed to initialize audio:', err);
+      setError('Failed to initialize audio player');
+      setPlaybackState('error');
+    }
+
+    // Cleanup function
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
       }
-      
-      // Clean up Web Audio API resources
+
       if (sourceNodeRef.current) {
         try {
           sourceNodeRef.current.disconnect();
-        } catch {}
+        } catch {
+          // Ignore errors during cleanup
+        }
         sourceNodeRef.current = null;
       }
-      
+
       if (audioContextRef.current) {
         void audioContextRef.current.close();
         audioContextRef.current = null;
       }
     };
   }, [podcast?.audio_url]); // Audio URL dependency for proxy route
+
+  // Setup Web Audio API for high-quality playback
+  const setupWebAudio = (audio: HTMLAudioElement) => {
+    if (!('AudioContext' in window || 'webkitAudioContext' in window)) return;
+
+    const AudioContextClass =
+      (window as unknown as { AudioContext?: new () => AudioContext })
+        .AudioContext ||
+      (window as unknown as { webkitAudioContext?: new () => AudioContext })
+        .webkitAudioContext;
+
+    if (!AudioContextClass || audioContextRef.current) return;
+
+    try {
+      const audioContext = new AudioContextClass();
+      audioContextRef.current = audioContext;
+
+      const source = audioContext.createMediaElementSource(audio);
+      sourceNodeRef.current = source;
+      source.connect(audioContext.destination);
+    } catch (err) {
+      console.warn(
+        'Failed to initialize Web Audio API, falling back to standard audio:',
+        err,
+      );
+    }
+  };
+
+  // Add event listeners to audio element
+  const addEventListeners = (audio: HTMLAudioElement) => {
+    audio.addEventListener('ended', () => {
+      setPlaybackState('stopped');
+    });
+
+    audio.addEventListener('error', e => {
+      console.error('Audio loading error:', e);
+      setError('Failed');
+      setPlaybackState('error');
+    });
+
+    audio.addEventListener('canplay', () => {
+      if (!shouldAutoPlayRef.current) return;
+
+      shouldAutoPlayRef.current = false;
+
+      if (audioContextRef.current?.state === 'suspended') {
+        void audioContextRef.current.resume();
+      }
+
+      void audio
+        .play()
+        .then(() => {
+          setPlaybackState('playing');
+        })
+        .catch((err: unknown) => {
+          console.error('Failed to auto-play audio:', err);
+          setError('Failed to play audio');
+          setPlaybackState('error');
+        });
+    });
+  };
 
   const handlePlay = async () => {
     // If we already have audio loaded, just play it
@@ -167,7 +172,7 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
         if (audioContextRef.current?.state === 'suspended') {
           await audioContextRef.current.resume();
         }
-        
+
         await audioRef.current.play();
         setPlaybackState('playing');
       } catch (err) {
@@ -281,9 +286,7 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
           <Loader2 className="h-4 w-4 animate-spin" />
         ) : (
           <AudioLines
-            className={`h-4 w-4 ${
-              isPlaying ? 'animate-pulse text-red-500' : ''
-            }`}
+            className={`h-4 w-4 ${isPlaying ? 'animate-pulse text-red-500' : ''}`}
           />
         )}
       </Button>

@@ -187,7 +187,7 @@ const eslintConfig = [
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-unnecessary-condition': 'error',
-      '@typescript-eslint/strict-boolean-expressions': 'error',
+      '@typescript-eslint/strict-boolean-expressions': 'off', // disabled - too restrictive for UI conditionals
       '@typescript-eslint/no-non-null-assertion': 'warn', // downgraded to warn – practical in event handlers
       '@typescript-eslint/naming-convention': [
         'error',

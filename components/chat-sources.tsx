@@ -39,7 +39,7 @@ export const ChatSources = memo(function ChatSources({
   sources,
   timestamp,
 }: ChatSourcesProps) {
-  if (!sources || sources.length === 0) return null;
+  if (sources.length === 0) return null;
 
   return (
     <TooltipProvider>
@@ -48,7 +48,7 @@ export const ChatSources = memo(function ChatSources({
           <TooltipTrigger asChild>
             <SheetTrigger asChild>
               <Button variant="ghost" size="sm" className="h-6 px-2 text-xs">
-                <LinkIcon className="h-3 w-3 mr-1" />
+                <LinkIcon className="mr-1 h-3 w-3" />
                 {sources.length} source{sources.length > 1 ? 's' : ''}
               </Button>
             </SheetTrigger>
@@ -59,7 +59,9 @@ export const ChatSources = memo(function ChatSources({
         <SheetContent side="right" className="overflow-y-auto">
           <SheetHeader>
             <VisuallyHidden.Root>
-              <SheetTitle>Sources for {timestamp.toLocaleTimeString()}</SheetTitle>
+              <SheetTitle>
+                Sources for {timestamp.toLocaleTimeString()}
+              </SheetTitle>
             </VisuallyHidden.Root>
             <SheetDescription>
               Sources used to generate this response
@@ -68,20 +70,17 @@ export const ChatSources = memo(function ChatSources({
           <div className="p-2">
             <ul className="space-y-2">
               {sources.map((source, index) => (
-                <li
-                  key={index}
-                  className="rounded border p-3 hover:bg-muted"
-                >
+                <li key={index} className="hover:bg-muted rounded border p-3">
                   <a
                     href={source}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block text-sm hover:underline"
                   >
-                    <div className="font-medium text-primary">
+                    <div className="text-primary font-medium">
                       Source {index + 1}
                     </div>
-                    <div className="text-muted-foreground break-all mt-1">
+                    <div className="text-muted-foreground mt-1 break-all">
                       {source}
                     </div>
                   </a>
@@ -93,4 +92,4 @@ export const ChatSources = memo(function ChatSources({
       </Sheet>
     </TooltipProvider>
   );
-}); 
+});
