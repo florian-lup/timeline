@@ -24,16 +24,13 @@ type PlaybackState =
  * Fetches and plays the latest podcast when the audio button is clicked
  *
  * Manages audio playback lifecycle including loading, playing, pausing
- * and handling audio errors. Uses Web Audio API for high-quality playback
- * when available.
+ * and handling audio errors. Uses standard HTML5 audio for playback.
  */
 export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
   const [playbackState, setPlaybackState] = useState<PlaybackState>('idle');
   const [podcast, setPodcast] = useState<PodcastData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const sourceNodeRef = useRef<MediaElementAudioSourceNode | null>(null);
 
   const shouldAutoPlayRef = useRef<boolean>(false);
 
@@ -55,7 +52,6 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
       const audio = new Audio();
       audio.preload = 'auto';
       audio.volume = 1.0;
-      audio.crossOrigin = 'anonymous';
 
       // Set audio properties
       if ('mozPreservesPitch' in audio) audio.mozPreservesPitch = true;
@@ -66,9 +62,6 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
       audio.src = podcast.audio_url;
 
       audioRef.current = audio;
-
-      // Configure Web Audio API
-      setupWebAudio(audio);
 
       // Add event listeners
       addEventListeners(audio);
@@ -84,49 +77,8 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
         audioRef.current.pause();
         audioRef.current = null;
       }
-
-      if (sourceNodeRef.current) {
-        try {
-          sourceNodeRef.current.disconnect();
-        } catch {
-          // Ignore errors during cleanup
-        }
-        sourceNodeRef.current = null;
-      }
-
-      if (audioContextRef.current) {
-        void audioContextRef.current.close();
-        audioContextRef.current = null;
-      }
     };
   }, [podcast?.audio_url]); // Audio URL dependency for direct CDN access
-
-  // Setup Web Audio API for high-quality playback
-  const setupWebAudio = (audio: HTMLAudioElement) => {
-    if (!('AudioContext' in window || 'webkitAudioContext' in window)) return;
-
-    const AudioContextClass =
-      (window as unknown as { AudioContext?: new () => AudioContext })
-        .AudioContext ||
-      (window as unknown as { webkitAudioContext?: new () => AudioContext })
-        .webkitAudioContext;
-
-    if (!AudioContextClass || audioContextRef.current) return;
-
-    try {
-      const audioContext = new AudioContextClass();
-      audioContextRef.current = audioContext;
-
-      const source = audioContext.createMediaElementSource(audio);
-      sourceNodeRef.current = source;
-      source.connect(audioContext.destination);
-    } catch (err) {
-      console.warn(
-        'Failed to initialize Web Audio API, falling back to standard audio:',
-        err,
-      );
-    }
-  };
 
   // Add event listeners to audio element
   const addEventListeners = (audio: HTMLAudioElement) => {
@@ -145,10 +97,6 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
 
       shouldAutoPlayRef.current = false;
 
-      if (audioContextRef.current?.state === 'suspended') {
-        void audioContextRef.current.resume();
-      }
-
       void audio
         .play()
         .then(() => {
@@ -166,11 +114,6 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
     // If we already have audio loaded, just play it
     if (audioRef.current) {
       try {
-        // Resume audio context if needed (required for some browsers)
-        if (audioContextRef.current?.state === 'suspended') {
-          await audioContextRef.current.resume();
-        }
-
         await audioRef.current.play();
         setPlaybackState('playing');
       } catch (err) {

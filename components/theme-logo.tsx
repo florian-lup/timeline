@@ -9,8 +9,6 @@ type ThemeLogoProps = {
   className?: string;
 };
 
-
-
 /**
  * Logo that swaps automatically using Tailwind's `dark` class.
  * We render both variants (light & dark) and let CSS decide which one is visible,
