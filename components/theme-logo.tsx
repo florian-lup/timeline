@@ -9,16 +9,7 @@ type ThemeLogoProps = {
   className?: string;
 };
 
-/**
- * Utility to omit the style property from image props for CSP compliance
- */
-function omitStyle<T extends Record<string, unknown>>(
-  props: T,
-): Omit<T, 'style'> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { style, ...propsWithoutStyle } = props;
-  return propsWithoutStyle;
-}
+
 
 /**
  * Logo that swaps automatically using Tailwind's `dark` class.
@@ -46,18 +37,14 @@ export const ThemeLogo = memo(function ThemeLogo({
     priority: true,
   });
 
-  // Omit style property entirely for strict CSP compliance
-  const lightPropsWithoutStyle = omitStyle(lightLogoProps.props);
-  const darkPropsWithoutStyle = omitStyle(darkLogoProps.props);
-
   return (
     <div className={`${className} relative`} aria-label="Timeline Logo">
       {/* Light theme logo */}
       {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
-      <img {...lightPropsWithoutStyle} className="block dark:hidden" />
+      <img {...lightLogoProps.props} className="block dark:hidden" />
       {/* Dark theme logo */}
       {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
-      <img {...darkPropsWithoutStyle} className="hidden dark:block" />
+      <img {...darkLogoProps.props} className="hidden dark:block" />
     </div>
   );
 });

@@ -1,7 +1,6 @@
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { headers } from 'next/headers';
 
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -45,14 +44,13 @@ export const metadata: Metadata = {
 
 /**
  * Root layout component that wraps all pages
- * Configures theme support, fonts, and CSP nonce
+ * Configures theme support and fonts
  */
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const nonce = (await headers()).get('x-nonce') ?? '';
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -63,7 +61,6 @@ export default async function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-          nonce={nonce}
         >
           {children}
           {process.env['VERCEL_ENV'] === 'production' && <Analytics />}

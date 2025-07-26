@@ -17,7 +17,6 @@ virtualized infinite scrolling and a modern, responsive design.
 ### 🔍 SEO & Performance
 
 - **Full SEO Optimization**: Meta tags, sitemaps, and robots.txt
-- **Security Headers**: Comprehensive CSP, HSTS, and security policies
 - **Performance Monitoring**: Vercel Analytics integration
 
 ## 🛠️ Tech Stack
@@ -44,8 +43,7 @@ virtualized infinite scrolling and a modern, responsive design.
 - **Formatting**: Prettier with Tailwind CSS plugin
 - **Testing**: Vitest for unit tests, Playwright for E2E
 
-### Performance & Security
+### Performance & Monitoring
 
 - **Virtualization**: React Virtuoso for large lists
-- **Security**: CSP, HSTS, and comprehensive security headers
 - **Monitoring**: Vercel Analytics and performance tracking

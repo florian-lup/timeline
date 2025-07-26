@@ -62,10 +62,8 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
       if ('preservesPitch' in audio) audio.preservesPitch = true;
       if ('disableNormalization' in audio) audio.disableNormalization = true;
 
-      // Set audio source
-      const urlParts = podcast.audio_url.split('/');
-      const filename = urlParts[urlParts.length - 1];
-      audio.src = `/api/podcast/audio/${String(filename)}`;
+      // Set audio source directly to CDN URL
+      audio.src = podcast.audio_url;
 
       audioRef.current = audio;
 
@@ -101,7 +99,7 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
         audioContextRef.current = null;
       }
     };
-  }, [podcast?.audio_url]); // Audio URL dependency for proxy route
+  }, [podcast?.audio_url]); // Audio URL dependency for direct CDN access
 
   // Setup Web Audio API for high-quality playback
   const setupWebAudio = (audio: HTMLAudioElement) => {
