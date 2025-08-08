@@ -18,6 +18,8 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip';
+import { formatUrlForDisplay } from '@/utils/url-formatter';
+import { FaviconDisplay } from '@/components/favicon-display';
 
 interface SourcesSheetProps {
   /**
@@ -54,7 +56,7 @@ export const SourcesSheet = memo(function SourcesSheet({
         <TooltipContent sideOffset={4}>Sources</TooltipContent>
       </Tooltip>
 
-      <SheetContent side="right" className="overflow-y-auto">
+      <SheetContent side="left" className="overflow-y-auto">
         <SheetHeader>
           <VisuallyHidden.Root>
             <SheetTitle>{title}</SheetTitle>
@@ -64,21 +66,25 @@ export const SourcesSheet = memo(function SourcesSheet({
         </SheetHeader>
         <div className="p-2">
           <ul>
-            {sources.map((source, index) => (
-              <li
-                key={index}
-                className="hover:bg-muted flex items-start gap-2 rounded p-2"
-              >
-                <a
-                  href={source}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm break-all hover:underline"
+            {sources.map((source, index) => {
+              const { displayText, fullUrl } = formatUrlForDisplay(source);
+              return (
+                <li
+                  key={index}
+                  className="hover:bg-muted flex items-center gap-2 rounded p-2"
                 >
-                  {source}
-                </a>
-              </li>
-            ))}
+                  <FaviconDisplay url={source} size={14} />
+                  <a
+                    href={fullUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm break-all hover:underline"
+                  >
+                    {displayText}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </SheetContent>
