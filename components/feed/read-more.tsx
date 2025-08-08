@@ -32,7 +32,7 @@ export const ReadMore = memo(function ReadMore({ entry }: ReadMoreProps) {
       <Tooltip>
         <TooltipTrigger asChild>
           <SheetTrigger asChild>
-            <Button variant="outline" size="sm">
+            <Button variant="secondary" size="sm">
               <FileText className="size-3.5" />
             </Button>
           </SheetTrigger>

@@ -22,6 +22,7 @@ const ARTICLE_PROJECTION = {
   date: 1,
   sources: 1,
   body: 1,
+  tag: 1,
   // This will automatically exclude all other fields (reporter, broadcast, etc.)
 };
 
