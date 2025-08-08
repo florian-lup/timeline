@@ -4,6 +4,7 @@ import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { LinkIcon } from 'lucide-react';
 import { memo } from 'react';
 
+import { FaviconDisplay } from '@/components/favicon-display';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -18,8 +19,8 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip';
+import { toSafeHttpUrl } from '@/utils/safe-url';
 import { formatUrlForDisplay } from '@/utils/url-formatter';
-import { FaviconDisplay } from '@/components/favicon-display';
 
 interface SourcesSheetProps {
   /**
@@ -68,20 +69,25 @@ export const SourcesSheet = memo(function SourcesSheet({
           <ul>
             {sources.map((source, index) => {
               const { displayText, fullUrl } = formatUrlForDisplay(source);
+              const safeUrl = toSafeHttpUrl(fullUrl);
               return (
                 <li
                   key={index}
                   className="hover:bg-muted flex items-center gap-2 rounded p-2"
                 >
                   <FaviconDisplay url={source} size={14} />
-                  <a
-                    href={fullUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm break-all hover:underline"
-                  >
-                    {displayText}
-                  </a>
+                  {safeUrl ? (
+                    <a
+                      href={safeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm break-all hover:underline"
+                    >
+                      {displayText}
+                    </a>
+                  ) : (
+                    <span className="text-sm break-all">{displayText}</span>
+                  )}
                 </li>
               );
             })}

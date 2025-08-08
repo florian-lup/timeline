@@ -5,13 +5,13 @@ import { memo } from 'react';
 import { CopyButton } from '@/components/copy-to-clipbaord';
 import { ReactionsPopover } from '@/components/emoji-reactions';
 import { ShareButton } from '@/components/share-story';
+import { Badge } from '@/components/ui/badge';
 import {
   Card,
   CardHeader,
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import type { ArticleData } from '@/types/article-data';
 import { formatDate } from '@/utils/date-formatter';
 
@@ -37,14 +37,15 @@ export const ListItem = memo(function ListItem({ entry }: ListItemProps) {
                 <div className="flex flex-wrap items-center gap-1">
                   {Array.isArray(entry.tag) ? (
                     entry.tag.map((tagLabel, index) => (
-                      <Badge key={`${tagLabel}-${index}`} variant="secondary">
+                      <Badge
+                        key={`${tagLabel}-${String(index)}`}
+                        variant="secondary"
+                      >
                         {tagLabel}
                       </Badge>
                     ))
                   ) : (
-                    <Badge variant="destructive">
-                      {entry.tag}
-                    </Badge>
+                    <Badge variant="destructive">{entry.tag}</Badge>
                   )}
                 </div>
               )}

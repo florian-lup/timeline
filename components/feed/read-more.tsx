@@ -2,7 +2,7 @@
 
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { FileText } from 'lucide-react';
-import { memo } from 'react';
+import { memo, type ComponentPropsWithoutRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import { Button } from '@/components/ui/button';
@@ -21,12 +21,24 @@ import {
 } from '@/components/ui/tooltip';
 import type { ArticleData } from '@/types/article-data';
 import { formatDate } from '@/utils/date-formatter';
+import { toSafeHttpUrl } from '@/utils/safe-url';
 
 interface ReadMoreProps {
   entry: ArticleData;
 }
 
 export const ReadMore = memo(function ReadMore({ entry }: ReadMoreProps) {
+  type AnchorProps = ComponentPropsWithoutRef<'a'>;
+  const SafeLink = ({ href, children, ...rest }: AnchorProps) => {
+    const safeHref = toSafeHttpUrl(String(href ?? ''));
+    return safeHref ? (
+      <a {...rest} href={safeHref} rel="noopener noreferrer" target="_blank">
+        {children}
+      </a>
+    ) : (
+      <span>{children}</span>
+    );
+  };
   return (
     <Sheet>
       <Tooltip>
@@ -53,7 +65,9 @@ export const ReadMore = memo(function ReadMore({ entry }: ReadMoreProps) {
 
         <div className="p-4">
           <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800 prose-pre:bg-muted max-w-none">
-            <ReactMarkdown>{entry.body}</ReactMarkdown>
+            <ReactMarkdown components={{ a: SafeLink }}>
+              {entry.body}
+            </ReactMarkdown>
           </div>
         </div>
       </SheetContent>

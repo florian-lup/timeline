@@ -5,5 +5,5 @@ export interface ArticleData {
   date: string | Date;
   sources: string[];
   body: string;
-  tag: string;
+  tag: string | string[];
 }

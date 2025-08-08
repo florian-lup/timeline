@@ -12,12 +12,12 @@ function normalizeUrl(url: string): string {
   if (!url.match(/^https?:\/\//i)) {
     url = `https://${url}`;
   }
-  
+
   // Replace http:// with https:// for better compatibility
   if (url.startsWith('http://')) {
     url = url.replace('http://', 'https://');
   }
-  
+
   return url;
 }
 
@@ -54,15 +54,15 @@ function extractDomainForFavicon(url: string): string {
 export function getFaviconUrl(url: string, size: number = 16): string {
   const domain = extractDomainForFavicon(url);
   if (!domain) return '';
-  
+
   // Try different favicon service approaches
   // Option 1: Use just the domain (most compatible with Google's service)
   return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=${size}`;
-  
+
   // Alternative services (can be used as fallbacks):
   // Option 2: DuckDuckGo favicon service
   // return `https://icons.duckduckgo.com/ip3/${domain}.ico`;
-  
+
   // Option 3: Favicon.ico directly from the domain
   // return `https://${domain}/favicon.ico`;
 }
@@ -75,7 +75,7 @@ export function getFaviconUrl(url: string, size: number = 16): string {
  */
 export function getFaviconData(url: string, size: number = 16) {
   const domain = extractDomainForFavicon(url);
-  
+
   return {
     faviconUrl: domain ? getFaviconUrl(url, size) : '',
     domain,

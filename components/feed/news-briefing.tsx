@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { fetchLatestPodcast } from '@/lib/api/podcast-feed';
 import type { PodcastData } from '@/types/podcast-data';
+import { toSafeHttpUrl } from '@/utils/safe-url';
 
 interface NewsBriefingProps {
   disabled?: boolean;
@@ -58,8 +59,12 @@ export function NewsBriefing({ disabled = false }: NewsBriefingProps) {
       if ('preservesPitch' in audio) audio.preservesPitch = true;
       if ('disableNormalization' in audio) audio.disableNormalization = true;
 
-      // Set audio source directly to CDN URL
-      audio.src = podcast.audio_url;
+      // Set audio source to a validated http(s) URL
+      const safeSrc = toSafeHttpUrl(podcast.audio_url);
+      if (!safeSrc) {
+        throw new Error('Invalid audio URL');
+      }
+      audio.src = safeSrc;
 
       audioRef.current = audio;
 

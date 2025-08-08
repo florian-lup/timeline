@@ -2,6 +2,7 @@
 
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import type { ComponentPropsWithoutRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import { CopyButton } from '@/components/copy-to-clipbaord';
@@ -16,6 +17,7 @@ import {
 } from '@/components/ui/card';
 import type { ArticleData } from '@/types/article-data';
 import { formatDate } from '@/utils/date-formatter';
+import { toSafeHttpUrl } from '@/utils/safe-url';
 
 import { SourcesSheet } from './feed/sources';
 
@@ -24,6 +26,17 @@ interface StoryPageProps {
 }
 
 export function StoryPage({ story }: StoryPageProps) {
+  type AnchorProps = ComponentPropsWithoutRef<'a'>;
+  const SafeLink = ({ href, children, ...rest }: AnchorProps) => {
+    const safeHref = toSafeHttpUrl(String(href ?? ''));
+    return safeHref ? (
+      <a {...rest} href={safeHref} rel="noopener noreferrer" target="_blank">
+        {children}
+      </a>
+    ) : (
+      <span>{children}</span>
+    );
+  };
   return (
     <div className="bg-background min-h-screen">
       {/* Header with back button */}
@@ -65,7 +78,9 @@ export function StoryPage({ story }: StoryPageProps) {
             {/* Full story content */}
             <div className="border-t pt-6">
               <div className="prose prose-sm text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted md:prose-base max-w-none">
-                <ReactMarkdown>{story.body}</ReactMarkdown>
+                <ReactMarkdown components={{ a: SafeLink }}>
+                  {story.body}
+                </ReactMarkdown>
               </div>
             </div>
           </CardContent>

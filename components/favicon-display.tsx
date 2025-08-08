@@ -1,6 +1,7 @@
 'use client';
 
 import { LinkIcon } from 'lucide-react';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 import { getFaviconData } from '@/utils/favicon-helper';
@@ -23,14 +24,14 @@ interface FaviconDisplayProps {
 /**
  * Displays a favicon for a given URL with fallback to LinkIcon
  */
-export function FaviconDisplay({ 
-  url, 
-  size = 16, 
-  className = '' 
+export function FaviconDisplay({
+  url,
+  size = 16,
+  className = '',
 }: FaviconDisplayProps) {
   const [imageError, setImageError] = useState(false);
   const [currentFaviconUrl, setCurrentFaviconUrl] = useState<string>('');
-  
+
   const { faviconUrl, hasValidDomain, domain } = getFaviconData(url, size);
 
   useEffect(() => {
@@ -43,16 +44,11 @@ export function FaviconDisplay({
 
   // If no valid domain or image failed to load, show fallback icon
   if (!hasValidDomain || imageError || !currentFaviconUrl) {
-    return (
-      <LinkIcon 
-        className={`shrink-0 ${className}`}
-        size={size}
-      />
-    );
+    return <LinkIcon className={`shrink-0 ${className}`} size={size} />;
   }
 
   return (
-    <img
+    <Image
       src={currentFaviconUrl}
       alt={`Favicon for ${domain}`}
       width={size}
@@ -62,8 +58,6 @@ export function FaviconDisplay({
         console.warn(`Failed to load favicon for ${domain}`);
         setImageError(true);
       }}
-      onLoad={() => setImageError(false)}
-      loading="lazy"
     />
   );
 }

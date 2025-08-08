@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import type { NextRequest } from 'next/server';
 
 import { getStoryById } from '@/lib/services/story-repository';
@@ -13,8 +14,8 @@ export async function GET(
   try {
     const { id } = await params;
 
-    if (!id) {
-      return errorResponse('Story ID is required', 400);
+    if (!id || !ObjectId.isValid(id)) {
+      return errorResponse('Invalid story ID', 400);
     }
 
     const story = await getStoryById(id);

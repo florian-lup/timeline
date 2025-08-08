@@ -16,7 +16,10 @@ function getCursorPagination(
   searchParams: URLSearchParams,
   defaultLimit = 20,
 ): CursorPaginationParams {
-  const limit = parseInt(searchParams.get('limit') ?? String(defaultLimit), 10);
+  const rawLimit = Number(searchParams.get('limit'));
+  const limit = Number.isInteger(rawLimit)
+    ? Math.min(Math.max(rawLimit, 1), 50)
+    : defaultLimit;
   const beforeParam = searchParams.get('before');
   const before =
     beforeParam !== null && beforeParam !== '' ? beforeParam : undefined;

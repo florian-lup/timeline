@@ -5,7 +5,12 @@ if (process.env['MONGODB_URI'] === undefined) {
 }
 
 const uri = process.env['MONGODB_URI'];
-const options = {};
+const options = {
+  appName: 'timeline',
+  retryWrites: true,
+  maxPoolSize: 10,
+  serverSelectionTimeoutMS: 5000,
+} as const;
 
 let client;
 let clientPromise: Promise<MongoClient>;
