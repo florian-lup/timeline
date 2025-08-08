@@ -75,7 +75,7 @@ export const SourcesSheet = memo(function SourcesSheet({
                   key={index}
                   className="hover:bg-muted flex items-center gap-2 rounded p-2"
                 >
-                  <FaviconDisplay url={source} size={14} />
+                  <FaviconDisplay url={source} size={16} />
                   {safeUrl ? (
                     <a
                       href={safeUrl}

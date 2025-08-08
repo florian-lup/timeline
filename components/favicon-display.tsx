@@ -2,9 +2,9 @@
 
 import { LinkIcon } from 'lucide-react';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { getFaviconData } from '@/utils/favicon-helper';
+import { getFaviconData, getFaviconCandidates } from '@/utils/favicon-helper';
 
 interface FaviconDisplayProps {
   /**
@@ -31,21 +31,40 @@ export function FaviconDisplay({
 }: FaviconDisplayProps) {
   const [imageError, setImageError] = useState(false);
   const [currentFaviconUrl, setCurrentFaviconUrl] = useState<string>('');
+  const [fallbackIndex, setFallbackIndex] = useState(0);
 
-  const { faviconUrl, hasValidDomain, domain } = getFaviconData(url, size);
+  const { hasValidDomain, domain } = getFaviconData(url, size);
+  const candidates = useMemo(
+    () => (hasValidDomain ? getFaviconCandidates(url, size) : []),
+    [hasValidDomain, url, size],
+  );
 
   useEffect(() => {
-    // Reset error state when URL changes
+    // Reset state when inputs change
     setImageError(false);
-    if (faviconUrl) {
-      setCurrentFaviconUrl(faviconUrl);
+    setFallbackIndex(0);
+    if (candidates.length > 0) {
+      setCurrentFaviconUrl(candidates[0] ?? '');
+    } else {
+      setCurrentFaviconUrl('');
     }
-  }, [faviconUrl]);
+  }, [candidates]);
 
   // If no valid domain or image failed to load, show fallback icon
   if (!hasValidDomain || imageError || !currentFaviconUrl) {
     return <LinkIcon className={`shrink-0 ${className}`} size={size} />;
   }
+
+  const handleError = () => {
+    const nextIndex = fallbackIndex + 1;
+    if (nextIndex < candidates.length) {
+      setFallbackIndex(nextIndex);
+      setCurrentFaviconUrl(candidates[nextIndex] ?? '');
+      return;
+    }
+    console.warn(`Failed to load favicon for ${domain}`);
+    setImageError(true);
+  };
 
   return (
     <Image
@@ -54,10 +73,11 @@ export function FaviconDisplay({
       width={size}
       height={size}
       className={`shrink-0 ${className}`}
-      onError={() => {
-        console.warn(`Failed to load favicon for ${domain}`);
-        setImageError(true);
-      }}
+      style={{ width: size, height: size }}
+      referrerPolicy="no-referrer"
+      loading="lazy"
+      unoptimized
+      onError={handleError}
     />
   );
 }

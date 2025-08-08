@@ -46,6 +46,18 @@ function extractDomainForFavicon(url: string): string {
 }
 
 /**
+ * Google S2/gstatic only supports a handful of favicon sizes.
+ * Map any requested size to the nearest supported size (ceil) to avoid 404s.
+ */
+function canonicalizeFaviconSize(requestedSize: number): number {
+  const supported = [16, 32, 48, 64, 128, 256] as const;
+  for (const s of supported) {
+    if (requestedSize <= s) return s;
+  }
+  return supported[supported.length - 1] ?? 256;
+}
+
+/**
  * Gets the favicon URL for a given website URL
  * @param url The website URL
  * @param size The favicon size (default: 16)
@@ -57,7 +69,8 @@ export function getFaviconUrl(url: string, size: number = 16): string {
 
   // Try different favicon service approaches
   // Option 1: Use just the domain (most compatible with Google's service)
-  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=${size}`;
+  const googleSize = canonicalizeFaviconSize(size);
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=${googleSize}`;
 
   // Alternative services (can be used as fallbacks):
   // Option 2: DuckDuckGo favicon service
@@ -81,4 +94,24 @@ export function getFaviconData(url: string, size: number = 16) {
     domain,
     hasValidDomain: !!domain,
   };
+}
+
+/**
+ * Provides a prioritized list of possible favicon URLs for a given site.
+ * Order:
+ *  1) Google S2 (supports size via sz param)
+ *  2) DuckDuckGo ip3 service (.ico)
+ *  3) Direct /favicon.ico on the domain
+ */
+export function getFaviconCandidates(url: string, size: number = 16): string[] {
+  const domain = extractDomainForFavicon(url);
+  if (!domain) return [];
+
+  const googleSize = canonicalizeFaviconSize(size);
+  const duckDuckGo = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+  const google = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=${googleSize}`;
+  const direct = `https://${domain}/favicon.ico`;
+
+  // Prefer DuckDuckGo first to avoid Google gstatic 404s for odd sizes/blocked sites
+  return [duckDuckGo, google, direct];
 }
