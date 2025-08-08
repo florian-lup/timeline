@@ -36,7 +36,16 @@ export async function getStories({ before, limit }: StoryPagination): Promise<{
   hasMore: boolean;
 }> {
   const client = await mongodb;
-  const db = client.db('breaking-news');
+  const dbName = process.env['MONGODB_DB_NAME'];
+  const storiesCollection = process.env['MONGODB_STORIES_COLLECTION'];
+
+  if (!dbName || !storiesCollection) {
+    throw new Error(
+      'Missing required environment variables: MONGODB_DB_NAME and/or MONGODB_STORIES_COLLECTION',
+    );
+  }
+
+  const db = client.db(dbName);
 
   let query = {};
 
@@ -54,7 +63,7 @@ export async function getStories({ before, limit }: StoryPagination): Promise<{
 
   // Fetch one extra item to determine if there are more
   const docs = await db
-    .collection('stories')
+    .collection(storiesCollection)
     .find(query, {
       projection: ARTICLE_PROJECTION,
     })
@@ -102,9 +111,18 @@ export async function getStories({ before, limit }: StoryPagination): Promise<{
 export async function getStoryById(id: string): Promise<ArticleData | null> {
   try {
     const client = await mongodb;
-    const db = client.db('breaking-news');
+    const dbName = process.env['MONGODB_DB_NAME'];
+    const storiesCollection = process.env['MONGODB_STORIES_COLLECTION'];
 
-    const doc = await db.collection('stories').findOne(
+    if (!dbName || !storiesCollection) {
+      throw new Error(
+        'Missing required environment variables: MONGODB_DB_NAME and/or MONGODB_STORIES_COLLECTION',
+      );
+    }
+
+    const db = client.db(dbName);
+
+    const doc = await db.collection(storiesCollection).findOne(
       { _id: new ObjectId(id) },
       {
         projection: ARTICLE_PROJECTION,

@@ -17,9 +17,18 @@ const PODCAST_PROJECTION = {
 export async function getLatestPodcast(): Promise<PodcastData | null> {
   try {
     const client = await mongodb;
-    const db = client.db('breaking-news');
+    const dbName = process.env['MONGODB_DB_NAME'];
+    const podcastCollection = process.env['MONGODB_PODCAST_COLLECTION'];
 
-    const doc = await db.collection('podcast').findOne(
+    if (!dbName || !podcastCollection) {
+      throw new Error(
+        'Missing required environment variables: MONGODB_DB_NAME and/or MONGODB_PODCAST_COLLECTION',
+      );
+    }
+
+    const db = client.db(dbName);
+
+    const doc = await db.collection(podcastCollection).findOne(
       {}, // No filter - find any document
       {
         projection: PODCAST_PROJECTION,
