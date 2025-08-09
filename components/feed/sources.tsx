@@ -4,7 +4,6 @@ import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { LinkIcon } from 'lucide-react';
 import { memo } from 'react';
 
-import { FaviconDisplay } from '@/components/favicon-display';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -75,7 +74,7 @@ export const SourcesSheet = memo(function SourcesSheet({
                   key={index}
                   className="hover:bg-muted flex items-center gap-2 rounded p-2"
                 >
-                  <FaviconDisplay url={source} size={16} />
+                  <LinkIcon className="shrink-0" size={16} />
                   {safeUrl ? (
                     <a
                       href={safeUrl}
